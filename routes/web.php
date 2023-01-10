@@ -14,8 +14,16 @@ use App\Http\Controllers\Frontend\ManageQuestionAnswerController;
 use App\Http\Middleware\auth_admin;
 
 
-Auth::routes();
 
+Route::get("contact-us",function (){
+    return view("front_end.contact_us");
+})->name("contact-us");
+
+Route::get("about-us",function (){
+    return view("front_end.about_us");
+})->name("about-us");
+
+Auth::routes();
 Route::get("/", [ManageQuestionAnswerController::class, "questionAnswerList"])->name('home');
 Route::get("answers/{id}", [ManageQuestionAnswerController::class, "updateViewCount"])->name('answers-page');
 

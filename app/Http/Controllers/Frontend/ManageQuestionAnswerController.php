@@ -29,8 +29,9 @@ class ManageQuestionAnswerController extends Controller
             $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
             $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
             $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-            $questionRecord = Question::select("questions.title", "questions.description", "questions.tags", "questions.created_at", "users.name", "users.id", "users.profile_pic")
+            $questionRecord = Question::select("questions.title", "questions.description", "questions.tags","total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic")
                 ->join("users", "users.id", "questions.user_id")->where("questions.user_id", $id);
+
             if (isset($search) && !empty($search)) {
                 $questionRecord = $questionRecord->where("tags", $search);
             }
@@ -44,6 +45,7 @@ class ManageQuestionAnswerController extends Controller
                 $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
             }
             $questionRecord = $questionRecord->paginate($limit);
+
             $this->pageData["question-Record"] = $questionRecord;
             $this->pageData["page_title"] = "My Question";
             return $this->showPage("front_end.my_question");
@@ -53,16 +55,18 @@ class ManageQuestionAnswerController extends Controller
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-        $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
+        $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "views","total_no_of_ans",
             "questions.created_at", "users.name", "users.id", "users.profile_pic")
             ->join("users", "users.id", "questions.user_id");
+
         if (isset($search) && !empty($search)) {
             $questionRecord = $questionRecord->where("tags", $search);
         }
         if (isset($sort) && !empty($sort)) {
             if ($sort == "Newest") {
                 $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
-            } elseif ($sort == "oldest") {
+            } elseif ($sort == "Oldest") {
+
                 $questionRecord = $questionRecord->orderBy("questions.created_at", "asc");
             }
         } else {
@@ -72,6 +76,7 @@ class ManageQuestionAnswerController extends Controller
 
 
         $this->pageData["question-Record"] = $questionRecord;
+
         $this->pageData["page_title"] = "Public Question";
 
         return $this->showPage("front_end.landing_page");
@@ -81,7 +86,6 @@ class ManageQuestionAnswerController extends Controller
     public function askQuestion()
     {
         $this->pageData["page_title"] = "Ask Question";
-
         $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
         $this->pageData["category-Record"] = $getCategoryList;
 
@@ -101,7 +105,6 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveQuestion(Request $request)
     {
-//dd($request);
         $id = auth()->user()->id;
         $addQuestion = Question::insert([
             "title" => $request->title,
@@ -121,8 +124,6 @@ class ManageQuestionAnswerController extends Controller
 
     public function updateViewCount(Request $request, $id)
     {
-//dd($request);
-
         $clientIP = request()->ip();
         $insertIp = QuestionViewCount::firstOrNew([
             "ip" => $clientIP,
@@ -145,14 +146,13 @@ class ManageQuestionAnswerController extends Controller
         $countTotalNumOfAnswers = Answer::count();
         $this->pageData["no_of_answer"] = $countTotalNumOfAnswers;
 
-        $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted',"true")->count();
+        $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted', "true")->count();
         $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
 
 
-
-        $answerRecord = Answer::select("answers.*","users.name","users.profile_pic")
+        $answerRecord = Answer::select("answers.*", "users.name", "users.profile_pic")
             ->join("questions", "answers.question_id", "questions.id")
-            ->join("users","answers.user_id","users.id")
+            ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
             ->paginate(2);
 //dd($answerRecord);
@@ -165,10 +165,10 @@ class ManageQuestionAnswerController extends Controller
 
 
         $this->pageData["answer-record"] = $answerRecord;
-        $questionRecord = Question::select("questions.*","users.name","users.profile_pic")
-            ->join("users","questions.user_id","users.id")
+        $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic")
+            ->join("users", "questions.user_id", "users.id")
             ->where("questions.id", $id)->first();
-      //  dd($questionRecord);
+        //  dd($questionRecord);
         $this->pageData["question-record"] = $questionRecord;
 
 
@@ -178,13 +178,22 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveAnswer(Request $request)
     {
-
+//dd($request);
         $id = request()->question_id;
 
+        // dd($id);
         $insertAnswer = Answer::insert([
             "answer" => $request->answer,
             "question_id" => $request->question_id,
         ]);
+
+        $totalNoOfAnswers = Answer::where("question_id", $id)->count();
+        // dd($totalNoOfAnswers);
+        $updateIntoQuestion = Question::where("id",$id);
+        $updateIntoQuestion = $updateIntoQuestion->update([
+            "total_no_of_ans" => $totalNoOfAnswers
+        ]);
+//dd($updateIntoQuestion);
         if ($insertAnswer) {
             $this->setFormMessage("save-answer", "success", "Your answer have been saved");
         } else {
@@ -240,6 +249,10 @@ class ManageQuestionAnswerController extends Controller
         return response()->json([
             "accept_ans" => $acceptAns,
         ], 200);
+    }
+
+    public function totalNoOfAnswers()
+    {
     }
 
 

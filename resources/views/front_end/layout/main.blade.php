@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Disilab - Social Questions and Answers HTML Template</title>
+    <title>Disilab - {{env('APP_NAME')}}</title>
 
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
@@ -115,7 +115,7 @@
    //dd($routeName);
 @endphp
 @if($routeName == "login" || $routeName == "register")
-    {{"no footer"}}
+    @include("front_end/components/login_signUp_footer")
 @else
     @include("front_end/components/footer")
 @endif
@@ -141,5 +141,4 @@
         UIBootbox.init();
     });
 </script>
-<!-- Mirrored from techydevs.com/demos/themes/html/disilab-demo/disilab/category-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 14 Dec 2022 05:46:37 GMT -->
 </html>

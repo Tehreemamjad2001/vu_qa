@@ -1,3 +1,6 @@
+<?php
+$currentRouteName = Route::currentRouteName();
+?>
 <header class="header-area bg-white shadow-sm">
     <div class="container">
         <div class="row align-items-center">
@@ -21,28 +24,14 @@
                 <div class="menu-wrapper border-left border-left-gray pl-4 justify-content-end">
                     <nav class="menu-bar mr-auto menu--bar">
                         <ul>
-                            <li>
-                                <a href="#">Home<i class="la la-angle-down fs-11"></i></a>
-                                <ul class="dropdown-menu-item">
-                                    <li><a href="{{assets('index.html',true)}}">Home - landing</a></li>
-                                    </li>
-                                </ul>
+                            <li class="{{$currentRouteName == "home" ? "list-group-item" : ""}}">
+                                <a href="{{route("home")}}">Home<i class=" fs-11"></i></a>
                             </li>
-                            <li class="is-mega-menu">
-                                <a href="#">About Us<i class="la la-angle-down fs-11"></i></a>
-                                <div class="dropdown-menu-item">
-                                    <ul class="row">
-                                        <li class="col-lg-3">
-                                            <a href="{{assets('user-profile.html',true)}}">user profile</a>
-                                        </li>
-                                    </ul>
-                                </div>
+                            <li class="is-mega-menu {{$currentRouteName == "about-us" ? "list-group-item" : ""}}">
+                                <a href="{{route("about-us")}}">About Us<i class=" fs-11"></i></a>
                             </li>
-                            <li>
-                                <a href="#">Contact Us <i class="la la-angle-down fs-11"></i></a>
-                                <ul class="dropdown-menu-item">
-                                    <li><a href="blog-grid-no-sidebar.html">grid no sidebar</a></li>
-                                </ul>
+                            <li  class= "{{$currentRouteName == "contact-us" ? "list-group-item" : ""}}">
+                                <a href="{{route("contact-us")}}">Contact Us <i class=" fs-11"></i></a>
                             </li>
                         </ul><!-- end ul -->
                     </nav><!-- end main-menu -->
@@ -57,66 +46,6 @@
                         @auth
                             <div class="nav-right-button">
                                 <ul class="user-action-wrap d-flex align-items-center">
-                                    <li class="dropdown">
-                                        <span class="ball red ball-lg noti-dot"></span>
-                                        <a class="nav-link dropdown-toggle dropdown--toggle" href="#"
-                                           id="notificationDropdown" role="button" data-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            <i class="la la-bell"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open"
-                                             aria-labelledby="notificationDropdown">
-                                            <h6 class="dropdown-header"><i class="la la-bell pr-1 fs-16"></i>Notifications
-                                            </h6>
-                                            <div class="dropdown-divider border-top-gray mb-0"></div>
-                                            <div class="dropdown-item-list">
-                                                <a class="dropdown-item" href="notifications.html">
-                                                    <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                                        <div class="media-img media-img-sm flex-shrink-0">
-                                                            <img src="images/img3.jpg" alt="avatar">
-                                                        </div>
-                                                        <div class="media-body p-0 border-left-0">
-                                                            <h5 class="fs-14 fw-regular">John Doe following your
-                                                                post</h5>
-                                                            <small class="meta d-block lh-24">
-                                                                <span>45 secs ago</span>
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a class="dropdown-item" href="notifications.html">
-                                                    <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                                        <div class="media-img media-img-sm flex-shrink-0">
-                                                            <img src="images/img4.jpg" alt="avatar">
-                                                        </div>
-                                                        <div class="media-body p-0 border-left-0">
-                                                            <h5 class="fs-14 fw-regular">Arnold Smith answered on your
-                                                                post</h5>
-                                                            <small class="meta d-block lh-24">
-                                                                <span>5 mins ago</span>
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a class="dropdown-item" href="notifications.html">
-                                                    <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                                        <div class="media-img media-img-sm flex-shrink-0">
-                                                            <img src="images/img4.jpg" alt="avatar">
-                                                        </div>
-                                                        <div class="media-body p-0 border-left-0">
-                                                            <h5 class="fs-14 fw-regular">Saeed bookmarked your post</h5>
-                                                            <small class="meta d-block lh-24">
-                                                                <span>1 hour ago</span>
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <a class="dropdown-item pb-1 border-bottom-0 text-center btn-text fw-regular"
-                                               href="notifications.html">View All Notifications <i
-                                                        class="la la-arrow-right icon ml-1"></i></a>
-                                        </div>
-                                    </li>
                                     <li class="dropdown user-dropdown">
                                         <a class="nav-link dropdown-toggle dropdown--toggle pl-2" href="#"
                                            id="userMenuDropdown" role="button" data-toggle="dropdown"
@@ -137,18 +66,11 @@
                                             <h6 class="dropdown-header">Hi, {{auth()->user()->name}}</h6>
                                             <div class="dropdown-divider border-top-gray mb-0"></div>
                                             <div class="dropdown-item-list">
-                                                <a class="dropdown-item" href="notifications.html"><i
-                                                            class="la la-bell mr-2"></i>Notifications</a>
                                                 <a class="dropdown-item"
                                                    href="{{route("profile-setting",["id"=>auth()->user()->id])}}"><i
                                                             class="la la-gear mr-2"></i>Settings</a>
                                                 <a class="dropdown-item" href="#" onclick="logout()"><i
                                                             class="la la-power-off mr-2"></i>Log out</a>
-
-
-                                                {{--<a href="#">--}}
-                                                {{--<button type="button" onclick="logout()">Logout</button>--}}
-                                                {{--</a>--}}
                                                 <form id="logout" action="{{route("logout")}}" method="post"
                                                       style="float: right ;display: none">
                                                     {{csrf_field()}}
@@ -159,24 +81,8 @@
                                     </li>
                                 </ul>
                             </div>
-
-
-                        @else
-                            {{--<a href="{{ route('login') }}"--}}
-                            {{--class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>--}}
-                            {{--@if (Route::has('register'))--}}
-                            {{--<a href="{{ route('register') }}"--}}
-                            {{--class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>--}}
-                            {{--@endif--}}
                         @endauth
-                        {{--{{"login"}}--}}
-                    @else
-                        {{"logout"}}
                     @endif
-                    {{--<div class="nav-right-button">--}}
-                    {{--<a href="login.html" class="btn theme-btn theme-btn-sm theme-btn-outline mr-1">Log in</a>--}}
-                    {{--<a href="signup.html" class="btn theme-btn theme-btn-sm">Sign up</a>--}}
-                    {{--</div><!-- end nav-right-button -->--}}
                 </div><!-- end menu-wrapper -->
             </div><!-- end col-lg-10 -->
         </div><!-- end row -->
