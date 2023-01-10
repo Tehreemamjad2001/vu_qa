@@ -15,5 +15,5 @@ yarn-error.log
 /.vscode
 uploads/
 storage/
-public/back-end/
-public/web/
+
+
