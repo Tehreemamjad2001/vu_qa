@@ -1,9 +1,7 @@
-@extends("front_end/layout/main")
+@extends("layout/main")
 @section('content')
     <section class="recovery-area pt-200px pb-80px position-relative">
         <div class="container ">
-            {{--<div class="row justify-content-center">--}}
-            {{--<div class="col-md-8">--}}
             <div class="card">
                 <div class="card-header">{{ __('Reset Password') }}</div>
                 <div class="container card-body">
@@ -81,8 +79,6 @@
                     </svg>
                 </div>
             </div>
-            {{--</div>--}}
-            {{--</div>--}}
         </div>
     </section>
     <hr>

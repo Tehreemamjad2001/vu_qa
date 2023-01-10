@@ -1,50 +1,5 @@
 @extends("front_end/layout/main")
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Reset Password') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-                        <form method="POST" action="{{ route('password.email') }}">
-                            @csrf
-                            <div class="row mb-3">
-                                <label for="email"
-                                       class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email"
-                                           class="form-control @error('email') is-invalid @enderror" name="email"
-                                           value="{{ old('email') }}"  autocomplete="email" autofocus>
-
-                                    {{--@error('email')--}}
-                                    {{--<span class="invalid-feedback" role="alert">--}}
-                                        {{--<strong>{{ $message }}</strong>--}}
-                                    {{--</span>--}}
-                                    {{--@enderror--}}
-                                </div>
-                            </div>
-                            <div class="row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Send Password Reset Link') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <hr>
     <section class="recovery-area pt-200px pb-80px position-relative">
         <div class="container">
             <div class="card-header">{{ __('Reset Password') }}</div>
@@ -71,32 +26,13 @@
                                     Account? Don't worry, we'll help you to get back your account. Enter your email
                                     address and we'll send you a recovery link to reset your password.</p>
                             </div>
-
-
-                            {{--<div class="row mb-3">--}}
-                                {{--<label for="email"--}}
-                                       {{--class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>--}}
-
-                                {{--<div class="col-md-6">--}}
-                                    {{--<input id="email" type="email"--}}
-                                           {{--class="form-control @error('email') is-invalid @enderror" name="email"--}}
-                                           {{--value="{{ old('email') }}" required autocomplete="email" autofocus>--}}
-
-                                    {{--@error('email')--}}
-                                    {{--<span class="invalid-feedback" role="alert">--}}
-                                        {{--<strong>{{ $message }}</strong>--}}
-                                    {{--</span>--}}
-                                    {{--@enderror--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-
                             <div class="form-group">
                                 <label for="email"
                                        class="fs-14 text-black fw-medium lh-18">{{ __('Email Address') }}</label>
                                 <input id="email" type="email" name="email"
                                        class="form-control form-control @error('email') is-invalid @enderror"
-                                       placeholder="Example: email@gmail.com" value="{{ old('email') }}"  autocomplete="email" autofocus>
+                                       placeholder="Example: email@gmail.com" value="{{ old('email') }}"
+                                       autocomplete="email" autofocus>
                                 <div class="col-sm-6 col-md-6">
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -106,23 +42,17 @@
                                 </div>
 
                             </div><!-- end form-group -->
-
-                            {{--<div class="row mb-0">--}}
-                                {{--<div class="col-md-6 offset-md-4">--}}
-                                    {{--<button type="submit" class="btn btn-primary">--}}
-                                        {{--{{ __('Send Password Reset Link') }}--}}
-                                    {{--</button>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
                             <div class="form-group">
-                                <button id="send-message-btn" class="btn theme-btn w-100" type="submit">{{ __('Send Password Reset Link') }}<i class="la la-arrow-right icon ml-1"></i></button>
+                                <button id="send-message-btn" class="btn theme-btn w-100"
+                                        type="submit">{{ __('Send Password Reset Link') }}<i
+                                            class="la la-arrow-right icon ml-1"></i></button>
                             </div><!-- end form-group -->
                         </div><!-- end form-action-wrapper -->
                     </div><!-- end col-lg-5 -->
                 </div><!-- end row -->
             </form>
-            <p class="text-center"><a href="{{route("login")}}" class="text-color hover-underline">Return to log in</a></p>
+            <p class="text-center"><a href="{{route("login")}}" class="text-color hover-underline">Return to log in</a>
+            </p>
         </div><!-- end container -->
         <div class="position-absolute bottom-0 left-0 w-100 h-100 z-index-n1">
             <svg class="w-100 h-100" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120"
