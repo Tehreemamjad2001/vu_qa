@@ -2,7 +2,6 @@
 @section('content')
     <section class="recovery-area pt-200px pb-80px position-relative">
         <div class="container">
-            <div class="card-header">{{ __('Reset Password') }}</div>
             @if (session('status'))
                 <div class="alert alert-success" role="alert">
                     {{ session('status') }}
@@ -33,13 +32,13 @@
                                        class="form-control form-control @error('email') is-invalid @enderror"
                                        placeholder="Example: email@gmail.com" value="{{ old('email') }}"
                                        autocomplete="email" autofocus>
-                                <div class="col-sm-6 col-md-6">
-                                    @error('email')
-                                    <span class="invalid-feedback" role="alert">
+
+                                @error('email')
+                                <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
-                                    @enderror
-                                </div>
+                                @enderror
+
 
                             </div><!-- end form-group -->
                             <div class="form-group">
