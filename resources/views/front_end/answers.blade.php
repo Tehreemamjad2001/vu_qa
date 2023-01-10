@@ -8,7 +8,6 @@
         $countTotalNumOfAnswers = $pageData["no_of_answer"];
         $countTotalNumOfAcceptedAnswers = $pageData["no_of_accepted_answer"];
         $id = request()->id;
-
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden pt-40px pb-40px">
         <span class="stroke-shape stroke-shape-1"></span>
