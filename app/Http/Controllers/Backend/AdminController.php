@@ -25,13 +25,13 @@ class AdminController extends Controller
 
     public function save(UserRequest $request)
     {
-//dd($request);
-        $saveAdminRecord = User::create([
+        $saveAdminRecord = User::insert([
             "name" => trim($request->name),
             "email" => trim($request->email),
-            "password" => Hash::make($request->password),
             "gender" => $request->gender,
+            "user_role" => "admin",
             "country" => $request->country,
+            "password" => Hash::make($request->password),
         ]);
 
         if ($saveAdminRecord && $request->hasfile('profile_pic')) {
@@ -46,7 +46,7 @@ class AdminController extends Controller
             $this->createThumbnail($sourcePath, $filename);
         }
         if ($saveAdminRecord) {
-            $this->setFormMessage('add-admin', "success", "Record has been saved ");
+            $this->setFormMessage('add-admin', "success", "Admin has been saved ");
         } else {
             $this->setFormMessage('add-admin', "danger", "Record does not exit");
         }
@@ -133,7 +133,6 @@ class AdminController extends Controller
 
     public function updateProfilePic(Request $request, $id)
     {
-      // dd("tehreem");
         $oldRow = User::find($id);
         $dataBaseProfilePicName = isset($oldRow->profile_pic) && !empty($oldRow->profile_pic) ? $oldRow->profile_pic : "";
 

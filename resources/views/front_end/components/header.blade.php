@@ -22,86 +22,26 @@
                     <nav class="menu-bar mr-auto menu--bar">
                         <ul>
                             <li>
-                                <a href="#">Home <i class="la la-angle-down fs-11"></i></a>
+                                <a href="#">Home<i class="la la-angle-down fs-11"></i></a>
                                 <ul class="dropdown-menu-item">
                                     <li><a href="{{assets('index.html',true)}}">Home - landing</a></li>
-                                    <li><a href="{{assets('home-2.html',true)}}">Home - main</a></li>
-                                    <li><a href="{{assets('home-3.html',true)}}">Home - layout 2 <span
-                                                    class="badge bg-warning text-white">New</span></a>
                                     </li>
                                 </ul>
                             </li>
                             <li class="is-mega-menu">
-                                <a href="#">pages <i class="la la-angle-down fs-11"></i></a>
-                                <div class="dropdown-menu-item mega-menu">
+                                <a href="#">About Us<i class="la la-angle-down fs-11"></i></a>
+                                <div class="dropdown-menu-item">
                                     <ul class="row">
                                         <li class="col-lg-3">
                                             <a href="{{assets('user-profile.html',true)}}">user profile</a>
-                                            <a href="{{assets('notifications.html',true)}}">Notifications</a>
-                                            <a href="{{assets('referrals.html',true)}}">Referrals</a>
-                                            <a href="{{assets('setting.html',true)}}">settings</a>
-                                            <a href="{{assets('ask-question.html',true)}}">ask question</a>
-                                            <a href="{{assets('question-details.html',true)}}">question details</a>
-                                            <a href="{{assets('about.html',true)}}">about</a>
-                                            <a href="{{assets('revisions.html',true)}}">revisions</a>
-                                            <a href="{{assets('category.html',true)}}">category</a>
-                                            <a href="{{assets('companies.html',true)}}">companies</a>
-                                            <a href="{{assets('company-details.html',true)}}">company details</a>
-                                        </li>
-                                        <li class="col-lg-3">
-                                            <a href="careers.html">careers</a>
-                                            <a href="career-details.html">career details</a>
-                                            <a href="contact.html">contact</a>
-                                            <a href="faq.html">FAQs</a>
-                                            <a href="pricing-table.html">pricing tables</a>
-                                            <a href="error.html">page 404</a>
-                                            <a href="terms-and-conditions.html">Terms & conditions</a>
-                                            <a href="privacy-policy.html">privacy policy</a>
-                                            <a href="cart.html">cart</a>
-                                            <a href="talent.html">talent</a>
-                                            <a href="advertising.html">advertising</a>
-                                        </li>
-                                        <li class="col-lg-3">
-                                            <a href="free-demo.html">free demo</a>
-                                            <a href="checkout.html">checkout</a>
-                                            <a href="wishlist.html">wishlist</a>
-                                            <a href="login.html">login</a>
-                                            <a href="login-2.html">login 2</a>
-                                            <a href="signup.html">sign up</a>
-                                            <a href="signup-2.html">sign up 2</a>
-                                            <a href="recover-password.html">recover password</a>
-                                            <a href="questions-layout-2.html">questions layout 2 <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                            <a href="questions-full-width.html">questions full-width <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                            <a href="questions-left-sidebar.html">questions left sidebar <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                        </li>
-                                        <li class="col-lg-3">
-                                            <a href="questions-right-sidebar.html">questions right sidebar <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                            <a href="user-list.html">user list <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                            <a href="{{route("frontend-category-list")}}">category list <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                            <a href="tags-list.html">tags list <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                            <a href="add-post.html">add post <span class="badge bg-warning text-white">New</span></a>
-                                            <a href="badges-list.html">Badges list <span
-                                                        class="badge bg-warning text-white">New</span></a>
-                                            <a href="job-list.html">job list <span class="badge bg-warning text-white">New</span></a>
-                                            <a href="error-2.html">page 404 2 <span class="badge bg-warning text-white">New</span></a>
                                         </li>
                                     </ul>
                                 </div>
                             </li>
                             <li>
-                                <a href="#">blog <i class="la la-angle-down fs-11"></i></a>
+                                <a href="#">Contact Us <i class="la la-angle-down fs-11"></i></a>
                                 <ul class="dropdown-menu-item">
                                     <li><a href="blog-grid-no-sidebar.html">grid no sidebar</a></li>
-                                    <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
-                                    <li><a href="blog-right-sidebar.html">blog right sidebar</a></li>
-                                    <li><a href="blog-single.html">blog detail</a></li>
                                 </ul>
                             </li>
                         </ul><!-- end ul -->
@@ -119,11 +59,15 @@
                                 <ul class="user-action-wrap d-flex align-items-center">
                                     <li class="dropdown">
                                         <span class="ball red ball-lg noti-dot"></span>
-                                        <a class="nav-link dropdown-toggle dropdown--toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle dropdown--toggle" href="#"
+                                           id="notificationDropdown" role="button" data-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">
                                             <i class="la la-bell"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open" aria-labelledby="notificationDropdown">
-                                            <h6 class="dropdown-header"><i class="la la-bell pr-1 fs-16"></i>Notifications</h6>
+                                        <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open"
+                                             aria-labelledby="notificationDropdown">
+                                            <h6 class="dropdown-header"><i class="la la-bell pr-1 fs-16"></i>Notifications
+                                            </h6>
                                             <div class="dropdown-divider border-top-gray mb-0"></div>
                                             <div class="dropdown-item-list">
                                                 <a class="dropdown-item" href="notifications.html">
@@ -132,7 +76,8 @@
                                                             <img src="images/img3.jpg" alt="avatar">
                                                         </div>
                                                         <div class="media-body p-0 border-left-0">
-                                                            <h5 class="fs-14 fw-regular">John Doe following your post</h5>
+                                                            <h5 class="fs-14 fw-regular">John Doe following your
+                                                                post</h5>
                                                             <small class="meta d-block lh-24">
                                                                 <span>45 secs ago</span>
                                                             </small>
@@ -145,7 +90,8 @@
                                                             <img src="images/img4.jpg" alt="avatar">
                                                         </div>
                                                         <div class="media-body p-0 border-left-0">
-                                                            <h5 class="fs-14 fw-regular">Arnold Smith answered on your post</h5>
+                                                            <h5 class="fs-14 fw-regular">Arnold Smith answered on your
+                                                                post</h5>
                                                             <small class="meta d-block lh-24">
                                                                 <span>5 mins ago</span>
                                                             </small>
@@ -166,34 +112,45 @@
                                                     </div>
                                                 </a>
                                             </div>
-                                            <a class="dropdown-item pb-1 border-bottom-0 text-center btn-text fw-regular" href="notifications.html">View All Notifications <i class="la la-arrow-right icon ml-1"></i></a>
+                                            <a class="dropdown-item pb-1 border-bottom-0 text-center btn-text fw-regular"
+                                               href="notifications.html">View All Notifications <i
+                                                        class="la la-arrow-right icon ml-1"></i></a>
                                         </div>
                                     </li>
                                     <li class="dropdown user-dropdown">
-                                        <a class="nav-link dropdown-toggle dropdown--toggle pl-2" href="#" id="userMenuDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <a class="nav-link dropdown-toggle dropdown--toggle pl-2" href="#"
+                                           id="userMenuDropdown" role="button" data-toggle="dropdown"
+                                           aria-haspopup="true" aria-expanded="false">
                                             <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
                                                 <div class="media-img media-img-xs flex-shrink-0 rounded-full mr-2">
                                                     <img src="{{getProfileThumbnail(
-                            auth()->user()->id,'small',auth()->user()->profile_pic )}}" alt="avatar" class="rounded-full">
+                            auth()->user()->id,'small',auth()->user()->profile_pic )}}" alt="avatar"
+                                                         class="rounded-full">
                                                 </div>
                                                 <div class="media-body p-0 border-left-0">
                                                     <h5 class="fs-14">{{auth()->user()->name}}</h5>
                                                 </div>
                                             </div>
                                         </a>
-                                        <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open" aria-labelledby="userMenuDropdown" style="">
+                                        <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open"
+                                             aria-labelledby="userMenuDropdown" style="">
                                             <h6 class="dropdown-header">Hi, {{auth()->user()->name}}</h6>
                                             <div class="dropdown-divider border-top-gray mb-0"></div>
                                             <div class="dropdown-item-list">
-                                                <a class="dropdown-item" href="notifications.html"><i class="la la-bell mr-2"></i>Notifications</a>
-                                                <a class="dropdown-item" href="{{route("profile-setting",["id"=>auth()->user()->id])}}"><i class="la la-gear mr-2"></i>Settings</a>
-                                                <a class="dropdown-item" href="#"  onclick="logout()"><i class="la la-power-off mr-2"></i>Log out</a>
+                                                <a class="dropdown-item" href="notifications.html"><i
+                                                            class="la la-bell mr-2"></i>Notifications</a>
+                                                <a class="dropdown-item"
+                                                   href="{{route("profile-setting",["id"=>auth()->user()->id])}}"><i
+                                                            class="la la-gear mr-2"></i>Settings</a>
+                                                <a class="dropdown-item" href="#" onclick="logout()"><i
+                                                            class="la la-power-off mr-2"></i>Log out</a>
 
 
                                                 {{--<a href="#">--}}
-                                                    {{--<button type="button" onclick="logout()">Logout</button>--}}
+                                                {{--<button type="button" onclick="logout()">Logout</button>--}}
                                                 {{--</a>--}}
-                                                <form id="logout" action="{{route("logout")}}" method="post" style="float: right ;display: none">
+                                                <form id="logout" action="{{route("logout")}}" method="post"
+                                                      style="float: right ;display: none">
                                                     {{csrf_field()}}
                                                     <input type="submit" name="sub" value="Log Out">
                                                 </form>
@@ -206,10 +163,10 @@
 
                         @else
                             {{--<a href="{{ route('login') }}"--}}
-                               {{--class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>--}}
+                            {{--class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>--}}
                             {{--@if (Route::has('register'))--}}
-                                {{--<a href="{{ route('register') }}"--}}
-                                   {{--class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>--}}
+                            {{--<a href="{{ route('register') }}"--}}
+                            {{--class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>--}}
                             {{--@endif--}}
                         @endauth
                         {{--{{"login"}}--}}

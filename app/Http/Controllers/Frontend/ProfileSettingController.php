@@ -57,8 +57,6 @@ class ProfileSettingController extends Controller
         } else {
             $this->setFormMessage('update-user-profile-pic', "danger", "Please select image");
         }
-        // return redirect()->to(route("profile-setting", ["id" => $id]) . "#profile-pic");
-        // return $this->showPage("front_end.profile_setting");
         return back();
     }
 

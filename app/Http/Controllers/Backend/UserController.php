@@ -46,7 +46,7 @@ class UserController extends Controller
 
     public function save(UserRequest $request)
     {
-        $newUser = User::create([
+        $newUser = User::insert([
             "name" => trim($request->name),
             "email" => trim($request->email),
             "password" => Hash::make($request->password),
