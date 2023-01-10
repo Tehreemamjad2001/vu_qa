@@ -2,7 +2,7 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question-Record"];
-//dd($questionRecord);
+
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
@@ -24,8 +24,8 @@
                     To ask, to learn, to share, to grow.
                 </p>
                 <div class="hero-btn-box py-4">
-                    <a href="signup.html" class="btn theme-btn mr-2">Join the community</a>
-                    <a href="ask-question.html" class="btn theme-btn theme-btn-outline">Ask a Question</a>
+                    <a href="{{route("register")}}" class="btn theme-btn mr-2">Join the community</a>
+                    <a href="{{route("login")}}" class="btn theme-btn theme-btn-outline">Ask a Question</a>
                 </div>
             </div><!-- end hero-content -->
             <div class="row">
@@ -213,16 +213,12 @@
                             @foreach($questionRecord as $data)
                                 <div class="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
                                     <div class="votes text-center votes-2">
-                                        <div class="vote-block">
-                                            <span class="vote-counts d-block text-center pr-0 lh-20 fw-medium">3</span>
-                                            <span class="vote-text d-block fs-13 lh-18">votes</span>
-                                        </div>
                                         <div class="answer-block answered my-2">
-                                            <span class="answer-counts d-block lh-20 fw-medium">3</span>
+                                            <span class="answer-counts d-block lh-20 fw-medium">{{$data->total_no_of_ans}}</span>
                                             <span class="answer-text d-block fs-13 lh-18">answers</span>
                                         </div>
                                         <div class="view-block">
-                                            <span class="view-counts d-block lh-20 fw-medium">12</span>
+                                            <span class="view-counts d-block lh-20 fw-medium">{{$data->views}}</span>
                                             <span class="view-text d-block fs-13 lh-18">views</span>
                                         </div>
                                     </div>
@@ -238,7 +234,7 @@
                                             @endphp
                                             @foreach($tagsRecord as $value)
                                                 <a href="{{isset($value) && !empty($value) ? route("home")."?tag=".$value : route("home")}}"
-                                                   class="tag-link">{{$value}}</a>
+                                                   class="{{isset($value) && !empty($value) ? "tag-link" : "" }}">{{$value}}</a>
                                             @endforeach
                                         </div>
                                         <div class="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
@@ -427,12 +423,6 @@
                                 </div>
                             </div>
                         </div><!-- end card -->
-                        <div class="ad-card">
-                            <h4 class="text-gray text-uppercase fs-13 pb-3 text-center">Advertisements</h4>
-                            <div class="ad-banner mb-4 mx-auto">
-                                <span class="ad-text">290x500</span>
-                            </div>
-                        </div><!-- end ad-card -->
                     </div><!-- end sidebar -->
                 </div><!-- end col-lg-3 -->
             </div><!-- end row -->

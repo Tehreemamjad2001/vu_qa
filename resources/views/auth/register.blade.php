@@ -15,7 +15,7 @@
                             <div class="form-group">
                                 <h3 class="fs-22 pb-3 fw-bold">Join the {{env('APP_NAME')}} Community</h3>
                                 <div class="divider"><span></span></div>
-                                <p class="pt-3">Give us some of your information to get free access to Disilab.</p>
+                                <p class="pt-3">Give us some of your information to get free access to {{env('APP_NAME')}}.</p>
                             </div>
                             <div class="form-group">
                                 <label class="fs-14 text-black fw-medium lh-18 "
@@ -49,12 +49,6 @@
                                     <input class="form-control form--control password-field form-control @error('password') is-invalid @enderror"
                                            type="password" name="password" placeholder="Password" required
                                            autocomplete="new-password">
-
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
                                     <div class="input-group-append">
                                         <button class="btn theme-btn-outline theme-btn-outline-gray toggle-password"
                                                 type="button">
@@ -71,9 +65,14 @@
                                             </svg>
                                         </button>
                                     </div>
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
                                 </div>
-                                <p class="fs-13 lh-18">Passwords must contain at least eight characters, including at
-                                    least 1 letter and 1 number.</p>
+
+                                <p class="fs-13 lh-18">Passwords must contain at least eight characters.</p>
                             </div><!-- end form-group -->
                             <div class="form-group">
                                 <label class="fs-14 text-black fw-medium lh-18">{{ __('Confirm Password') }}</label>
@@ -98,31 +97,7 @@
                                         </button>
                                     </div>
                                 </div>
-                                <p class="fs-13 lh-18">Passwords must contain at least eight characters, including at
-                                    least 1 letter and 1 number.</p>
-                            </div><!-- end form-group -->
-                            <div class="form-group">
-                                <div class="d-flex align-items-center">
-                                    <div class="custom-control custom-checkbox fs-13 mr-4">
-                                        <input type="checkbox" class="custom-control-input" id="opt-in">
-                                        <label class="custom-control-label custom--control-label lh-18" for="opt-in">Opt-in
-                                            to receive occasional product updates, user research invitations, company
-                                            announcements, and digests.</label>
-                                    </div>
-                                    <button type="button" class="popover-trigger btn border border-gray py-1 lh-18 px-2"
-                                            data-container="body" data-toggle="popover" data-placement="top">
-                                        <svg aria-hidden="true" class="svg-icon-color-gray" width="14" height="14">
-                                            <path d="M7 1a6 6 0 100 12A6 6 0 007 1zm1.06 9.06c-.02.63-.48 1.02-1.1 1-.57-.02-1.03-.43-1.01-1.06.02-.63.5-1.04 1.08-1.02.6.02 1.05.45 1.03 1.08zm.73-3.07l-.47.3c-.2.15-.36.36-.44.6a3.6 3.6 0 00-.08.65c0 .04-.03.14-.16.14h-1.4c-.14 0-.16-.09-.16-.13-.01-.5.11-.99.36-1.42A4.6 4.6 0 017.7 6.07c.15-.1.21-.21.3-.33a1.14 1.14 0 00.02-1.48c-.22-.26-.46-.4-.92-.4-.45 0-.83.23-1.02.52-.19.3-.16.63-.16.94H4.2c0-1.17.31-1.92.98-2.36a3.5 3.5 0 011.83-.44c.88 0 1.58.16 2.2.62.58.42.88 1.02.88 1.82 0 .5-.17.9-.43 1.24-.15.2-.44.47-.86.79h-.01z"></path>
-                                        </svg>
-                                    </button>
-                                    <div class="generic-popover d-none">
-                                        <p class="pb-2 fs-14">We know you hate spam, and we do too. That’s why we make
-                                            it easy for you to update your email preferences or unsubscribe at
-                                            anytime.</p>
-                                        <p class="fs-14">We never share your email address with third parties for
-                                            marketing purposes.</p>
-                                    </div><!-- end generic-popover -->
-                                </div>
+                                <p class="fs-13 lh-18">Passwords must contain at least eight characters.</p>
                             </div><!-- end form-group -->
                             <div class="form-group">
                                 <button id="send-message-btn" class="btn theme-btn w-100" type="submit">Sign up <i
