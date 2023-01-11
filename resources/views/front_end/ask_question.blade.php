@@ -202,7 +202,7 @@
                                 <p class="fs-13 pb-3 lh-20">Include all the information someone would need to answer
                                     your question</p>
                                 <div class="form-group">
-                                    <textarea class="form-control form--control user-text-editor" rows="10"
+                                    <textarea   id="summernote" class="form-control form--control user-text-editor" rows="10"  style="resize: none;"
                                               name="description"
                                               cols="40">{{old("description")}}</textarea>
                                     <div class="d-flex align-items-center pt-2">
@@ -215,6 +215,15 @@
                                     </div>
                                 </div>
                             </div>
+                                <script>
+                                    $(document).ready(function() {
+                                        $('#summernote').summernote({
+                                            disableDragAndDrop: true,
+                                            height: 200,
+
+                                        });
+                                    });
+                                </script>
                             <div class="input-box pt-2">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox fs-13 mb-1">

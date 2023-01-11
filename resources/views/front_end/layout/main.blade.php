@@ -49,6 +49,12 @@
     <script src="{{asset("js/upvote.vanilla.js",true)}}"></script>
     <script src="{{asset("js/upvote-script.js",true)}}"></script>
 
+    <!-- BEGIN SummerNote Editor STYLES -->
+    <link href="{{assets("https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css",true)}}" rel="stylesheet">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+    <!-- END  SummerNote Editor  STYLES -->
     <style>
         .readmore .moretext {
             display: none;
