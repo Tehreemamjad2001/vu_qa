@@ -274,7 +274,7 @@
                                                 <b>Delete</b>
                                             </a>
                                         </div>
-                                        <br>
+
                                         <div class="view-block">
                                             <a  class="del_ete  btn default" href="{{route("question-edit-page",["id"=>$data->question_id])}}">
                                                 <b>Update</b>
@@ -465,6 +465,30 @@
                 if (limitValueChange) {
                     formSubmit();
                 }
+            });
+
+            jQuery(".del_ete").on('click', function (e) {
+                e.preventDefault();
+                var path = jQuery(this).attr('href');
+                console.log(path);
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = path;
+                        Swal.fire(
+                            'Deleted!',
+                            'Your file has been deleted.',
+                            'success'
+                        )
+                    }
+                })
             });
         });
 

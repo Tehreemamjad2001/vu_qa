@@ -79,7 +79,6 @@ class ProfileSettingController extends Controller
     {
         $oldRow = User::find($id);
         $profilePic = $oldRow->profile_pic;
-
         $row = User::find($id);
         $row->profile_pic = "";
         $deletePic = $row->save();

@@ -165,7 +165,8 @@
                                     </div><!-- end generic-popover -->
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control form--control input-tags input--tags" type="text" name="tags"
+                                    <input class="form-control form--control input-tags input--tags" type="text"
+                                           name="tags"
                                            value="{{old("tags")}}"
                                            placeholder="e.g. javascript">
                                 </div>
@@ -175,7 +176,8 @@
                                 <p class="fs-13 pb-3 lh-20">Please choose the appropriate section so the question can be
                                     searched easily.</p>
                                 <div class="form-group">
-                                    <select class="form-control form--control select-container select--container" name="parent_cat"
+                                    <select class="form-control form--control select-container select--container"
+                                            name="parent_cat"
                                             id="parent_cat"
                                             data-placeholder="Select a Category">
                                         <option selected value="">Select Parentt Category</option>
@@ -185,7 +187,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-control form--control select-container select--container" name="sub_cat"
+                                    <select class="form-control form--control select-container select--container"
+                                            name="sub_cat"
                                             id="sub_cat"
                                             data-placeholder="Select a Category">
                                         <option selected value="">Select Sub Category</option>

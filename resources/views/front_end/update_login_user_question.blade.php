@@ -189,7 +189,8 @@
                                         <option value="">Select Parent Category</option>
                                         @foreach($categoryRecord as $item)
                                             <br>
-                                            <option value="{{$item->id}}" {{$questionRecord->parent_id == $item->id ? "selected" : ""}}>{{$item->category_name}}</option>
+                                            <option value="{{$item->id}}" {{$questionRecord->parent_id == $item->id ? "selected" : ""}}>
+                                                {{$item->category_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -309,9 +310,8 @@
                                             <p class="fs-14 lh-22 text-black-50">
                                                 When appropriate, share the minimum amount of code others need to
                                                 reproduce your problem (also called a
-                                                <a href="#" class="text-color hover-underline">minimum</a>, <a href="#"
-                                                                                                               class="text-color hover-underline">reproducible
-                                                    example</a>)
+                                                <a href="#" class="text-color hover-underline">minimum</a>,
+                                                <a href="#" class="text-color hover-underline">reproducible example</a>)
                                             </p>
                                         </div>
                                     </div>

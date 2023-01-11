@@ -33,43 +33,19 @@
     <script src="{{assets('assets/scripts/app.js',true)}}"></script>
     <script src="{{assets('assets/scripts/ui-bootbox.js',true)}}"></script>
 
-    <script src=https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="{{assets("sweetalert2.min.css",true)}}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    {{--<script type="text/javascript" src="{{assets("select2/select2.min.js",true)}}"></script>--}}
+
 
     <!-- BEGIN THEME STYLES -->
     <link href="{{assets('assets/css/style-metronic.css',true)}}" rel="stylesheet" type="text/css"/>
     <link href="{{assets('assets/css/style.css',true)}}" rel="stylesheet" type="text/css"/>
     <link href="{{assets('assets/css/style-responsive.css',true)}}" rel="stylesheet" type="text/css"/>
     <link href="{{assets('assets/css/plugins.css',true)}}" rel="stylesheet" type="text/css"/>
-    {{--<link href="{{assets('assets/css/themes/default.css')}}" rel="stylesheet" type="text/css" id="style_color"/>--}}
     <link href="{{assets('assets/css/custom.css',true)}}" rel="stylesheet" type="text/css"/>
     <!-- END THEME STYLES -->
     <link rel="{{assets('shortcut icon',true)}}" href="{{assets("favicon.ico",true)}}"/>
-
-
-
-
-    {{--<link rel="stylesheet" type="text/css" href="{{assets("assets/plugins/select2/select2_metro.css")}}"/>--}}
-    {{--<script type="text/javascript" src="{{assets("assets/plugins/jquery-multi-select/js/jquery.multi-select.js")}}"></script>--}}
-    {{--<script type="text/javascript" src="{{assets("assets/plugins/jquery-multi-select/js/jquery.quicksearch.js")}}"></script>--}}
-    {{--<script type="text/javascript" src="{{assets("assets/plugins/jquery.input-ip-address-control-1.0.min.js")}}"></script>--}}
-    {{--<script type="text/javascript" src="{{assets("assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js")}}"></script>--}}
-    {{--<script type="text/javascript" src="{{assets("assets/plugins/select2/select2.min.js")}}"></script>--}}
-    {{--<script type="text/javascript" src="{{assets("assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")}}"></script>--}}
-    {{--<script type="text/javascript" src="{{assets("assets/plugins/fuelux/js/spinner.min.js")}}"></script>--}}
-    {{--<script src="{{assets("assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js")}}" type="text/javascript"></script>--}}
-    {{--<script src="{{assets("assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js")}}" type="text/javascript"></script>--}}
-    {{--<script src="{{assets("assets/scripts/form-components.js")}}"></script>--}}
-    {{--<!-- END PAGE LEVEL SCRIPTS -->--}}
-    {{--<script>--}}
-    {{--jQuery(document).ready(function() {--}}
-    {{--// initiate layout and plugins--}}
-    {{--App.init();--}}
-    {{--FormComponents.init();--}}
-    {{--});--}}
-
-    {{--</script>--}}
-
+    <link rel="stylesheet" type="text/css" href="{{assets("assets/plugins/select2/select2_metro.css",true)}}"/>
     <script src="{{asset("js/upvote.vanilla.js",true)}}"></script>
     <script src="{{asset("js/upvote-script.js",true)}}"></script>
 
