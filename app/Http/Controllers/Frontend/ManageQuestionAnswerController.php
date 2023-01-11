@@ -21,15 +21,13 @@ class ManageQuestionAnswerController extends Controller
 
     public function questionAnswerList(Request $request)
     {
-
-        $routeName = Route::currentRouteName();
-
-        if ($routeName == "my-question-page") {
+        if (Auth::check()) {
             $id = auth()->user()->id;
+//            dd($id);
             $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
             $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
             $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-            $questionRecord = Question::select("questions.title", "questions.description", "questions.tags","total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic")
+            $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "views" ,"total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic")
                 ->join("users", "users.id", "questions.user_id")->where("questions.user_id", $id);
 
             if (isset($search) && !empty($search)) {
@@ -81,6 +79,45 @@ class ManageQuestionAnswerController extends Controller
 
         return $this->showPage("front_end.landing_page");
 
+    }
+
+    public function editQuestion($id){
+        $question = Question::select("*")->where("questions.id", $id)->first();
+        $this->pageData["question-data"] = $question;
+        $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
+
+        $this->pageData["category-Record"] = $getCategoryList;
+       return $this->showPage("front_end.update_login_user_question");
+    }
+
+    public function updateQuestion(Request $request ,$id){
+       // dd($id);
+        $updateQuestion = Question::where("id",$id);
+        $updateQuestion = $updateQuestion->update([
+            "title" => $request->title,
+            "description" => $request->description,
+            "user_id" => $id,
+            "category_id" => $request->sub_cat,
+            "tags" => $request->tags,
+        ]);
+        if ($updateQuestion) {
+            $this->setFormMessage('update-record', "success", "Question has been update ");
+        } else {
+            $this->setFormMessage('update-record', "danger", "Question does not exit");
+        }
+        return back();
+    }
+
+    public function deleteQuestion($id){
+        //dd($id);
+        $deleteRow = question::find($id);
+        $deleteRow->delete();
+        if ($deleteRow) {
+            $this->setFormMessage("delete-question-record", "success", "Record has been deleted ");
+        } else {
+            $this->setFormMessage("delete-question-record", "danger", "Record does not exit");
+        }
+        return back();
     }
 
     public function askQuestion()

@@ -33,7 +33,7 @@
     <script src="{{assets('assets/scripts/app.js',true)}}"></script>
     <script src="{{assets('assets/scripts/ui-bootbox.js',true)}}"></script>
 
-    <script src="{{assets("https://cdn.jsdelivr.net/npm/sweetalert2@11",true)}}"></script>
+    <script src=https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="{{assets("sweetalert2.min.css",true)}}">
 
     <!-- BEGIN THEME STYLES -->

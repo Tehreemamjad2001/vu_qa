@@ -14,11 +14,8 @@
                     <div class="col-lg-5 mx-auto">
                         <div class="form-action-wrapper py-5">
                             <div class="form-group">
-                                <h3 class="fs-22 pb-3 fw-bold">Forgotten your password?</h3>
+                                <h3 class="fs-22 pb-3 fw-bold">Reset your password</h3>
                                 <div class="divider"><span></span></div>
-                                <p class="pt-3">Forgot your account's password or having trouble logging into your
-                                    Account? Don't worry, we'll help you to get back your account. Enter your email
-                                    address and we'll send you a recovery link to reset your password.</p>
                             </div>
                             <div class="form-group">
                                 <label for="email"

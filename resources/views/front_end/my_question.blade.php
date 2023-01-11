@@ -24,7 +24,7 @@
                     To ask, to learn, to share, to grow.
                 </p>
                 <div class="hero-btn-box py-4">
-                    <a href="ask-question.html" class="btn theme-btn theme-btn-outline">Ask a Question</a>
+                    <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-outline">Ask a Question</a>
                 </div>
             </div><!-- end hero-content -->
             <div class="row">
@@ -180,6 +180,9 @@
              START QUESTION AREA
     ================================= -->
     <section class="question-area pt-80px pb-30px">
+        @if(Session::has('alert-delete-question-record'))
+            {!!Session::get('alert-delete-question-record')!!}
+        @endif
         <div class="container">
             <div class="row">
 
@@ -211,20 +214,15 @@
                             @foreach($questionRecord as $data)
                                 <div class="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
                                     <div class="votes text-center votes-2">
-                                        <div class="vote-block">
-                                            <span class="vote-counts d-block text-center pr-0 lh-20 fw-medium">3</span>
-                                            <span class="vote-text d-block fs-13 lh-18">votes</span>
-                                        </div>
                                         <div class="answer-block answered my-2">
-                                            <span class="answer-counts d-block lh-20 fw-medium">3</span>
+                                            <span class="answer-counts d-block lh-20 fw-medium">{{$data->total_no_of_ans}}</span>
                                             <span class="answer-text d-block fs-13 lh-18">answers</span>
                                         </div>
                                         <div class="view-block">
-                                            <span class="view-counts d-block lh-20 fw-medium">12</span>
+                                            <span class="view-counts d-block lh-20 fw-medium">{{$data->views}}</span>
                                             <span class="view-text d-block fs-13 lh-18">views</span>
                                         </div>
                                     </div>
-
                                     <div class="media-body">
                                         <h5 class="mb-2 fw-medium readmore"><a
                                                     href="{{route("answers-page",["id"=>$data->question_id])}}">{{$data->title}}</a>
@@ -236,13 +234,13 @@
                                             @endphp
                                             @foreach($tagsRecord as $value)
                                                 <a href="{{isset($value) && !empty($value) ? route("my-question-page")."?tag=".$value : route("my-question-page")}}"
-                                                   class="tag-link">{{$value}}</a>
+                                                   class="{{isset($value) && !empty($value) ? "tag-link" : ""}}">{{$value}}</a>
                                             @endforeach
                                         </div>
                                         <div class="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
                                             <a href="user-profile.html" class="media-img d-block">
                                                 <img src="{{getProfileThumbnail(
-                            $data->id,'small',$data->profile_pic)}}" alt="avatar">
+                                                         $data->id,'small',$data->profile_pic)}}" alt="avatar">
                                             </a>
                                             <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
                                                 <div>
@@ -268,6 +266,22 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="text-center">
+                                        <div class="">
+                                            <a name="delete" class="del_ete  btn default"
+                                               href="{{route("question-delete-page",["id"=>$data->question_id])}}">
+                                                <b>Delete</b>
+                                            </a>
+                                        </div>
+                                        <br>
+                                        <div class="view-block">
+                                            <a  class="del_ete  btn default" href="{{route("question-edit-page",["id"=>$data->question_id])}}">
+                                                <b>Update</b>
+                                            </a>
+                                        </div>
+                                    </div>
+
                                 </div><!-- end media -->
                             @endforeach
                         </div><!-- end questions-snippet -->
