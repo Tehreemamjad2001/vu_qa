@@ -11,21 +11,18 @@ use App\Http\Controllers\Backend\AnswerController;
 use App\Http\Controllers\Frontend\CategoryListController;
 use App\Http\Controllers\Frontend\ProfileSettingController;
 use App\Http\Controllers\Frontend\ManageQuestionAnswerController;
+use App\Http\Controllers\Frontend\ContactUsController;
+use App\Http\Controllers\Frontend\AboutUsController;
 use App\Http\Middleware\auth_admin;
 
 
-
-Route::get("contact-us",function (){
-    return view("front_end.contact_us");
-})->name("contact-us");
-
-Route::get("about-us",function (){
-    return view("front_end.about_us");
-})->name("about-us");
+Route::get("contact-us",[ContactUsController::class,"contactUs"])->name("contact-us");
+Route::get("about-us",[AboutUsController::class,"aboutUs"])->name("about-us");
 
 Auth::routes();
 Route::get("/", [ManageQuestionAnswerController::class, "questionAnswerList"])->name('home');
 Route::get("answers/{id}", [ManageQuestionAnswerController::class, "updateViewCount"])->name('answers-page');
+Route::get("categories", [CategoryListController::class, "categoryList"])->name('frontend-category-list');
 
 Route::group([
     "middleware" => "auth"
@@ -46,7 +43,7 @@ Route::group([
     Route::post("update-profile-pic/{id}", [ProfileSettingController::class, "updateProfilePic"])->name('update-profile-pic');
     Route::post("profile-pass-setting/{id}", [ProfileSettingController::class, "updateProfilePass"])->name('profile-pass-setting');
     Route::get("delete-user-profile-pic/{id}", [ProfileSettingController::class, "deleteUserProfilePic"])->name('delete-user-profile-pic');
-    Route::get("category-list", [CategoryListController::class, "categoryList"])->name('frontend-category-list');
+
 });
 
 
@@ -127,8 +124,8 @@ Route::group([
         "as" => "answer-"
     ], function () {
         Route::get("answer-list", [AnswerController::class, "list"])->name("list");
-       Route::get("answer-edit/{id}", [AnswerController::class, "edit"])->name("edit");
-       Route::post("answer-update/{id}", [AnswerController::class, "update"])->name("update");
+        Route::get("answer-edit/{id}", [AnswerController::class, "edit"])->name("edit");
+        Route::post("answer-update/{id}", [AnswerController::class, "update"])->name("update");
         Route::get("question-delete/{id}", [QuestionController::class, "delete"])->name("delete");
     });
 

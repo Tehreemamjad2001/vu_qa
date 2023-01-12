@@ -9,7 +9,7 @@
             <div class="filters pb-3">
                 <div class="d-flex flex-wrap align-items-center justify-content-between pb-3">
                     <h3 class="fs-22 fw-medium">Categories</h3>
-                    <a href="ask-question.html" class="btn theme-btn theme-btn-sm">Ask Question</a>
+                    <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm">Ask Question</a>
                 </div>
                 <div class="d-flex flex-wrap align-items-center justify-content-between">
                     <form class="mr-3 w-25">
@@ -20,11 +20,6 @@
                             <button class="form-btn" type="button"><i class="la la-search"></i></button>
                         </div>
                     </form>
-                    <div class="btn-group btn--group mb-3" role="group" aria-label="Filter button group">
-                        <a href="#" class="btn active">All</a>
-                        <a href="#" class="btn">Popular</a>
-                        <a href="#" class="btn">Most visited</a>
-                    </div>
                 </div>
             </div><!-- end filters -->
             <div class="row">

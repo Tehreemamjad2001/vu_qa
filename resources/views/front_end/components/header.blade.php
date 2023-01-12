@@ -1,37 +1,41 @@
 <?php
 $currentRouteName = Route::currentRouteName();
 ?>
-<header class="header-area bg-white shadow-sm">
+<header class="header-area bg-white shadow-sm bg-white border-bottom border-bottom-gray fixed-top">
     <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-2">
+            <div class="col-lg-2 ">
                 <div class="logo-box">
-                    <a href="{{route("home")}}" class="logo"><img src="{{assets('images/logo-black.png',true)}}"
-                                                                  alt="logo"></a>
-                    <div class="user-action">
-                        <div class="search-menu-toggle icon-element icon-element-xs shadow-sm mr-1"
-                             data-toggle="tooltip" data-placement="top" title="Search">
-                            <i class="la la-search"></i>
-                        </div>
-                        <div class="off-canvas-menu-toggle icon-element icon-element-xs shadow-sm" data-toggle="tooltip"
-                             data-placement="top" title="Main menu">
-                            <i class="la la-bars"></i>
-                        </div>
-                    </div>
+                    <br>
+                    <a href="{{route("home")}}" class="logo">
+                        <img src="{{assets('images/qa-forum-logo1.png',true)}}" alt="logo"
+                             style="width: 180px "></a>
                 </div>
+                <br>
             </div><!-- end col-lg-2 -->
             <div class="col-lg-10">
                 <div class="menu-wrapper border-left border-left-gray pl-4 justify-content-end">
                     <nav class="menu-bar mr-auto menu--bar">
                         <ul>
-                            <li class="{{$currentRouteName == "home" ? "list-group-item" : ""}}">
-                                <a href="{{route("home")}}">Home<i class=" fs-11"></i></a>
+                            <li>
+                                <a href="{{route("home")}}"
+                                   class="{{$currentRouteName == "home" ? "top_nav_active " : ""}}">Home<i
+                                            class=" fs-11"></i></a>
                             </li>
-                            <li class="is-mega-menu {{$currentRouteName == "about-us" ? "list-group-item" : ""}}">
-                                <a href="{{route("about-us")}}">About Us<i class=" fs-11"></i></a>
+                            <li>
+                                <a href="{{route("frontend-category-list")}}"
+                                   class="{{$currentRouteName == "frontend-category-list" ? "top_nav_active " : ""}}">Categories<i
+                                            class=" fs-11"></i></a>
                             </li>
-                            <li  class= "{{$currentRouteName == "contact-us" ? "list-group-item" : ""}}">
-                                <a href="{{route("contact-us")}}">Contact Us <i class=" fs-11"></i></a>
+                            <li class="is-mega-menu">
+                                <a href="{{route("about-us") }}"
+                                   class="{{$currentRouteName == "about-us" ? "top_nav_active " : ""}}">About Us<i
+                                            class=" fs-11"></i></a>
+                            </li>
+                            <li>
+                                <a href="{{route("contact-us")}}"
+                                   class="{{$currentRouteName == "contact-us" ? "top_nav_active " : ""}}">Contact Us <i
+                                            class=" fs-11"></i></a>
                             </li>
                         </ul><!-- end ul -->
                     </nav><!-- end main-menu -->
@@ -42,46 +46,56 @@ $currentRouteName = Route::currentRouteName();
                             <button class="form-btn" type="button"><i class="la la-search"></i></button>
                         </div>
                     </form>
-                    @if(Route::has('login'))
-                        @auth
-                            <div class="nav-right-button">
-                                <ul class="user-action-wrap d-flex align-items-center">
-                                    <li class="dropdown user-dropdown">
-                                        <a class="nav-link dropdown-toggle dropdown--toggle pl-2" href="#"
-                                           id="userMenuDropdown" role="button" data-toggle="dropdown"
-                                           aria-haspopup="true" aria-expanded="false">
-                                            <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
-                                                <div class="media-img media-img-xs flex-shrink-0 rounded-full mr-2">
-                                                    <img src="{{getProfileThumbnail(
+                    @if(Auth::check())
+                        <div class="nav-right-button">
+                            <ul class="user-action-wrap d-flex align-items-center">
+                                <li class="dropdown user-dropdown">
+                                    <a class="nav-link dropdown-toggle dropdown--toggle pl-2" href="#"
+                                       id="userMenuDropdown" role="button" data-toggle="dropdown"
+                                       aria-haspopup="true" aria-expanded="false">
+                                        <div class="media media-card media--card shadow-none mb-0 rounded-0 align-items-center bg-transparent">
+                                            <div class="media-img media-img-xs flex-shrink-0 rounded-full mr-2">
+                                                <img src="{{getProfileThumbnail(
                             auth()->user()->id,'small',auth()->user()->profile_pic )}}" alt="avatar"
-                                                         class="rounded-full">
-                                                </div>
-                                                <div class="media-body p-0 border-left-0">
-                                                    <h5 class="fs-14">{{auth()->user()->name}}</h5>
-                                                </div>
+                                                     class="rounded-full">
                                             </div>
-                                        </a>
-                                        <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open"
-                                             aria-labelledby="userMenuDropdown" style="">
-                                            <h6 class="dropdown-header">Hi, {{auth()->user()->name}}</h6>
-                                            <div class="dropdown-divider border-top-gray mb-0"></div>
-                                            <div class="dropdown-item-list">
-                                                <a class="dropdown-item"
-                                                   href="{{route("profile-setting",["id"=>auth()->user()->id])}}"><i
-                                                            class="la la-gear mr-2"></i>Settings</a>
-                                                <a class="dropdown-item" href="#" onclick="logout()"><i
-                                                            class="la la-power-off mr-2"></i>Log out</a>
-                                                <form id="logout" action="{{route("logout")}}" method="post"
-                                                      style="float: right ;display: none">
-                                                    {{csrf_field()}}
-                                                    <input type="submit" name="sub" value="Log Out">
-                                                </form>
+                                            <div class="media-body p-0 border-left-0">
+                                                <h5 class="fs-14">{{auth()->user()->name}}</h5>
                                             </div>
                                         </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        @endauth
+                                    </a>
+                                    <div class="dropdown-menu dropdown--menu dropdown-menu-right mt-3 keep-open"
+                                         aria-labelledby="userMenuDropdown" style="">
+                                        <h6 class="dropdown-header">Hi, {{auth()->user()->name}}</h6>
+                                        <div class="dropdown-divider border-top-gray mb-0"></div>
+                                        <div class="dropdown-item-list">
+                                            <a class="dropdown-item"
+                                               href="{{route("my-question-page")}}"><i
+                                                        class="la la-gear mr-2"></i>My questions</a>
+                                            <a class="dropdown-item"
+                                               href="{{route("profile-setting",["id"=>auth()->user()->id])}}"><i
+                                                        class="la la-gear mr-2"></i>Settings</a>
+                                            <a class="dropdown-item" href="#" onclick="logout()"><i
+                                                        class="la la-power-off mr-2"></i>Log out</a>
+                                            <form id="logout" action="{{route("logout")}}" method="post"
+                                                  style="float: right ;display: none">
+                                                {{csrf_field()}}
+                                                <input type="submit" name="sub" value="Log Out">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <div class="nav-right-button">
+                            <a href="{{route("login")}}" class="btn theme-btn {{$currentRouteName == "login" ? "theme-btn-outline" : ""}}"
+                               ><i class="la la-sign-in mr-1"></i>
+                                Login</a>
+                            <a href="{{route("register")}}" class="btn theme-btn  {{$currentRouteName == "register" ? "theme-btn-outline" : ""}}"
+                               ><i class="la la-user mr-1"></i> Join</a>
+                        </div>
+
                     @endif
                 </div><!-- end menu-wrapper -->
             </div><!-- end col-lg-10 -->

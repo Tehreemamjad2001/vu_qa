@@ -38,7 +38,8 @@ class LoginController extends Controller
     public function showLoginForm()
     {
 
-        return view('auth.login_1');
+        $this->pageData["page_title"] = "Login";
+        return $this->showPage('auth.login_1');
     }
 
     protected function credentials(Request $request)

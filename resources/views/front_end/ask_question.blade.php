@@ -202,7 +202,7 @@
                                 <p class="fs-13 pb-3 lh-20">Include all the information someone would need to answer
                                     your question</p>
                                 <div class="form-group">
-                                    <textarea   id="summernote" class="form-control form--control user-text-editor" rows="10"  style="resize: none;"
+                                    <textarea  class="form-control form--control user-text-editor" rows="10"  style="resize: none;"
                                               name="description"
                                               cols="40">{{old("description")}}</textarea>
                                     <div class="d-flex align-items-center pt-2">
@@ -215,28 +215,12 @@
                                     </div>
                                 </div>
                             </div>
-                                <script>
-                                    $(document).ready(function() {
-                                        $('#summernote').summernote({
-                                            disableDragAndDrop: true,
-                                            height: 200,
-
-                                        });
-                                    });
-                                </script>
                             <div class="input-box pt-2">
                                 <div class="form-group">
                                     <div class="custom-control custom-checkbox fs-13 mb-1">
                                         <input type="checkbox" class="custom-control-input" id="notifiedMe">
                                         <label class="custom-control-label custom--control-label" for="notifiedMe">Get
                                             notified by email when someone answers this question.</label>
-                                    </div>
-                                    <div class="custom-control custom-checkbox fs-13">
-                                        <input type="checkbox" class="custom-control-input" id="youAgreeCheckBox">
-                                        <label class="custom-control-label custom--control-label"
-                                               for="youAgreeCheckBox">By asking your question, you agree to the <a
-                                                    href="privacy-policy.html" class="text-color hover-underline">Privacy
-                                                Policy.</a></label>
                                     </div>
                                 </div>
                             </div>

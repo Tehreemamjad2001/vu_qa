@@ -1,4 +1,4 @@
-<section class="footer-area pt-80px bg-dark position-relative">
+<section class="footer-area  bg-dark position-relative">
     <span class="vertical-bar-shape vertical-bar-shape-1"></span>
     <span class="vertical-bar-shape vertical-bar-shape-2"></span>
     <span class="vertical-bar-shape vertical-bar-shape-3"></span>
@@ -8,12 +8,12 @@
         <div class="row align-items-center pb-4 copyright-wrap">
             <div class="col-lg-6">
                 <a href="" class="d-inline-block">
-                    <img src="{{assets('images/logo-white.png',true)}}" alt="footer logo" class="footer-logo">
+                    <img src="{{assets('images/qa-forum-high-resolution-logo-white-on-transparent-background.png',true)}}" style="width: 180px"  alt="footer logo" class="footer-logo">
                 </a>
             </div><!-- end col-lg-6 -->
             <div class="col-lg-6">
-                <p class="copyright-desc text-right fs-14">Copyright &copy; 2021 <a href="">TechyDevs</a>
-                    Inc.</p>
+                <p class="copyright-desc text-right fs-14">Copyright &copy; {{date(" Y ")}}</a>
+                    .</p>
             </div><!-- end col-lg-6 -->
         </div><!-- end row -->
     </div><!-- end container -->

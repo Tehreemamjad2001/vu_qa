@@ -1,3 +1,6 @@
+@php
+//dd($pageData);
+@endphp
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title>Disilab - {{env('APP_NAME')}}</title>
+    <title>{{isset($pageData["page_title"]) && !empty($pageData["page_title"]) ? $pageData["page_title"] ." - ". config('app.name') : "abd234"}} </title>
 
     <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com/">
@@ -34,10 +37,10 @@
     <script src="{{assets('assets/scripts/ui-bootbox.js',true)}}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    {{--<script type="text/javascript" src="{{assets("select2/select2.min.js",true)}}"></script>--}}
+{{--<script type="text/javascript" src="{{assets("select2/select2.min.js",true)}}"></script>--}}
 
 
-    <!-- BEGIN THEME STYLES -->
+<!-- BEGIN THEME STYLES -->
     <link href="{{assets('assets/css/style-metronic.css',true)}}" rel="stylesheet" type="text/css"/>
     <link href="{{assets('assets/css/style.css',true)}}" rel="stylesheet" type="text/css"/>
     <link href="{{assets('assets/css/style-responsive.css',true)}}" rel="stylesheet" type="text/css"/>
@@ -49,15 +52,18 @@
     <script src="{{asset("js/upvote.vanilla.js",true)}}"></script>
     <script src="{{asset("js/upvote-script.js",true)}}"></script>
 
-    <!-- BEGIN SummerNote Editor STYLES -->
-    <link href="{{assets("https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css",true)}}" rel="stylesheet">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    <!-- END  SummerNote Editor  STYLES -->
+    <!-- for drop down -->
+    <link rel="stylesheet" href="{{assets("css/selectize.css",true)}}">
+    <link rel="stylesheet" href="{{assets("css/style.css",true)}}">
+    <!-- end style for drop down -->
+
     <style>
         .readmore .moretext {
             display: none;
+        }
+        .top_nav_active{
+            color: #2d86eb;
+            background-color: rgba(45,134,235,.05);
         }
     </style>
 </head>

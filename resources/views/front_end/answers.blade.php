@@ -3,10 +3,6 @@
     @php
         $questionRecord  = $pageData["question-record"];
         $time = getTimeAgo($questionRecord->created_at);
-        $countTotalNumOfUsers = $pageData["no_of_user"];
-        $countTotalNumOfQuestions =  $pageData["no_of_questions"];
-        $countTotalNumOfAnswers = $pageData["no_of_answer"];
-        $countTotalNumOfAcceptedAnswers = $pageData["no_of_accepted_answer"];
         $id = request()->id;
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden pt-40px pb-40px">
@@ -285,43 +281,6 @@
                     <div class="sidebar">
                         <div class="card card-item">
                             <div class="card-body">
-                                <h3 class="fs-17 pb-3">Number Achievement</h3>
-                                <div class="divider"><span></span></div>
-                                <div class="row no-gutters text-center">
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color">{{$countTotalNumOfQuestions}}</span>
-                                            <p class="fs-14">Questions</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color-2">{{$countTotalNumOfAnswers}}</span>
-                                            <p class="fs-14">Answers</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color-3">{{$countTotalNumOfAcceptedAnswers}}</span>
-                                            <p class="fs-14">Answer accepted</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color-4">{{$countTotalNumOfUsers}}</span>
-                                            <p class="fs-14">Users</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-12 pt-3">
-                                        <p class="fs-14">To get answer of question <a href="signup.html"
-                                                                                      class="text-color hover-underline">Join<i
-                                                        class="la la-arrow-right ml-1"></i></a></p>
-                                    </div>
-                                </div><!-- end row -->
-                            </div>
-                        </div><!-- end card -->
-                        <div class="card card-item">
-                            <div class="card-body">
                                 <h3 class="fs-17 pb-3">Related Questions</h3>
                                 <div class="divider"><span></span></div>
                                 <div class="sidebar-questions pt-3">
@@ -359,100 +318,6 @@
                                         </div>
                                     </div><!-- end media -->
                                 </div><!-- end sidebar-questions -->
-                            </div>
-                        </div><!-- end card -->
-                        <div class="card card-item">
-                            <div class="card-body">
-                                <h3 class="fs-17 pb-3">Trending Tags</h3>
-                                <div class="divider"><span></span></div>
-                                <div class="tags pt-4">
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">analytics</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">computer</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">python</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">javascript</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="tag-item">
-                                        <a href="#" class="tag-link tag-link-md">c#</a>
-                                        <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                    </div><!-- end tag-item -->
-                                    <div class="collapse" id="showMoreTags">
-                                        <div class="tag-item">
-                                            <a href="#" class="tag-link tag-link-md">java</a>
-                                            <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                        </div><!-- end tag-item -->
-                                        <div class="tag-item">
-                                            <a href="#" class="tag-link tag-link-md">swift</a>
-                                            <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                        </div><!-- end tag-item -->
-                                        <div class="tag-item">
-                                            <a href="#" class="tag-link tag-link-md">html</a>
-                                            <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                        </div><!-- end tag-item -->
-                                        <div class="tag-item">
-                                            <a href="#" class="tag-link tag-link-md">angular</a>
-                                            <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                        </div><!-- end tag-item -->
-                                        <div class="tag-item">
-                                            <a href="#" class="tag-link tag-link-md">flutter</a>
-                                            <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                        </div><!-- end tag-item -->
-                                        <div class="tag-item">
-                                            <a href="#" class="tag-link tag-link-md">machine-language</a>
-                                            <span class="item-multiplier fs-13">
-                                    <span>×</span>
-                                    <span>32924</span>
-                                </span>
-                                        </div><!-- end tag-item -->
-                                    </div><!-- end collapse -->
-                                    <a class="collapse-btn fs-13" data-toggle="collapse" href="#showMoreTags"
-                                       role="button" aria-expanded="false" aria-controls="showMoreTags">
-                                        <span class="collapse-btn-hide">Show more<i
-                                                    class="la la-angle-down ml-1 fs-11"></i></span>
-                                        <span class="collapse-btn-show">Show less<i
-                                                    class="la la-angle-up ml-1 fs-11"></i></span>
-                                    </a>
-                                </div>
                             </div>
                         </div><!-- end card -->
                     </div><!-- end sidebar -->
