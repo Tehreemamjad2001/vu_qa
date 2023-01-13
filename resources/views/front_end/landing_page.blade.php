@@ -21,9 +21,7 @@
     ================================= -->
     <section class="question-area pt-80px pb-30px">
         <div class="container">
-
             <div class="row">
-
                 <form id="filter">
                     <div>
                         <input type="hidden" name="sort" id="sort_value" value="{{$sort}}">
@@ -31,17 +29,24 @@
                         <input type="hidden" name="tag" id="tag" value="{{$tags}}">
                         <input type="submit" value="submit" style="display: none">
                     </div>
-
                 </form>
                 <div class="col-lg-9 px-0">
                     <div class="question-main-bar border-left border-left-gray pb-50px">
+                        <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
+                            <form method="post" action="{{route("home")}}">
+                                <div class="form-group mb-0 mr-3">
+                                    <input class="form-control form--control h-auto py-2" type="text" name="search"
+                                           placeholder="Type your search words...">
+                                    <button class="form-btn" type="submit"><i class="la la-search"></i></button>
+                                </div>
+                                <button class="btn theme-btn" type="reset">Reset</button>
+                            </form>
+                        </div>
                         <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
                             <div class="mr-3">
                                 <h3 class="fs-18 fw-medium">All Questions</h3>
                                 <p class="pt-1 fs-14 fw-medium lh-20">{{number_format($questionRecord->total())}}</p>
                             </div>
-
-
                             <div class="filter-option-box w-20">
                                 <div class="selectize-control select-container single">
                                     <select class="selectize-input items full has-options has-items select-container select-container selectized"
@@ -208,4 +213,4 @@
         });
 
     </script>
-    s@endsection
+@endsection

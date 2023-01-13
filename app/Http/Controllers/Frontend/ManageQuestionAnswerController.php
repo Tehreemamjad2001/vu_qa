@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use DB;
+use function Symfony\Component\String\s;
 
 class ManageQuestionAnswerController extends Controller
 {
@@ -23,12 +24,15 @@ class ManageQuestionAnswerController extends Controller
     {
         if (Auth::check()) {
             $id = auth()->user()->id;
-//            dd($id);
             $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
             $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
             $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-            $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "views" ,"total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic")
-                ->join("users", "users.id", "questions.user_id")->where("questions.user_id", $id);
+            //dd($sort);
+            $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
+                "views" ,"total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic" , "categories.category_name")
+                ->join("users", "users.id", "questions.user_id")
+                ->join("categories","categories.id","questions.category_id")
+                ->where("questions.user_id", $id);
 
             if (isset($search) && !empty($search)) {
                 $questionRecord = $questionRecord->where("tags", $search);
@@ -36,7 +40,7 @@ class ManageQuestionAnswerController extends Controller
             if (isset($sort) && !empty($sort)) {
                 if ($sort == "Newest") {
                     $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
-                } elseif ($sort == "oldest") {
+                } elseif ($sort == "Oldest") {
                     $questionRecord = $questionRecord->orderBy("questions.created_at", "asc");
                 }
             } else {
@@ -52,9 +56,10 @@ class ManageQuestionAnswerController extends Controller
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-        $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "views","total_no_of_ans",
+        $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "categories.category_name","views","total_no_of_ans",
             "questions.created_at", "users.name", "users.id", "users.profile_pic")
-            ->join("users", "users.id", "questions.user_id");
+            ->join("users", "users.id", "questions.user_id")
+        ->join("categories","categories.id","questions.category_id");
         if (isset($search) && !empty($search)) {
             $questionRecord = $questionRecord->where("tags", $search);
         }
@@ -68,6 +73,7 @@ class ManageQuestionAnswerController extends Controller
         } else {
             $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
         }
+
         $questionRecord = $questionRecord->paginate($limit);
         $this->pageData["question-Record"] = $questionRecord;
         $this->pageData["page_title"] = "Public Question";
@@ -96,6 +102,8 @@ class ManageQuestionAnswerController extends Controller
         $this->pageData["category-Record"] = $getCategoryList;
        return $this->showPage("front_end.update_login_user_question");
     }
+
+
 
     public function updateQuestion(Request $request ,$id){
        // dd($id);

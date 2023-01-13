@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Question;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Http\Requests\UserRequest;
+use App\Models\Question;
+use Illuminate\Support\Facades\Crypt;
 use function Couchbase\defaultDecoder;
 use Illuminate\Http\Request;
 
@@ -20,25 +21,16 @@ class ProfileSettingController extends Controller
         return $this->showPage("front_end.profile_setting");
     }
 
-    public function updateProfilePic(Request $request, $id)
+    public function updateProfilePic(UserRequest $request, $id)
     {
-        //  dd($request);
-
-
         $oldRow = User::find($id);
         $dataBaseProfilePicName = isset($oldRow->profile_pic) && !empty($oldRow->profile_pic) ? $oldRow->profile_pic : "";
-//dd($dataBaseProfilePicName);
         $row = User::find($id);
-
-
         $row->name = $request->name;
         $row->country = $request->country;
         $row->save();
 
-
-        //dd("tehreem");
         if ($request->hasfile('profile_pic')) {
-            // dd("tehreem");
             $file = $request->file('profile_pic');
             $extension = $file->getClientOriginalExtension();
             $filename = time() . '.' . $extension;
@@ -60,19 +52,17 @@ class ProfileSettingController extends Controller
         return back();
     }
 
-    public function updateProfilePass(Request $request, $id)
+    public function updateProfilePass(UserRequest $request, $id)
     {
-
         $updateAdminPass = User::where("id", $id)->update([
             "password" => Hash::make($request->password),
         ]);
-        //dd($updateAdminPass);
         if ($updateAdminPass) {
-            $this->setFormMessage('delete-frontend-user-pass', "success", "Password has been updated");
+            $this->setFormMessage('frontend-user-pass', "success", "Password has been updated");
         } else {
-            $this->setFormMessage('delete-frontend-user-pass', "danger", "Password does not exist");
+            $this->setFormMessage('frontend-user-pass', "danger", "Password does not exist");
         }
-        return redirect()->to(route("profile-setting", ["id" => $id]) . "#password-update");
+        return redirect()->to(route("profile-setting", ["id" => $id]) . "##change-password");
     }
 
     public function deleteUserProfilePic($id)
@@ -82,8 +72,7 @@ class ProfileSettingController extends Controller
         $row = User::find($id);
         $row->profile_pic = "";
         $deletePic = $row->save();
-        if(isset($deletePic)){
-            // dd($profilePic);
+        if (isset($deletePic)) {
             $path = storage_path('app/images/profile_pic/' . $id . "/");
             deleteProfilePicFromFolder($path, $profilePic);
             $this->setFormMessage("delete-frontend-user-profile", "success", "Profile Pic has been deleted ");

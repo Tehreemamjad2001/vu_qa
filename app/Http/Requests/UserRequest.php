@@ -33,7 +33,9 @@ class UserRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
+        //dd($routeName);
         $id = isset($this->id) ? $this->id : null;
+        //dd($id);
         switch ($routeName) {
 
             case "user-save" :
@@ -68,13 +70,13 @@ class UserRequest extends FormRequest
                 break;
             case "admin-save" :
                 return [
-                    'name' => 'required',
+                    'name' => 'required|max:30',
                     'email' => 'required|email|unique:users,email,' . $id . ',id,deleted_at,NULL',
                     'gender' => 'required',
                     'password' => 'required|confirmed|min:3',
                     'password' => 'required|min:3',
+                    'country' => 'required',
                     'confirmPassword' => 'required|same:password',
-                    //'profile_pic' => 'mimes:jpeg,png,jpg'
                 ];
                 break;
             case "admin-update" :
@@ -86,8 +88,21 @@ class UserRequest extends FormRequest
                 break;
             case "admin-update-pass" :
                 return [
-                    'password' => 'required|confirmed|min:3',
-                    'password' => 'required|min:3',
+                    'password' => 'required|min:8',
+                    'confirmPassword' => 'required|same:password',
+                ];
+                break;
+            case "update-profile-pic" :
+                return [
+                    'name' => 'required|max:30',
+                    'country' => 'required',
+                    'about me' => 'required|max:400',
+                ];
+                break;
+            case "profile-pass-setting" :
+                return [
+                    'old-password' => 'required|min:8',
+                    'password' => 'required|min:8',
                     'confirmPassword' => 'required|same:password',
                 ];
                 break;

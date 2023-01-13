@@ -13,7 +13,7 @@
             </div>
         </div>
         <br><br>
-        <form action="{{route('admin-save')}}" id="" method="post" class="form-horizontal" id="form1"  enctype="multipart/form-data">
+        <form action="{{route('admin-save')}}"  method="post" class="form-horizontal" id="form1"  enctype="multipart/form-data">
             @if(Session::has('alert-add-admin'))
                 {!!Session::get('alert-add-admin')!!}
             @endif

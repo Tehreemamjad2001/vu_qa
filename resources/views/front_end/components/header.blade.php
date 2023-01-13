@@ -6,12 +6,12 @@ $currentRouteName = Route::currentRouteName();
         <div class="row align-items-center">
             <div class="col-lg-2 ">
                 <div class="logo-box">
-                    <br>
+
                     <a href="{{route("home")}}" class="logo">
                         <img src="{{assets('images/qa-forum-logo1.png',true)}}" alt="logo"
                              style="width: 180px "></a>
                 </div>
-                <br>
+
             </div><!-- end col-lg-2 -->
             <div class="col-lg-10">
                 <div class="menu-wrapper border-left border-left-gray pl-4 justify-content-end">
@@ -39,11 +39,10 @@ $currentRouteName = Route::currentRouteName();
                             </li>
                         </ul><!-- end ul -->
                     </nav><!-- end main-menu -->
-                    <form method="post" class="mr-2">
+                    <form method="post" action="{{route("home")}}" class="mr-2 MultiFile-intercepted">
                         <div class="form-group mb-0">
-                            <input class="form-control form--control h-auto py-2" type="text" name="search"
-                                   placeholder="Type your search words...">
-                            <button class="form-btn" type="button"><i class="la la-search"></i></button>
+                            <input class="form-control form--control form--control-bg-gray" type="text" name="search" placeholder="Type your search words...">
+                            <button class="form-btn" type="submit"><i class="la la-search"></i></button>
                         </div>
                     </form>
                     @if(Auth::check())
@@ -70,7 +69,7 @@ $currentRouteName = Route::currentRouteName();
                                         <div class="dropdown-divider border-top-gray mb-0"></div>
                                         <div class="dropdown-item-list">
                                             <a class="dropdown-item"
-                                               href="{{route("my-question-page")}}"><i
+                                               href="{{route("home")}}"><i
                                                         class="la la-gear mr-2"></i>My questions</a>
                                             <a class="dropdown-item"
                                                href="{{route("profile-setting",["id"=>auth()->user()->id])}}"><i

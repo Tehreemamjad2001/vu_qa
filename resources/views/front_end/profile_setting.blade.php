@@ -1,14 +1,8 @@
 @extends("front_end/layout/main")
 @section("content")
-
-
-    @if(Route::has('login'))
-        @auth
-            @php
-
-                    $id =auth()->user()->id;
-            $profilePic  = auth()->user()->profile_pic;
-           // dd($profilePic);
+    @php
+         $id =auth()->user()->id;
+        $profilePic  = auth()->user()->profile_pic;
             @endphp
             <section class="hero-area bg-white shadow-sm overflow-hidden pt-60px">
                 <span class="stroke-shape stroke-shape-1"></span>
@@ -58,6 +52,17 @@
                         </li>
                     </ul>
                 </div><!-- end container -->
+                <script>
+                    $(document).ready(function(){
+                        $('a[data-toggle="tab"]').on('show.bs.tab', function(e) {
+                            localStorage.setItem('activeTab', $(e.target).attr('href'));
+                        });
+                        var activeTab = localStorage.getItem('activeTab');
+                        if(activeTab){
+                            $('#myTab a[href="' + activeTab + '"]').tab('show');
+                        }
+                    });
+                </script>
             </section>
             <section class="user-details-area pt-40px pb-40px">
                 <div class="container">
@@ -157,6 +162,10 @@
                                                                            type="text"
                                                                            name="name" value="{{auth()->user()->name}}">
                                                                 </div>
+                                                                @if ($errors->has('name'))
+                                                                    <span class="text-danger"
+                                                                          role="alert">{{$errors->first('name')}}</span>
+                                                                @endif
                                                             </div>
                                                             <div class="input-box">
                                                                 <label class="fs-13 text-black lh-20 fw-medium">Location</label>
@@ -165,62 +174,24 @@
                                                                            type="text"
                                                                            name="country"
                                                                            value="{{auth()->user()->country}}">
+                                                                    @if ($errors->has('country'))
+                                                                        <span class="text-danger"
+                                                                              role="alert">{{$errors->first('country')}}</span>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div><!-- end col-lg-6 -->
                                                         <div class="col-lg-12">
                                                             <div class="input-box">
-                                                                <div class="form-group">
-                                                                    <div class="jqte">
-                                                                        <div class="jqte_linkform" style="display:none"
-                                                                             role="dialog">
-                                                                            <div class="jqte_linktypeselect unselectable"
-                                                                                 unselectable="on"
-                                                                                 style="user-select: none;">
-                                                                                <div class="jqte_linktypeview unselectable"
-                                                                                     unselectable="on"
-                                                                                     style="user-select: none;">
-                                                                                    <div class="jqte_linktypearrow unselectable"
-                                                                                         unselectable="on"
-                                                                                         style="user-select: none;"></div>
-                                                                                    <div class="jqte_linktypetext">Web
-                                                                                        Address
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="jqte_linktypes unselectable"
-                                                                                     role="menu" unselectable="on"
-                                                                                     style="user-select: none; display: none;">
-                                                                                    <a jqte-linktype="0"
-                                                                                       unselectable="on"
-                                                                                       class="unselectable"
-                                                                                       style="user-select: none;">Web
-                                                                                        Address</a><a jqte-linktype="1"
-                                                                                                      unselectable="on"
-                                                                                                      class="unselectable"
-                                                                                                      style="user-select: none;">E-mail
-                                                                                        Address</a><a jqte-linktype="2"
-                                                                                                      unselectable="on"
-                                                                                                      class="unselectable"
-                                                                                                      style="user-select: none;">Picture
-                                                                                        URL</a></div>
-                                                                            </div>
-                                                                            <input class="jqte_linkinput"
-                                                                                   type="text/css" value="">
-                                                                            <div class="jqte_linkbutton unselectable"
-                                                                                 unselectable="on"
-                                                                                 style="user-select: none;">OK
-                                                                            </div>
-                                                                            <div style="height:1px;float:none;clear:both"></div>
-                                                                        </div>
-                                                                        <div class="jqte_editor" contenteditable="true"
-                                                                             style="height: 160px;"></div>
-                                                                        <div class="jqte_source jqte_hiddenField">
-                                                                            <textarea
-                                                                                    class="form-control form--control user-text-editor"
-                                                                                    rows="10" cols="40"
-                                                                                    data-origin="textarea"></textarea>
-                                                                        </div>
-                                                                    </div>
+                                                                <label class="fs-15 text-black lh-20 fw-medium">About
+                                                                    me</label>
+                                                                <div class="jqte_source jqte_hiddenField">
+                                                                     <textarea
+                                                                             name="about me"
+                                                                             class="form-control form--control user-text-editor"
+                                                                             rows="10" cols="40"
+                                                                             data-origin="textarea">
+                                                                     </textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -245,8 +216,8 @@
                                             </div>
                                             <form method="post" action="{{route("profile-pass-setting",["id"=>$id])}}"
                                                   class="pt-20px MultiFile-intercepted">
-                                                @if(Session::has('alert-delete-frontend-user-pass'))
-                                                    {!!Session::get('alert-delete-frontend-user-pass')!!}
+                                                @if(Session::has('alert-frontend-user-pass'))
+                                                    {!!Session::get('alert-frontend-user-pass')!!}
                                                 @endif
                                                 @csrf
                                                 <div id="password-update"></div>
@@ -256,7 +227,10 @@
                                                             Password</label>
                                                         <input class="form-control form--control password-field"
                                                                type="password"
-                                                               name="password" placeholder="Current password">
+                                                               name="old-password" placeholder="Current password">
+                                                        @if ($errors->has('old-password'))
+                                                            <span class="text-danger" role="alert">{{$errors->first('old-password')}}</span>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="fs-13 text-black lh-20 fw-medium">New
@@ -264,13 +238,19 @@
                                                         <input class="form-control form--control password-field"
                                                                type="password"
                                                                name="password" placeholder="New password">
+                                                        @if ($errors->has('password'))
+                                                            <span class="text-danger" role="alert">{{$errors->first('password')}}</span>
+                                                        @endif
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="fs-13 text-black lh-20 fw-medium">New Password
                                                             (again)</label>
                                                         <input class="form-control form--control password-field"
                                                                type="password"
-                                                               name="password" placeholder="New password again">
+                                                               name="confirmPassword" placeholder="New password again">
+                                                        @if ($errors->has('confirmPassword'))
+                                                            <span class="text-danger" role="alert">{{$errors->first('confirmPassword')}}</span>
+                                                        @endif
                                                         <p class="fs-14 lh-18 py-2">Passwords must contain at least
                                                             eight
                                                             characters, including at least 1 letter and 1 number.</p>
@@ -303,7 +283,7 @@
                                                     <p class="pb-3">Don't worry it's happen with everyone. We'll help
                                                         you to get
                                                         back your password</p>
-                                                    <a href="recover-password.html"
+                                                    <a href="{{route("password.request")}}"
                                                        class="btn theme-btn theme-btn-sm theme-btn-white">Recover
                                                         Password <i
                                                                 class="la la-arrow-right ml-1"></i></a>
@@ -366,7 +346,6 @@
                         </div><!-- end col-lg-9 -->
                     </div><!-- end row -->
                 </div><!-- end container -->
-
                 <script>
                     $(document).ready(function () {
                         $(".del_ete").on('click', function (e) {
@@ -394,14 +373,10 @@
                         });
                     });
                 </script>
-
-
             </section><!-- end user-details-area -->
             <!-- ================================
                      END USER DETAILS AREA
 
 
-@endauth
-    @endif
 
 @endsection

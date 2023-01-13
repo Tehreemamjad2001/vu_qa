@@ -12,26 +12,27 @@
     </div>
     <div class="media-body">
         <h5 class="mb-2 fw-medium readmore"><a
-                    href="{{route("answers-page",["id"=>$data->question_id])}}">{{$data->title}}</a>
+                    href="{{route("answers-page",["id"=>$data->question_id])}}">{{$data->title}}
+            </a>
         </h5>
+        <p class="mb-2 truncate lh-20 fs-15">{{$data->category_name}}</p>
         <p class="mb-2 truncate lh-20 fs-15">{{$data->description}}</p>
         <div class="tags">
             @php
                 $tagsRecord = explode(",",$data->tags);
             @endphp
             @foreach($tagsRecord as $value)
-                <a href="{{isset($value) && !empty($value) ? route("my-question-page")."?tag=".$value : route("my-question-page")}}"
+                <a href="{{isset($value) && !empty($value) ? route("home")."?tag=".$value : route("home")}}"
                    class="{{isset($value) && !empty($value) ? "tag-link" : ""}}">{{$value}}</a>
             @endforeach
         </div>
         <div class="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
-            <a href="{{route("home")}}" class="media-img d-block">
-                <img src="{{getProfileThumbnail(
-                                                         $data->id,'small',$data->profile_pic)}}" alt="avatar">
+            <a href="{{Auth::check() ? route("home") :route("user-questions-list",["id"=>$data->id])}}" class="media-img d-block">
+                <img src="{{getProfileThumbnail($data->id,'small',$data->profile_pic)}}" alt="avatar">
             </a>
             <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
                 <div>
-                    <h5 class="pb-1"><a href="user-profile.html">{{$data->name}}</a>
+                    <h5 class="pb-1"><a href="{{Auth::check() ? route("home") : route("user-questions-list",["id"=>$data->id])}}">{{$data->name}}</a>
                     </h5>
                     <div class="stats fs-12 d-flex align-items-center lh-18">
                                                         <span class="text-black pr-2"

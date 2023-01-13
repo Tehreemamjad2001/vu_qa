@@ -13,25 +13,28 @@ use App\Http\Controllers\Frontend\ProfileSettingController;
 use App\Http\Controllers\Frontend\ManageQuestionAnswerController;
 use App\Http\Controllers\Frontend\ContactUsController;
 use App\Http\Controllers\Frontend\AboutUsController;
+use App\Http\Controllers\Frontend\UserQuestionsListController;
 use App\Http\Middleware\auth_admin;
 
 
-Route::get("contact-us",[ContactUsController::class,"contactUs"])->name("contact-us");
-Route::get("about-us",[AboutUsController::class,"aboutUs"])->name("about-us");
+Route::get("contact-us", [ContactUsController::class, "contactUs"])->name("contact-us");
+Route::get("about-us", [AboutUsController::class, "aboutUs"])->name("about-us");
 
 Auth::routes();
 Route::get("/", [ManageQuestionAnswerController::class, "questionAnswerList"])->name('home');
+
 Route::get("answers/{id}", [ManageQuestionAnswerController::class, "updateViewCount"])->name('answers-page');
 Route::get("categories", [CategoryListController::class, "categoryList"])->name('frontend-category-list');
+Route::get("sub-categories/{id}", [CategoryListController::class, "subcategoryList"])->name('sub-category-list');
+Route::get("category-questions/{id}", [CategoryListController::class, "catQuestionList"])->name('category-questions-list');
 
 Route::group([
     "middleware" => "auth"
 ], function () {
-
+    Route::get("user-questions/{id}", [UserQuestionsListController::class, "userQuestionsList"])->name('user-questions-list');
     Route::post("save-answer", [ManageQuestionAnswerController::class, "saveAnswer"])->name('save-answer');
     Route::Post("answer-votes", [ManageQuestionAnswerController::class, "answerVotes"]);
     Route::Post("accepted-answer", [ManageQuestionAnswerController::class, "acceptedAnswer"])->name("accepted-answer");
-    Route::get("my-question", [ManageQuestionAnswerController::class, "questionAnswerList"])->name('my-question-page');
     Route::get("ask-question", [ManageQuestionAnswerController::class, "askQuestion"])->name('ask-question-page');
     Route::get("edit-question/{id}", [ManageQuestionAnswerController::class, "editQuestion"])->name('question-edit-page');
     Route::post("update-question/{id}", [ManageQuestionAnswerController::class, "updateQuestion"])->name('question-update-page');
@@ -39,7 +42,7 @@ Route::group([
 
 
     Route::post("save-question", [ManageQuestionAnswerController::class, "saveQuestion"])->name('save-question');
-    Route::get("profile-setting/{id}", [ProfileSettingController::class, "profileSetting"])->name('profile-setting');
+    Route::get("profile-setting", [ProfileSettingController::class, "profileSetting"])->name('profile-setting');
     Route::post("update-profile-pic/{id}", [ProfileSettingController::class, "updateProfilePic"])->name('update-profile-pic');
     Route::post("profile-pass-setting/{id}", [ProfileSettingController::class, "updateProfilePass"])->name('profile-pass-setting');
     Route::get("delete-user-profile-pic/{id}", [ProfileSettingController::class, "deleteUserProfilePic"])->name('delete-user-profile-pic');

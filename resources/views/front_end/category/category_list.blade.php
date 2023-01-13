@@ -1,8 +1,8 @@
-@extends("front_end/layout/main")
+@extends("front_end.layout.main")
 @section("content")
     @php
         $categoryRecord =  $pageData["category_name"];
-     //dd($categoryRecord);
+    $search = isset($_GET["category"]) && !empty($_GET["category"]) ? $_GET["category"] : "";
     @endphp
     <section class="question-area pt-40px pb-40px">
         <div class="container">
@@ -15,9 +15,12 @@
                     <form class="mr-3 w-25">
                         <div class="form-group">
                             <input class="form-control form--control form-control-sm h-auto lh-34" type="text"
-                                   name="category"
+                                   name="category"  value="{{$search}}"
                                    placeholder="Filter by category">
-                            <button class="form-btn" type="button"><i class="la la-search"></i></button>
+                            <button class="form-btn" type="submit"><i class="la la-search"></i></button>
+                        </div>
+                        <div class="form-group">
+                            <a href="{{route("frontend-category-list")}}"><input class="form-btn" type="button" value="reset"></a>
                         </div>
                     </form>
                 </div>
@@ -45,7 +48,8 @@
                                 </svg>
                             </div>
                             <div class="media-body">
-                                <h5 class="fs-19 fw-medium mb-1 "><a href="category.html">{{$record->category_name}}</a>
+                                <h5 class="fs-19 fw-medium mb-1 "><a
+                                            href="{{route("sub-category-list",["id"=>$record->id])}}">{{$record->category_name}}</a>
                                 </h5>
                                 <p class="fw-medium fs-15 text-black-50 lh-18">1,200</p>
                             </div><!-- end media-body -->

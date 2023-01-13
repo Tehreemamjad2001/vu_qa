@@ -6,6 +6,8 @@
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
         $tags = isset($_GET["tag"]) && !empty($_GET["tag"]) ? $_GET["tag"] : "";
+        $id = request()->id;
+
     @endphp
     <section class="question-area pt-40px pb-40px">
         <div class="container">
@@ -59,23 +61,29 @@
                     <div class="question-main-bar">
                         <div class="filters pb-4">
                             <div class="d-flex flex-wrap align-items-center justify-content-between pb-3">
-                                <h3 class="fs-22 fw-medium">All Questions</h3>
+                                <h3 class="fs-22 fw-medium">{{isset($id) && !empty($id) ?$pageData["user_name"]->name . " Questions" : "My Questions"}}</h3>
                                 <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm">Ask
                                     Question</a>
                             </div>
+                            <form id="filter">
+                                <div>
+                                    <input type="hidden" name="sort" id="sort_value" value="{{$sort}}">
+                                    <input type="hidden" name="limit" id="limit_value" value="{{$limit}}">
+                                    <input type="hidden" name="tag" id="tag" value="{{$tags}}">
+                                    <input type="submit" value="submit" style="display: none">
+                                </div>
+                            </form>
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
-                                <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total())}}
-                                    questions</p>
+                                <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}
+                                    </p>
 
 
                                 <div class="filter-option-box w-20">
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest
-                                            </option>
-                                            <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest
-                                            </option>
+                                            <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
+                                            <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
                                         </select>
                                     </div>
                                 </div>
@@ -109,15 +117,6 @@
                                 </div>
                             </div>
                         </div>
-                        <form id="filter">
-                            <div>
-                                <input type="hidden" name="sort" id="sort_value" value="{{$sort}}">
-                                <input type="hidden" name="limit" id="limit_value" value="{{$limit}}">
-                                <input type="hidden" name="tag" id="tag" value="{{$tags}}">
-                                <input type="submit" value="submit" style="display: none">
-                            </div>
-
-                        </form>
                     </div>
                 </div><!-- end question-main-bar -->
             </div><!-- end col-lg-9 -->
