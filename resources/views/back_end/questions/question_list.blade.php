@@ -4,7 +4,6 @@
         $parentCategories = $pageData["parent_category"];
         $childCategories = $pageData["child_category"];
         $record = $pageData["question_record"];
-dd($record);
        $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : "";
        $sortDir = isset($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "";
        $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : "";

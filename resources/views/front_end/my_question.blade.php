@@ -2,6 +2,8 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question-Record"];
+        //dd($questionRecord);
+        $RandomQuestions =$pageData['related-questions'] ;
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
@@ -19,39 +21,22 @@
                                 <h3 class="fs-17 pb-3">Related Questions</h3>
                                 <div class="divider"><span></span></div>
                                 <div class="sidebar-questions pt-3">
+                                    @foreach($RandomQuestions as $item)
+                                        {{--{{dd($item)}}--}}
+                                        @php
+                                            $time = getTimeAgo($item->created_at);
+                                        @endphp
                                     <div class="media media-card media--card media--card-2">
                                         <div class="media-body">
-                                            <h5><a href="question-details.html">Using web3 to call precompile
-                                                    contract</a></h5>
+                                            <h5><a href="{{route("answers-page",["id"=>$item->questions_id])}}">{{$item->title}}</a></h5>
                                             <small class="meta">
-                                                <span class="pr-1">2 mins ago</span>
+                                                <span class="pr-1">{{$time}}</span>
                                                 <span class="pr-1">. by</span>
-                                                <a href="#" class="author">Sudhir Kumbhare</a>
+                                                <a href="{{route("user-questions-list",["id"=>$item->id])}}" class="author">{{$item->name}}</a>
                                             </small>
                                         </div>
                                     </div><!-- end media -->
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">Is it true while finding Time Complexity
-                                                    of the algorithm [closed]</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">48 mins ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">wimax</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">image picker and store them into
-                                                    firebase with flutter</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">1 hour ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">Antonin gavrel</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
+                                        @endforeach
                                 </div><!-- end sidebar-questions -->
                             </div>
                         </div><!-- end card -->

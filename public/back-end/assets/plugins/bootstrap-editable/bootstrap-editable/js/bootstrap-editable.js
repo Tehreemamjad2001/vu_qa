@@ -3581,7 +3581,6 @@ $(function(){
     
     var Constructor = function (options) {
         this.init('select2', options, Constructor.defaults);
-
         options.select2 = options.select2 || {};
 
         this.sourceData = null;

@@ -13,7 +13,6 @@ class QuestionController extends Controller
 {
     public function list(Request $request)
     {
-//dd($request);
 
         $searchByQuestion = isset($request->question) && !empty($request->question) ? trim($request->question) : "";
         $searchByUser = isset($request->publish_by) && !empty($request->publish_by) ? trim($request->publish_by) : "";
@@ -22,7 +21,6 @@ class QuestionController extends Controller
         $category = isset($request->category) && !empty($request->category) ? $request->category : "";
 
         $searchByIsBlocked = isset($request->is_blocked) && !empty($request->is_blocked)  ? $request->is_blocked : "";
-//        dd($searchByIsBlocked);
 
         $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "5";
 
@@ -59,7 +57,6 @@ class QuestionController extends Controller
 
 
         $records = $records->orderBy($orderLabel, $orderDirection)->paginate($listCount);
-        dd($records);
         $getCategoryFromCategories = Category::select("categories.id", "categories.category_name")->where("categories.parent_id", "0")->get();
         $this->pageData["parent_category"] = $getCategoryFromCategories;
 

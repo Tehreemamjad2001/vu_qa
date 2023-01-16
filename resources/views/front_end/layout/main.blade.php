@@ -1,7 +1,7 @@
 @php
-//dd($pageData);
+    //dd($pageData);
 @endphp
-<!DOCTYPE html>
+        <!DOCTYPE html>
 <html lang="en">
 
 <!-- Mirrored from techydevs.com/demos/themes/html/disilab-demo/disilab/category-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 14 Dec 2022 05:46:37 GMT -->
@@ -27,7 +27,10 @@
     <link rel="stylesheet" href="{{assets('css/owl.carousel.min.css',true)}}">
     <link rel="stylesheet" href="{{assets('css/owl.theme.default.min.css',true)}}">
     <link rel="stylesheet" href="{{assets('css/style.css',true)}}">
-    <!-- end inject -->
+    {{--alert msg css--}}
+    <link href="{{assets('assets/css/style.css')}}" rel="stylesheet" type="text/css"/>
+{{--alert msg css--}}
+<!-- end inject -->
     <script src="{{assets('js/jquery-3.4.1.min.js',true)}}"></script>
     <script src="{{assets('js/bootstrap.bundle.min.js',true)}}"></script>
     <script src="{{assets('js/owl.carousel.min.js',true)}}"></script>
@@ -37,10 +40,9 @@
     <script src="{{assets('assets/scripts/ui-bootbox.js',true)}}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-{{--<script type="text/javascript" src="{{assets("select2/select2.min.js",true)}}"></script>--}}
 
 
-<!-- BEGIN THEME STYLES -->
+    <!-- BEGIN THEME STYLES -->
     <link href="{{assets('assets/css/style-metronic.css',true)}}" rel="stylesheet" type="text/css"/>
     <link href="{{assets('assets/css/style.css',true)}}" rel="stylesheet" type="text/css"/>
     <link href="{{assets('assets/css/style-responsive.css',true)}}" rel="stylesheet" type="text/css"/>
@@ -57,13 +59,44 @@
     <link rel="stylesheet" href="{{assets("css/style.css",true)}}">
     <!-- end style for drop down -->
 
+
+    <!--tags-->
+    <script src="{{assets('assets/plugins/bootbox/bootbox.min.js')}}" type="text/javascript"></script>
+    <!-- END PAGE LEVEL PLUGINS -->
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{assets('assets/scripts/app.js')}}"></script>
+    <script src="{{assets('assets/scripts/ui-bootbox.js')}}"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="text/javascript" src="{{assets("assets/plugins/select2/select2.min.js")}}"></script>
+    <link rel="stylesheet" type="text/css" href="{{assets("assets/plugins/select2/select2_metro.css")}}"/>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery-multi-select/js/jquery.multi-select.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery-multi-select/js/jquery.quicksearch.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery.input-ip-address-control-1.0.min.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")}}"></script>
+    <script type="text/javascript" src="{{assets("assets/plugins/fuelux/js/spinner.min.js")}}"></script>
+    <script src="{{assets("assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js")}}"
+            type="text/javascript"></script>
+    <script src="{{assets("assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js")}}"
+            type="text/javascript"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <!--tags end-->
+
+
     <style>
         .readmore .moretext {
             display: none;
         }
-        .top_nav_active{
+
+        .top_nav_active {
             color: #2d86eb;
-            background-color: rgba(45,134,235,.05);
+            background-color: rgba(45, 134, 235, .05);
         }
     </style>
 </head>

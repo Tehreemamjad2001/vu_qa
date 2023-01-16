@@ -3,23 +3,20 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Models\Answer;
 use App\Models\AnswerVotes;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionViewCount;
 use App\Models\User;
-use App\Models\UserIp;
-use Facade\FlareClient\Api;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use DB;
-use function Symfony\Component\String\s;
+use Illuminate\Support\Str;
 
 class ManageQuestionAnswerController extends Controller
 {
-
     public function questionAnswerList(Request $request)
     {
         if (Auth::check()) {
@@ -29,9 +26,9 @@ class ManageQuestionAnswerController extends Controller
             $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
             //dd($sort);
             $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
-                "views" ,"total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic" , "categories.category_name")
+                "views", "total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
                 ->join("users", "users.id", "questions.user_id")
-                ->join("categories","categories.id","questions.category_id")
+                ->join("categories", "categories.id", "questions.category_id")
                 ->where("questions.user_id", $id);
 
             if (isset($search) && !empty($search)) {
@@ -50,18 +47,31 @@ class ManageQuestionAnswerController extends Controller
 
             $this->pageData["question-Record"] = $questionRecord;
             $this->pageData["page_title"] = "My Question";
+
+            $selectRandomQuestions = Question::select("questions.id as questions_id","questions.title","questions.created_at","users.name","users.id")
+                ->join("users","questions.user_id","users.id")
+                ->orderBy(DB::raw('RAND()'))
+                ->paginate("3");
+
+            $this->pageData["related-questions"] = $selectRandomQuestions;
+
             return $this->showPage("front_end.my_question");
         }
 
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
+        $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
-        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-        $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "categories.category_name","views","total_no_of_ans",
+
+        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "desc";
+        $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "categories.category_name", "views", "total_no_of_ans",
             "questions.created_at", "users.name", "users.id", "users.profile_pic")
             ->join("users", "users.id", "questions.user_id")
-        ->join("categories","categories.id","questions.category_id");
+            ->join("categories", "categories.id", "questions.category_id");
         if (isset($search) && !empty($search)) {
             $questionRecord = $questionRecord->where("tags", $search);
+        }
+        if (isset($searchByTitle) && !empty($searchByTitle)) {
+            $questionRecord = $questionRecord->where("title", $searchByTitle);
         }
         if (isset($sort) && !empty($sort)) {
             if ($sort == "Newest") {
@@ -90,29 +100,38 @@ class ManageQuestionAnswerController extends Controller
         $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted', "true")->count();
         $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
 
+        $selectRandomQuestions = Question::select("questions.id as questions_id","questions.title","questions.created_at","users.name","users.id")
+            ->join("users","questions.user_id","users.id")
+            ->orderBy(DB::raw('RAND()'))
+            ->paginate("3");
+
+        $this->pageData["related-questions"] = $selectRandomQuestions;
+
         return $this->showPage("front_end.landing_page");
 
     }
 
-    public function editQuestion($id){
+    public function editQuestion($id)
+    {
         $question = Question::select("*")->where("questions.id", $id)->first();
         $this->pageData["question-data"] = $question;
         $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
 
         $this->pageData["category-Record"] = $getCategoryList;
-       return $this->showPage("front_end.update_login_user_question");
+        return $this->showPage("front_end.update_login_user_question");
     }
 
 
-
-    public function updateQuestion(Request $request ,$id){
-       // dd($id);
-        $updateQuestion = Question::where("id",$id);
+    public function updateQuestion(UserRequest $request, $id)
+    {
+        // dd($id);
+        $updateQuestion = Question::where("id", $id);
         $updateQuestion = $updateQuestion->update([
             "title" => $request->title,
             "description" => $request->description,
             "user_id" => $id,
-            "category_id" => $request->sub_cat,
+            "parent_id" => $request->parent_cat,
+            "category_id" => $request->cat,
             "tags" => $request->tags,
         ]);
         if ($updateQuestion) {
@@ -123,7 +142,8 @@ class ManageQuestionAnswerController extends Controller
         return back();
     }
 
-    public function deleteQuestion($id){
+    public function deleteQuestion($id)
+    {
         //dd($id);
         $deleteRow = question::find($id);
         $deleteRow->delete();
@@ -155,16 +175,31 @@ class ManageQuestionAnswerController extends Controller
         ], 200);
     }
 
-    public function saveQuestion(Request $request)
+    public function saveQuestion(UserRequest $request)
     {
         $id = auth()->user()->id;
+        $parentId = $request->parent_cat;
+        $categoryId = $request->cat;
         $addQuestion = Question::insert([
             "title" => $request->title,
             "description" => $request->description,
             "user_id" => $id,
-            "category_id" => $request->sub_cat,
-            "tags" => $request->tags,
+            "category_id" => $categoryId,
+            "parent_id" => $parentId,
+            "tags" => Str::words($request->tags,"5"),
         ]);
+
+        $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
+        $updateQuestionRecord = Category::where("id", $parentId);
+        $updateQuestionRecord = $updateQuestionRecord->update([
+          "total_no_of_questions" => $totalQuestionAccordingParentCategory,
+        ]);
+        $totalQuestionAccordingSubCategory = Question::where("category_id", $categoryId)->count();
+        $updateQuestionRecord = Category::where("id", $categoryId);
+        $updateQuestionRecord = $updateQuestionRecord->update([
+            "total_no_of_questions_sc" => $totalQuestionAccordingSubCategory,
+        ]);
+
         if ($addQuestion) {
             $this->setFormMessage('add-question', "success", "Question has been saved ");
         } else {
@@ -173,7 +208,6 @@ class ManageQuestionAnswerController extends Controller
         return back();
     }
 
-
     public function updateViewCount(Request $request, $id)
     {
         $clientIP = request()->ip();
@@ -181,13 +215,14 @@ class ManageQuestionAnswerController extends Controller
             "ip" => $clientIP,
             "question_id" => $id,
         ]);
+
         $insertIp->save();
+        dd($insertIp);
         $ViewsCount = $insertIp->where("question_id", $id)->count();
         $updateView = Question::where("id", $id);
         $updateView = $updateView->update([
             "views" => $ViewsCount,
         ]);
-
 
 
         $answerRecord = Answer::select("answers.*", "users.name", "users.profile_pic")
@@ -208,9 +243,7 @@ class ManageQuestionAnswerController extends Controller
         $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic")
             ->join("users", "questions.user_id", "users.id")
             ->where("questions.id", $id)->first();
-        //  dd($questionRecord);
         $this->pageData["question-record"] = $questionRecord;
-
 
         $this->pageData["page_title"] = "Answers";
         return $this->showPage("front_end.answers");
@@ -218,22 +251,18 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveAnswer(Request $request)
     {
-//dd($request);
         $id = request()->question_id;
 
-        // dd($id);
         $insertAnswer = Answer::insert([
             "answer" => $request->answer,
             "question_id" => $request->question_id,
         ]);
 
         $totalNoOfAnswers = Answer::where("question_id", $id)->count();
-        // dd($totalNoOfAnswers);
-        $updateIntoQuestion = Question::where("id",$id);
+        $updateIntoQuestion = Question::where("id", $id);
         $updateIntoQuestion = $updateIntoQuestion->update([
             "total_no_of_ans" => $totalNoOfAnswers
         ]);
-//dd($updateIntoQuestion);
         if ($insertAnswer) {
             $this->setFormMessage("save-answer", "success", "Your answer have been saved");
         } else {

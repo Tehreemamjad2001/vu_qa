@@ -3,6 +3,7 @@
     @php
         $questionRecord  = $pageData["question-record"];
         $time = getTimeAgo($questionRecord->created_at);
+        $activeTime = getTimeAgo($questionRecord->updated_at);
         $id = request()->id;
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden pt-40px pb-40px">

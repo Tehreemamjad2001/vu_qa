@@ -16,7 +16,7 @@
             </a>
         </h5>
         <p class="mb-2 truncate lh-20 fs-15">{{$data->category_name}}</p>
-        <p class="mb-2 truncate lh-20 fs-15">{{$data->description}}</p>
+        <p class="mb-2 truncate lh-20 fs-15 readmore">{{$data->description}}</p>
         <div class="tags">
             @php
                 $tagsRecord = explode(",",$data->tags);
@@ -27,12 +27,14 @@
             @endforeach
         </div>
         <div class="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
-            <a href="{{Auth::check() ? route("home") :route("user-questions-list",["id"=>$data->id])}}" class="media-img d-block">
+            <a href="{{Auth::check() ? route("home") :route("user-questions-list",["id"=>$data->id])}}"
+               class="media-img d-block">
                 <img src="{{getProfileThumbnail($data->id,'small',$data->profile_pic)}}" alt="avatar">
             </a>
             <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
                 <div>
-                    <h5 class="pb-1"><a href="{{Auth::check() ? route("home") : route("user-questions-list",["id"=>$data->id])}}">{{$data->name}}</a>
+                    <h5 class="pb-1"><a
+                                href="{{Auth::check() ? route("home") : route("user-questions-list",["id"=>$data->id])}}">{{$data->name}}</a>
                     </h5>
                     <div class="stats fs-12 d-flex align-items-center lh-18">
                                                         <span class="text-black pr-2"
@@ -55,19 +57,21 @@
             </div>
         </div>
     </div>
-    <div class="text-center">
-        <div class="">
-            <a name="delete" class="del_ete  btn default"
-               href="{{route("question-delete-page",["id"=>$data->question_id])}}">
-                <b>Delete</b>
-            </a>
-        </div>
+    @if(Auth::check())
+        <div class="text-center">
+            <div class="">
+                <a name="delete" class="del_ete  btn default"
+                   href="{{route("question-delete-page",["id"=>$data->question_id])}}">
+                    <b>Delete</b>
+                </a>
+            </div>
 
-        <div class="view-block">
-            <a class="del_ete  btn default"
-               href="{{route("question-edit-page",["id"=>$data->question_id])}}">
-                <b>Update</b>
-            </a>
+            <div class="view-block">
+                <a class="btn default"
+                   href="{{route("question-edit-page",["id"=>$data->question_id])}}">
+                    <b>Update</b>
+                </a>
+            </div>
         </div>
-    </div>
+    @endif
 </div><!-- end media -->

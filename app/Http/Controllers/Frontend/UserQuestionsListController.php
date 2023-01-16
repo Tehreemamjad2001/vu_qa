@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
+use DB;
 use Illuminate\Http\Request;
 
 class UserQuestionsListController extends Controller
@@ -53,6 +54,12 @@ class UserQuestionsListController extends Controller
 
         $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted', "true")->count();
         $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
+        $selectRandomQuestions = Question::select("questions.id as questions_id","questions.title","questions.created_at","users.name","users.id")
+            ->join("users","questions.user_id","users.id")
+            ->orderBy(DB::raw('RAND()'))
+            ->paginate("3");
+
+        $this->pageData["related-questions"] = $selectRandomQuestions;
 
         return $this->showPage("front_end.my_question");
     }

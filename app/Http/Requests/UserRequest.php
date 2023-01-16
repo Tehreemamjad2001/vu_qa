@@ -33,9 +33,7 @@ class UserRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
-        //dd($routeName);
         $id = isset($this->id) ? $this->id : null;
-        //dd($id);
         switch ($routeName) {
 
             case "user-save" :
@@ -106,6 +104,21 @@ class UserRequest extends FormRequest
                     'confirmPassword' => 'required|same:password',
                 ];
                 break;
+            case "save-question" :
+                return [
+                   'title' =>'required',
+                    'tags' =>'',
+                   'description' =>'required',
+                   'parent_cat' =>'required',
+                ];
+                break;
+            case "question-update-page" :
+                return [
+                   'title' =>'required',
+                   'description' =>'required',
+                   'parent_cat' =>'required',
+                ];
+                break;
         }
 
     }
@@ -120,7 +133,9 @@ class UserRequest extends FormRequest
             "gender" => "Select any option!",
             "password.same" => "Confirm Password did not match",
             "password.required" => "Password is required",
-            //"profile_pic.mimes" => "Your image must be in jpeg , png or jpg ",
+            "title.required" => "Write your questions title",
+            "description.required" => "Write your questions description",
+            "parent_cat.required" => "select category ",
         ];
     }
 }

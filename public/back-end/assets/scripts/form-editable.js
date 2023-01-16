@@ -230,7 +230,6 @@ var FormEditable = function () {
         $('#fruits').on('shown', function(e, reason) {
             App.initUniform();
         });
-
         $('#tags').editable({
             inputclass: 'form-control input-medium',
             select2: {

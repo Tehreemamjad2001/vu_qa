@@ -39,10 +39,12 @@ $currentRouteName = Route::currentRouteName();
                             </li>
                         </ul><!-- end ul -->
                     </nav><!-- end main-menu -->
-                    <form method="post" action="{{route("home")}}" class="mr-2 MultiFile-intercepted">
+                    <form action="{{route("home")}}" class="mr-2 MultiFile-intercepted">
                         <div class="form-group mb-0">
-                            <input class="form-control form--control form--control-bg-gray" type="text" name="search" placeholder="Type your search words...">
-                            <button class="form-btn" type="submit"><i class="la la-search"></i></button>
+                            <input class="form-control form--control form--control-bg-gray" type="search" name="title"
+                                   {{--value="{{$title}}" --}}
+                                   placeholder="Type your search words...">
+                            <button class="form-btn" type="search"><i class="la la-search"></i></button>
                         </div>
                     </form>
                     @if(Auth::check())
@@ -72,7 +74,7 @@ $currentRouteName = Route::currentRouteName();
                                                href="{{route("home")}}"><i
                                                         class="la la-gear mr-2"></i>My questions</a>
                                             <a class="dropdown-item"
-                                               href="{{route("profile-setting",["id"=>auth()->user()->id])}}"><i
+                                               href="{{route("profile-setting")}}"><i
                                                         class="la la-gear mr-2"></i>Settings</a>
                                             <a class="dropdown-item" href="#" onclick="logout()"><i
                                                         class="la la-power-off mr-2"></i>Log out</a>
@@ -88,11 +90,13 @@ $currentRouteName = Route::currentRouteName();
                         </div>
                     @else
                         <div class="nav-right-button">
-                            <a href="{{route("login")}}" class="btn theme-btn {{$currentRouteName == "login" ? "theme-btn-outline" : ""}}"
-                               ><i class="la la-sign-in mr-1"></i>
+                            <a href="{{route("login")}}"
+                               class="btn theme-btn {{$currentRouteName == "login" ? "theme-btn-outline" : ""}}"
+                            ><i class="la la-sign-in mr-1"></i>
                                 Login</a>
-                            <a href="{{route("register")}}" class="btn theme-btn  {{$currentRouteName == "register" ? "theme-btn-outline" : ""}}"
-                               ><i class="la la-user mr-1"></i> Join</a>
+                            <a href="{{route("register")}}"
+                               class="btn theme-btn  {{$currentRouteName == "register" ? "theme-btn-outline" : ""}}"
+                            ><i class="la la-user mr-1"></i> Join</a>
                         </div>
 
                     @endif

@@ -2,10 +2,12 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question-Record"];
+        $selectRandomQuestions =  $pageData["related-questions"];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
         $tags = isset($_GET["tag"]) && !empty($_GET["tag"]) ? $_GET["tag"] : "";
+        $title = isset($_GET["title"]) && !empty($_GET["title"]) ? $_GET["title"] : "";
         $countTotalNumOfUsers = $pageData["no_of_user"];
         $countTotalNumOfQuestions =  $pageData["no_of_questions"];
         $countTotalNumOfAnswers = $pageData["no_of_answer"];
@@ -33,13 +35,14 @@
                 <div class="col-lg-9 px-0">
                     <div class="question-main-bar border-left border-left-gray pb-50px">
                         <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
-                            <form method="post" action="{{route("home")}}">
-                                <div class="form-group mb-0 mr-3">
-                                    <input class="form-control form--control h-auto py-2" type="text" name="search"
-                                           placeholder="Type your search words...">
-                                    <button class="form-btn" type="submit"><i class="la la-search"></i></button>
-                                </div>
-                                <button class="btn theme-btn" type="reset">Reset</button>
+                            <form action="">
+                                <div class="form-group mb-10 mr-3 ">
+                                    <label> <input class="form-control form--control h-auto py-2" type="search"
+                                                   name="title"
+                                                   value="{{$title}}" placeholder="Type your search words...">
+                                    </label>
+                                    <a href="{{route('home')}}"><input class="btn theme-btn " type="button"
+                                                                       value="Reset"></a></div>
                             </form>
                         </div>
                         <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
@@ -118,11 +121,6 @@
                                             <p class="fs-14">Users</p>
                                         </div><!-- end icon-box -->
                                     </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-12 pt-3">
-                                        <p class="fs-14">To get answer of question <a href="signup.html"
-                                                                                      class="text-color hover-underline">Join<i
-                                                        class="la la-arrow-right ml-1"></i></a></p>
-                                    </div>
                                 </div><!-- end row -->
                             </div>
                         </div><!-- end card -->
@@ -131,40 +129,21 @@
                                 <h3 class="fs-17 pb-3">Related Questions</h3>
                                 <div class="divider"><span></span></div>
                                 <div class="sidebar-questions pt-3">
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">Using web3 to call precompile
-                                                    contract</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">2 mins ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">Sudhir Kumbhare</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">Is it true while finding Time
-                                                    Complexity
-                                                    of the algorithm [closed]</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">48 mins ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">wimax</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">image picker and store them into
-                                                    firebase with flutter</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">1 hour ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">Antonin gavrel</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
+                                    @foreach($selectRandomQuestions as $value)
+                                        @php
+                                            $time = getTimeAgo($value->created_at);
+                                        @endphp
+                                        <div class="media media-card media--card media--card-2">
+                                            <div class="media-body">
+                                                <h5><a href="{{route("answers-page",["id"=>$value->questions_id])}}">{{$value->title}}</a></h5>
+                                                <small class="meta">
+                                                    <span class="pr-1">{{$time}}</span>
+                                                    <span class="pr-1">. by</span>
+                                                    <a href="{{route("user-questions-list",["id"=>$value->id])}}" class="author">{{$value->name}}</a>
+                                                </small>
+                                            </div>
+                                        </div><!-- end media -->
+                                    @endforeach
                                 </div><!-- end sidebar-questions -->
                             </div>
                         </div><!-- end card -->
@@ -195,7 +174,7 @@
             jQuery("#filter").submit();
         }
 
-        var maxLength = 180;
+        var maxLength = 100;
         jQuery(".readmore").each(function () {
             var str = jQuery(this).text();
 
