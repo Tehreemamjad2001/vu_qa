@@ -17,13 +17,13 @@ class UserQuestionsListController extends Controller
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-        $userName = User::select("name")->where("users.id",$id)->first();
+        $userName = User::select("name")->where("users.id", $id)->first();
         $this->pageData["user_name"] = $userName;
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
-            "views","total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
+            "views", "total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
             ->join("users", "users.id", "questions.user_id")
-            ->join("categories","categories.id","questions.category_id")
-            ->where("questions.user_id",$id);
+            ->join("categories", "categories.id", "questions.category_id")
+            ->where("questions.user_id", $id);
         if (isset($search) && !empty($search)) {
             $questionRecord = $questionRecord->where("tags", $search);
         }
@@ -54,13 +54,20 @@ class UserQuestionsListController extends Controller
 
         $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted', "true")->count();
         $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
-        $selectRandomQuestions = Question::select("questions.id as questions_id","questions.title","questions.created_at","users.name","users.id")
-            ->join("users","questions.user_id","users.id")
+        $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
+            ->join("users", "questions.user_id", "users.id")
             ->orderBy(DB::raw('RAND()'))
             ->paginate("3");
 
         $this->pageData["related-questions"] = $selectRandomQuestions;
 
         return $this->showPage("front_end.my_question");
+    }
+
+    public function deleteUser($id)
+    {
+        $user = User::find($id);
+        $user = $user->delete();
+        return $this->showPage("front_end.auth.login_1");
     }
 }

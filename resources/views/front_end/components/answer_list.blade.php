@@ -1,7 +1,4 @@
 <div>
-    {{--@php--}}
-    {{--$count = 1;--}}
-    {{--@endphp--}}
     @foreach($answerRecord as $item)
         <div class="answer-wrap d-flex">
             <div class="votes votes-styled w-auto">
@@ -101,73 +98,71 @@
                 </div><!-- end question-post-user-action -->
             </div><!-- end answer-body-wrap -->
         </div><!-- end answer-wrap -->
-        {{--@php--}}
-        {{--$count++;--}}
-        {{--@endphp--}}
+
 </div>
 @endforeach
 
 
 <script>
-    function voteUp(id) {
-        vote(id, "vote Up");
-    }
+    {{--function voteUp(id) {--}}
+        {{--vote(id, "vote Up");--}}
+    {{--}--}}
 
-    function voteDown(id) {
-        vote(id, "vote Down");
-    }
+    {{--function voteDown(id) {--}}
+        {{--vote(id, "vote Down");--}}
+    {{--}--}}
 
-    function vote(id, voteType) {
-        $.ajax({
-            type: 'POST',
-            url: '{{ url('/') . "/answer-votes"}}',
-            dataType: 'json',
-            data: {
-                "_token": "{{ csrf_token() }}",
-                user_id: "{{auth()->user()->id}}",
-                ans_id: id,
-                vote_type: voteType
-            },
-            success: function (response) {
-                $("#upvote_count_" + id).empty().text(response.up_vote);
-                $("#downvote_count_" + id).empty().text(response.down_vote);
+    {{--function vote(id, voteType) {--}}
+        {{--$.ajax({--}}
+            {{--type: 'POST',--}}
+            {{--url: '{{ url('/') . "/answer-votes"}}',--}}
+            {{--dataType: 'json',--}}
+            {{--data: {--}}
+                {{--"_token": "{{ csrf_token() }}",--}}
+                {{--user_id: "{{auth()->user()->id}}",--}}
+                {{--ans_id: id,--}}
+                {{--vote_type: voteType--}}
+            {{--},--}}
+            {{--success: function (response) {--}}
+                {{--$("#upvote_count_" + id).empty().text(response.up_vote);--}}
+                {{--$("#downvote_count_" + id).empty().text(response.down_vote);--}}
 
-                if ($("#upvote_count_" + id).empty().text(response.up_vote)) {
-                    $(".vote_" + id).prop('disabled', true);
-                }
-                else if ($("#downvote_count_" + id).empty().text(response.down_vote)) {
-                    $(".vote_" + id).prop('disabled', true);
-                }
+                {{--if ($("#upvote_count_" + id).empty().text(response.up_vote)) {--}}
+                    {{--$(".vote_" + id).prop('disabled', true);--}}
+                {{--}--}}
+                {{--else if ($("#downvote_count_" + id).empty().text(response.down_vote)) {--}}
+                    {{--$(".vote_" + id).prop('disabled', true);--}}
+                {{--}--}}
 
 
-            }
-        });
-    }
+            {{--}--}}
+        {{--});--}}
+    {{--}--}}
 
-    function isAccepted(id) {
-        accepted(id, "true");
-    }
+    // function isAccepted(id) {
+    //     accepted(id, "true");
+    // }
 
-    function accepted(id, successType) {
-        $.ajax({
-            type: 'POST',
-            url: '{{route("accepted-answer")}}',
-            dataType: 'json',
-            data: {
-                "_token": "{{ csrf_token() }}",
-                user_id: "{{auth()->user()->id}}",
-                ans_id: id,
-                success_type: successType
-            },
-            success: function (response) {
-                var attr = $("#accepted_" + id).attr("class");
-                console.log(attr);
-                if (response.success_type = "true") {
-                    $("#accepted_" + id).attr("class", "btn btn-success");
-                }
-            }
-        });
-    }
+    {{--function accepted(id, successType) {--}}
+        {{--$.ajax({--}}
+            {{--type: 'POST',--}}
+            {{--url: '{{route("accepted-answer")}}',--}}
+            {{--dataType: 'json',--}}
+            {{--data: {--}}
+                {{--"_token": "{{ csrf_token() }}",--}}
+                {{--user_id: "{{auth()->user()->id}}",--}}
+                {{--ans_id: id,--}}
+                {{--success_type: successType--}}
+            {{--},--}}
+            {{--success: function (response) {--}}
+                {{--var attr = $("#accepted_" + id).attr("class");--}}
+                {{--console.log(attr);--}}
+                {{--if (response.success_type = "true") {--}}
+                    {{--$("#accepted_" + id).attr("class", "btn btn-success");--}}
+                {{--}--}}
+            {{--}--}}
+        {{--});--}}
+    {{--}--}}
 
 
 </script>

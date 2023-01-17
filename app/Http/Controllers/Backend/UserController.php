@@ -179,4 +179,5 @@ class UserController extends Controller
         return redirect()->to(route("user-edit", ["id" => $id]) . "#update-profile-pic");
     }
 
+
 }

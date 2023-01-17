@@ -12,6 +12,7 @@
         $countTotalNumOfQuestions =  $pageData["no_of_questions"];
         $countTotalNumOfAnswers = $pageData["no_of_answer"];
         $countTotalNumOfAcceptedAnswers = $pageData["no_of_accepted_answer"];
+
     @endphp
     @include("front_end.components.question_content_hero_area")
     <!--======================================
@@ -135,7 +136,7 @@
                                         @endphp
                                         <div class="media media-card media--card media--card-2">
                                             <div class="media-body">
-                                                <h5><a href="{{route("answers-page",["id"=>$value->questions_id])}}">{{$value->title}}</a></h5>
+                                                <h5><a href="{{route("answers-page",["id"=>$value->questions_id])}}">{{Str::limit($value->title,30)}}</a></h5>
                                                 <small class="meta">
                                                     <span class="pr-1">{{$time}}</span>
                                                     <span class="pr-1">. by</span>
@@ -177,11 +178,10 @@
         var maxLength = 100;
         jQuery(".readmore").each(function () {
             var str = jQuery(this).text();
-
             if (jQuery.trim(str).length > maxLength) {
                 var nstr = str.substring(0, maxLength);
                 var rmstr = str.substring(maxLength, $.trim(str).length);
-                jQuery(this).empty().html(nstr);
+                // jQuery(this).empty().html(nstr);
                 jQuery(this).append('<a href = "javascript:void(0);" class="read_more"> read more... </a>');
                 jQuery(this).append('<span class = "moretext">' + rmstr + '</span> ');
             }
@@ -190,6 +190,7 @@
             jQuery(this).siblings(".moretext").contents().unwrap();
             jQuery(this).remove();
         });
+
 
     </script>
 @endsection

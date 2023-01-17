@@ -1,10 +1,9 @@
 @extends("front_end.layout.main")
 @section("content")
     @php
-      $categoryRecord =  $pageData["category_name"];
-
-      $search = isset($_GET["category"]) && !empty($_GET["category"]) ? $_GET["category"] : "";
-
+        $categoryRecord =  $pageData["category_name"];
+        $search = isset($_GET["category"]) && !empty($_GET["category"]) ? $_GET["category"] : "";
+        $catId = isset($_GET["id"]) && !empty($_GET["id"]) ? $_GET["id"] : "" ;
     @endphp
     <section class="question-area pt-90px pb-40px">
         <div class="container">
@@ -17,7 +16,7 @@
                     <form class="mr-3 w-25">
                         <div class="form-group">
                             <label>
-                                <input class="form-control form--control form-control-sm h-auto lh-34" type="text"
+                                <input class="form-control form--control form-control-sm h-auto lh-34" type="search"
                                        name="category" value="{{$search}}"
                                        placeholder="Filter by category">
                             </label>
@@ -36,7 +35,7 @@
                             </div>
                             <div class="media-body">
                                 <h5 class="fs-19 fw-medium mb-1 "><a
-                                            href="{{route("sub-category-list",["id"=>$record->id])}}">{{$record->category_name}}</a>
+                                            href="{{$catId ? route("home")."?slug=".$record->slug  :  route("sub-category-list")."?id=".$record->id }}">{{$record->category_name}}</a>
                                 </h5>
                                 <p class="fw-medium fs-15 text-black-50 lh-18">{{$record->total_no_of_questions}}</p>
                             </div><!-- end media-body -->

@@ -24,15 +24,23 @@ class ManageQuestionAnswerController extends Controller
             $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
             $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
             $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-            //dd($sort);
+            $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
+            $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
+
+
             $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
                 "views", "total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
                 ->join("users", "users.id", "questions.user_id")
                 ->join("categories", "categories.id", "questions.category_id")
                 ->where("questions.user_id", $id);
-
+            if (isset($searchByTitle) && !empty($searchByTitle)) {
+                $questionRecord = $questionRecord->where("title", $searchByTitle);
+            }
             if (isset($search) && !empty($search)) {
                 $questionRecord = $questionRecord->where("tags", $search);
+            }
+            if (isset($searchBySlug) && !empty($searchBySlug)) {
+                $questionRecord = $questionRecord->where("slug", $searchBySlug);
             }
             if (isset($sort) && !empty($sort)) {
                 if ($sort == "Newest") {
@@ -59,6 +67,7 @@ class ManageQuestionAnswerController extends Controller
         }
 
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
+        $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
 
@@ -69,6 +78,9 @@ class ManageQuestionAnswerController extends Controller
             ->join("categories", "categories.id", "questions.category_id");
         if (isset($search) && !empty($search)) {
             $questionRecord = $questionRecord->where("tags", $search);
+        }
+        if (isset($searchBySlug) && !empty($searchBySlug)) {
+            $questionRecord = $questionRecord->where("slug", $searchBySlug);
         }
         if (isset($searchByTitle) && !empty($searchByTitle)) {
             $questionRecord = $questionRecord->where("title", $searchByTitle);
@@ -106,7 +118,6 @@ class ManageQuestionAnswerController extends Controller
             ->paginate("3");
 
         $this->pageData["related-questions"] = $selectRandomQuestions;
-
         return $this->showPage("front_end.landing_page");
 
     }
@@ -217,7 +228,7 @@ class ManageQuestionAnswerController extends Controller
         ]);
 
         $insertIp->save();
-        dd($insertIp);
+      //  dd($insertIp);
         $ViewsCount = $insertIp->where("question_id", $id)->count();
         $updateView = Question::where("id", $id);
         $updateView = $updateView->update([

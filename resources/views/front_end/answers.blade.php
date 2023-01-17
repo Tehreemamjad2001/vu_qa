@@ -63,7 +63,7 @@
     <section class="question-area pt-40px pb-40px">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg-12">
                     <div class="question-main-bar mb-50px">
                         <div class="question-highlight">
                             <div class="media media-card shadow-none rounded-0 mb-0 bg-transparent p-0">
@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="pr-3">
                                             <span class="pr-1">Active</span>
-                                            <a href="#" class="text-black">19 days ago</a>
+                                            <a href="#" class="text-black">{{$activeTime}}</a>
                                         </div>
                                         <div class="pr-3">
                                             <span class="pr-1">Viewed</span>
@@ -232,7 +232,6 @@
                                 </div>
                             </div><!-- end subheader-actions -->
                         </div><!-- end subheader -->
-
                         <div class="" style="">
                             <div id="data-wrapper">
                                 <!-- Results -->
@@ -278,51 +277,6 @@
 
                     </div><!-- end question-main-bar -->
                 </div><!-- end col-lg-9 -->
-                <div class="col-lg-3">
-                    <div class="sidebar">
-                        <div class="card card-item">
-                            <div class="card-body">
-                                <h3 class="fs-17 pb-3">Related Questions</h3>
-                                <div class="divider"><span></span></div>
-                                <div class="sidebar-questions pt-3">
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">How to select the dom element with
-                                                    event.target</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">2 mins ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">Sudhir Kumbhare</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">How can you cut an onion without
-                                                    crying?</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">48 mins ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">wimax</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="question-details.html">How to change the behavior of dropdown
-                                                    buttons in HTML</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">1 hour ago</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="#" class="author">Antonin gavrel</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
-                                </div><!-- end sidebar-questions -->
-                            </div>
-                        </div><!-- end card -->
-                    </div><!-- end sidebar -->
-                </div><!-- end col-lg-3 -->
             </div><!-- end row -->
         </div><!-- end container -->
     </section><!-- end question-area -->
@@ -334,21 +288,17 @@
         });
         var ENDPOINT = "{{ url('/') }}";
         var page = 1;
-        //infinteLoadMore(page);
         $(window).scroll(function () {
-            //alert("sadsadasdasdasd");
             if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-                // alert("tehreem");
-                page++;
-                infinteLoadMore(page);
+                 page++;
+                infiniteLoadMore(page);
             }
-            // alert("tehreem");
         });
 
-        function infinteLoadMore(page) {
+        function infiniteLoadMore(page) {
             $.ajax({
                 url: ENDPOINT + "/answers/{{$id}}?page=" + page,
-                datatype: "html",
+                datatype: "text",
                 type: "get",
 
                 beforeSend: function () {

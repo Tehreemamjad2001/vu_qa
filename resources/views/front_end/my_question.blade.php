@@ -9,6 +9,8 @@
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
         $tags = isset($_GET["tag"]) && !empty($_GET["tag"]) ? $_GET["tag"] : "";
         $id = request()->id;
+     $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? $_GET['slug'] : "";
+ //   dd($slug);
 
     @endphp
     <section class="question-area pt-40px pb-40px">
@@ -22,21 +24,23 @@
                                 <div class="divider"><span></span></div>
                                 <div class="sidebar-questions pt-3">
                                     @foreach($RandomQuestions as $item)
-                                        {{--{{dd($item)}}--}}
                                         @php
                                             $time = getTimeAgo($item->created_at);
                                         @endphp
-                                    <div class="media media-card media--card media--card-2">
-                                        <div class="media-body">
-                                            <h5><a href="{{route("answers-page",["id"=>$item->questions_id])}}">{{$item->title}}</a></h5>
-                                            <small class="meta">
-                                                <span class="pr-1">{{$time}}</span>
-                                                <span class="pr-1">. by</span>
-                                                <a href="{{route("user-questions-list",["id"=>$item->id])}}" class="author">{{$item->name}}</a>
-                                            </small>
-                                        </div>
-                                    </div><!-- end media -->
-                                        @endforeach
+                                        <div class="media media-card media--card media--card-2">
+                                            <div class="media-body">
+                                                <h5>
+                                                    <a href="{{route("answers-page",["id"=>$item->questions_id])}}">{{Str::limit($item->title,30)}}</a>
+                                                </h5>
+                                                <small class="meta">
+                                                    <span class="pr-1">{{$time}}</span>
+                                                    <span class="pr-1">. by</span>
+                                                    <a href="{{route("user-questions-list",["id"=>$item->id])}}"
+                                                       class="author">{{$item->name}}</a>
+                                                </small>
+                                            </div>
+                                        </div><!-- end media -->
+                                    @endforeach
                                 </div><!-- end sidebar-questions -->
                             </div>
                         </div><!-- end card -->
@@ -46,6 +50,7 @@
                     <div class="question-main-bar">
                         <div class="filters pb-4">
                             <div class="d-flex flex-wrap align-items-center justify-content-between pb-3">
+
                                 <h3 class="fs-22 fw-medium">{{isset($id) && !empty($id) ?$pageData["user_name"]->name . " Questions" : "My Questions"}}</h3>
                                 <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm">Ask
                                     Question</a>
@@ -60,15 +65,17 @@
                             </form>
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
                                 <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}
-                                    </p>
+                                </p>
 
 
                                 <div class="filter-option-box w-20">
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                            <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
+                                            <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest
+                                            </option>
+                                            <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -154,21 +161,20 @@
             jQuery("#filter").submit();
         }
 
-        var maxLength = 180;
+        var maxLength = 100;
         jQuery(".readmore").each(function () {
             var str = jQuery(this).text();
-
             if (jQuery.trim(str).length > maxLength) {
                 var nstr = str.substring(0, maxLength);
                 var rmstr = str.substring(maxLength, $.trim(str).length);
-                jQuery(this).empty().html(nstr);
-                jQuery(this).append('<a href = "javascript:void(0);" class="readmore"> read more... </a>');
+                // jQuery(this).empty().html(nstr);
+                jQuery(this).append('<a href = "javascript:void(0);" class="read_more"> read more... </a>');
                 jQuery(this).append('<span class = "moretext">' + rmstr + '</span> ');
             }
         });
-        jQuery(".readmore").click(function () {
+        jQuery(".read_more").click(function () {
             jQuery(this).siblings(".moretext").contents().unwrap();
-            //  jQuery(this).remove();
+            jQuery(this).remove();
         });
 
     </script>

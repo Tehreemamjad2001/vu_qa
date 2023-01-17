@@ -332,11 +332,12 @@
                                                             wish to
                                                             proceed with the deletion of my profile.</label>
                                                     </div>
-                                                    <button type="button" class="btn btn-danger fw-medium"
-                                                            data-toggle="modal"
-                                                            data-target="#deleteModal" id="delete-button" disabled=""><i
-                                                                class="la la-trash mr-1"></i> Delete your account
-                                                    </button>
+                                                    <a href="{{route("delete",["id"=>$id])}}"><input type="submit"></a>
+                                                    {{--<a href="{{route("delete".["id"=>auth()->user()->$id])}}"><button type="submit" class="btn btn-danger fw-medium"--}}
+                                                               {{--data-toggle="modal"--}}
+                                                               {{--data-target="#deleteModal" id="delete-button" disabled=""><i--}}
+                                                                    {{--class="la la-trash mr-1"></i> Delete your account--}}
+                                                        {{--</button></a>--}}
                                                 </div>
                                             </div>
                                         </div><!-- end user-panel -->

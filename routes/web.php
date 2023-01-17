@@ -22,11 +22,9 @@ Route::get("about-us", [AboutUsController::class, "aboutUs"])->name("about-us");
 
 Auth::routes();
 Route::get("/", [ManageQuestionAnswerController::class, "questionAnswerList"])->name('home');
-
 Route::get("answers/{id}", [ManageQuestionAnswerController::class, "updateViewCount"])->name('answers-page');
 Route::get("categories", [CategoryListController::class, "categoryList"])->name('frontend-category-list');
-Route::get("sub-categories/{id}", [CategoryListController::class, "subcategoryList"])->name('sub-category-list');
-Route::get("category-questions/{id}", [CategoryListController::class, "catQuestionList"])->name('category-questions-list');
+Route::get("sub-categories", [CategoryListController::class, "subcategoryList"])->name('sub-category-list');
 
 Route::group([
     "middleware" => "auth"
@@ -46,7 +44,7 @@ Route::group([
     Route::post("update-profile-pic/{id}", [ProfileSettingController::class, "updateProfilePic"])->name('update-profile-pic');
     Route::post("profile-pass-setting/{id}", [ProfileSettingController::class, "updateProfilePass"])->name('profile-pass-setting');
     Route::get("delete-user-profile-pic/{id}", [ProfileSettingController::class, "deleteUserProfilePic"])->name('delete-user-profile-pic');
-
+    Route::get("delete/{id}", [UserQuestionsListController::class, "deleteUser"])->name("delete");
 });
 
 

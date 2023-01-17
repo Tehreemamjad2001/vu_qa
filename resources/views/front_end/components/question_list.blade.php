@@ -11,7 +11,8 @@
         </div>
     </div>
     <div class="media-body">
-        <h5 class="mb-2 fw-medium readmore"><a
+        <h5 class="mb-2 fw-medium readmore">
+            <a
                     href="{{route("answers-page",["id"=>$data->question_id])}}">{{$data->title}}
             </a>
         </h5>
