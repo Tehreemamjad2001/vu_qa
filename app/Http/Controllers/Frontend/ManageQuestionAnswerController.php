@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionViewCount;
 use App\Models\User;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
@@ -56,8 +57,8 @@ class ManageQuestionAnswerController extends Controller
             $this->pageData["question-Record"] = $questionRecord;
             $this->pageData["page_title"] = "My Question";
 
-            $selectRandomQuestions = Question::select("questions.id as questions_id","questions.title","questions.created_at","users.name","users.id")
-                ->join("users","questions.user_id","users.id")
+            $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
+                ->join("users", "questions.user_id", "users.id")
                 ->orderBy(DB::raw('RAND()'))
                 ->paginate("3");
 
@@ -112,8 +113,8 @@ class ManageQuestionAnswerController extends Controller
         $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted', "true")->count();
         $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
 
-        $selectRandomQuestions = Question::select("questions.id as questions_id","questions.title","questions.created_at","users.name","users.id")
-            ->join("users","questions.user_id","users.id")
+        $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
+            ->join("users", "questions.user_id", "users.id")
             ->orderBy(DB::raw('RAND()'))
             ->paginate("3");
 
@@ -197,13 +198,13 @@ class ManageQuestionAnswerController extends Controller
             "user_id" => $id,
             "category_id" => $categoryId,
             "parent_id" => $parentId,
-            "tags" => Str::words($request->tags,"5"),
+            "tags" => Str::words($request->tags, "5"),
         ]);
 
         $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
         $updateQuestionRecord = Category::where("id", $parentId);
         $updateQuestionRecord = $updateQuestionRecord->update([
-          "total_no_of_questions" => $totalQuestionAccordingParentCategory,
+            "total_no_of_questions" => $totalQuestionAccordingParentCategory,
         ]);
         $totalQuestionAccordingSubCategory = Question::where("category_id", $categoryId)->count();
         $updateQuestionRecord = Category::where("id", $categoryId);
@@ -228,7 +229,7 @@ class ManageQuestionAnswerController extends Controller
         ]);
 
         $insertIp->save();
-      //  dd($insertIp);
+        //  dd($insertIp);
         $ViewsCount = $insertIp->where("question_id", $id)->count();
         $updateView = Question::where("id", $id);
         $updateView = $updateView->update([
@@ -236,17 +237,34 @@ class ManageQuestionAnswerController extends Controller
         ]);
 
 
-        $answerRecord = Answer::select("answers.*", "users.name", "users.profile_pic")
+        $answerRecord = Answer::select("answers.*"
+//            , "users.name", "users.profile_pic"
+        )
             ->join("questions", "answers.question_id", "questions.id")
-            ->join("users", "answers.user_id", "users.id")
+//            ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
-            ->paginate(2);
-//dd($answerRecord);
+            ->paginate(4);
+
+
+        $totalRecord = $answerRecord->total();
+        $this->pageData['answer-total-record'] = $totalRecord;
+        $perPage = $answerRecord->perPage();
+        $this->pageData['answer-per-page'] = $perPage;
 
         $articles = '';
         if ($request->ajax()) {
             $articles = view("front_end.components.answer_list")->with("answerRecord", $answerRecord)->render();
-            return $articles;
+            $currentPage = $_GET['page'];
+            $page = $perPage * $currentPage;
+            if ($page < $totalRecord) {
+                $button = "true";
+            } else {
+                $button = "false";
+            }
+            return response()->json([
+                "view" => $articles,
+                "button" => $button,
+            ], 200);
         }
 
 

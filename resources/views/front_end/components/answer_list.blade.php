@@ -1,23 +1,48 @@
+@php
+    $answerRecord = isset($pageData['answer-record']) && !empty($pageData['answer-record']) ? $pageData['answer-record'] : $answerRecord;
+   $usrId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
+@endphp
 <div>
     @foreach($answerRecord as $item)
         <div class="answer-wrap d-flex">
-            <div class="votes votes-styled w-auto">
+            <div class="votes votes-styled w-auto  ">
                 <div id="vote2" class="upvotejs">
-                    <button onclick="voteUp({{$item->id}})" class="upvote   vote_{{$item->id}}"
-                            data-toggle="tooltip" data-placement="right"
-                            title="This question is useful"></button>
-                    <span class="counter" id="upvote_count_{{$item->id}}">{{$item->total_up_vote}}</span>
-                    <button onclick="voteDown({{$item->id}})" class="downvote   vote_{{$item->id}}" data-vote-type="0"
-                            id="post_vote_down_82"
-                            data-toggle="tooltip" data-placement="right"
-                            title="This question is not useful"></button>
+                    <table>
+                        <tr>
+                            <td><span class="counter"
+                                      id="upvote_count_{{$item->id}}">{{isset($item->total_up_vote) &&
+                               !empty($item->total_up_vote) ? $item->total_up_vote : "0"}}</span>
+                            </td>
+                            <td>
+                                <button onclick="voteUp({{$item->id}})" class="upvote   vote_{{$item->id}}"
+                                        data-toggle="tooltip" data-placement="right"
+                                        title="This question is useful"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <span class="counter"
+                                       id="downvote_count_{{$item->id}}">{{isset($item->total_down_vote) &&
+                                 !empty($item->total_down_vote) ? $item->total_down_vote : "0"}}</span>
+                            </td>
+                            <td>
+                                <button onclick="voteDown({{$item->id}})" class="downvote   vote_{{$item->id}}"
+                                        data-vote-type="0"
+                                        id="post_vote_down_82"
+                                        data-toggle="tooltip" data-placement="right"
+                                        title="This question is not useful"></button>
+                            </td>
+                        </tr>
+                    </table>
+
+
                     <br>
-                    <span class="counter" id="downvote_count_{{$item->id}}">{{$item->total_down_vote}}</span>
+
                     <span class="counter" id="vote_down_count_82"></span>
 
 
                     <button onclick="isAccepted({{$item->id}})" id="accepted_{{$item->id}}"
-                            class="star check star-on {{$item->is_accepted == "true" ? "btn btn-success" : "btn btn-light"}}" data-toggle="tooltip" data-placement="right"
+                            class="star check star-on {{$item->is_accepted == "true" ? "btn btn-success" : "btn btn-light"}}"
+                            data-toggle="tooltip" data-placement="right"
                             title="The question owner accepted this answer"> approved
                     </button>
                 </div>
@@ -102,68 +127,67 @@
 </div>
 @endforeach
 
-
 <script>
-    {{--function voteUp(id) {--}}
-        {{--vote(id, "vote Up");--}}
-    {{--}--}}
+    function voteUp(id) {
+        vote(id, "vote Up");
+    }
 
-    {{--function voteDown(id) {--}}
-        {{--vote(id, "vote Down");--}}
-    {{--}--}}
+    function voteDown(id) {
+        vote(id, "vote Down");
+    }
 
-    {{--function vote(id, voteType) {--}}
-        {{--$.ajax({--}}
-            {{--type: 'POST',--}}
-            {{--url: '{{ url('/') . "/answer-votes"}}',--}}
-            {{--dataType: 'json',--}}
-            {{--data: {--}}
-                {{--"_token": "{{ csrf_token() }}",--}}
-                {{--user_id: "{{auth()->user()->id}}",--}}
-                {{--ans_id: id,--}}
-                {{--vote_type: voteType--}}
-            {{--},--}}
-            {{--success: function (response) {--}}
-                {{--$("#upvote_count_" + id).empty().text(response.up_vote);--}}
-                {{--$("#downvote_count_" + id).empty().text(response.down_vote);--}}
+    function vote(id, voteType) {
+        $.ajax({
+            type: 'POST',
+            url: '{{ url('/') . "/answer-votes"}}',
+            dataType: 'json',
+            data: {
+                "_token": "{{ csrf_token() }}",
+                user_id: "{{isset($usrId) && !empty($usrId) ? $usrId : ""}}",
+                ans_id: id,
+                vote_type: voteType
+            },
+            success: function (response) {
+                $("#upvote_count_" + id).empty().text(response.up_vote);
+                $("#downvote_count_" + id).empty().text(response.down_vote);
 
-                {{--if ($("#upvote_count_" + id).empty().text(response.up_vote)) {--}}
-                    {{--$(".vote_" + id).prop('disabled', true);--}}
-                {{--}--}}
-                {{--else if ($("#downvote_count_" + id).empty().text(response.down_vote)) {--}}
-                    {{--$(".vote_" + id).prop('disabled', true);--}}
-                {{--}--}}
+                if ($("#upvote_count_" + id).empty().text(response.up_vote)) {
+                    $(".vote_" + id).prop('disabled', true);
+                }
+                else if ($("#downvote_count_" + id).empty().text(response.down_vote)) {
+                    $(".vote_" + id).prop('disabled', true);
+                }
 
 
-            {{--}--}}
-        {{--});--}}
-    {{--}--}}
+            }
+        });
+    }
 
-    // function isAccepted(id) {
-    //     accepted(id, "true");
-    // }
+    function isAccepted(id) {
+        accepted(id, "true");
+    }
 
-    {{--function accepted(id, successType) {--}}
-        {{--$.ajax({--}}
-            {{--type: 'POST',--}}
-            {{--url: '{{route("accepted-answer")}}',--}}
-            {{--dataType: 'json',--}}
-            {{--data: {--}}
-                {{--"_token": "{{ csrf_token() }}",--}}
-                {{--user_id: "{{auth()->user()->id}}",--}}
-                {{--ans_id: id,--}}
-                {{--success_type: successType--}}
-            {{--},--}}
-            {{--success: function (response) {--}}
-                {{--var attr = $("#accepted_" + id).attr("class");--}}
-                {{--console.log(attr);--}}
-                {{--if (response.success_type = "true") {--}}
-                    {{--$("#accepted_" + id).attr("class", "btn btn-success");--}}
-                {{--}--}}
-            {{--}--}}
-        {{--});--}}
-    {{--}--}}
-
+    function accepted(id, successType) {
+        $.ajax({
+            type: 'POST',
+            url: '{{route("accepted-answer")}}',
+            dataType: 'json',
+            data: {
+                "_token": "{{ csrf_token() }}",
+                user_id: "{{isset($usrId) && !empty($usrId) ? $usrId : ""}}",
+                ans_id: id,
+                success_type: successType
+            },
+            success: function (response) {
+                var attr = $("#accepted_" + id).attr("class");
+                console.log(attr);
+                if (response.success_type = "true") {
+                    $("#accepted_" + id).attr("class", "btn btn-success");
+                }
+            }
+        });
+    }
 
 </script>
+
 

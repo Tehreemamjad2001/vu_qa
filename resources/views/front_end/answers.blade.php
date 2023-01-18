@@ -1,10 +1,13 @@
 @extends("front_end/layout/main")
 @section("content")
     @php
+
         $questionRecord  = $pageData["question-record"];
         $time = getTimeAgo($questionRecord->created_at);
         $activeTime = getTimeAgo($questionRecord->updated_at);
         $id = request()->id;
+       $totalNumberOfAnswers =   $pageData['answer-total-record'];
+       $perPageAnswers = $pageData['answer-per-page'];
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden pt-40px pb-40px">
         <span class="stroke-shape stroke-shape-1"></span>
@@ -217,45 +220,20 @@
                                 </div><!-- end question-post-user-action -->
                             </div><!-- end question-post-body-wrap -->
                         </div><!-- end question -->
-                        <div class="subheader d-flex align-items-center justify-content-between">
-                            <div class="subheader-title">
-                                <h3 class="fs-16">1 Answer</h3>
-                            </div><!-- end subheader-title -->
-                            <div class="subheader-actions d-flex align-items-center lh-1">
-                                <label class="fs-13 fw-regular mr-1 mb-0">Order by</label>
-                                <div class="w-100px">
-                                    <select class="select-container">
-                                        <option value="active">active</option>
-                                        <option value="oldest">oldest</option>
-                                        <option value="votes" selected="selected">votes</option>
-                                    </select>
-                                </div>
-                            </div><!-- end subheader-actions -->
-                        </div><!-- end subheader -->
-                        <div class="" style="">
-                            <div id="data-wrapper">
-                                <!-- Results -->
-                            </div>
-                            <!-- Data Loader -->
-                            <div class="auto-load text-center">
-                                <svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg"
-                                     xmlns:xlink="http://www.w3.org/1999/xlink"
-                                     x="0px" y="0px" height="60" viewBox="0 0 100 100" enable-background="new 0 0 0 0"
-                                     xml:space="preserve">
-                <path fill="#000"
-                      d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-                    <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s"
-                                      from="0 50 50" to="360 50 50" repeatCount="indefinite"/>
-                </path>
-            </svg>
-                            </div>
-                        </div>
+
                         <div class="subheader">
                             <div class="subheader-title">
-                                <h3 class="fs-16">Your Answer</h3>
+                                <h3 class="fs-16">Answer</h3>
                             </div><!-- end subheader-title -->
                         </div><!-- end subheader -->
-
+                        <div class="">
+                            @include("front_end.components.answer_list")
+                        </div>
+                        <div class="container1">
+                        </div>
+                        @if($perPageAnswers < $totalNumberOfAnswers)
+                            <input type="submit" value="Load More" id="load-more" class="btn theme-btn">
+                        @endif
                         <div class="post-form" id="save-answer">
                             <form method="post" action="{{route("save-answer")}}" class="pt-3">
                                 @csrf
@@ -274,51 +252,43 @@
                                 <button class="btn theme-btn theme-btn-sm" type="submit">Post Your Answer</button>
                             </form>
                         </div>
-
                     </div><!-- end question-main-bar -->
                 </div><!-- end col-lg-9 -->
             </div><!-- end row -->
         </div><!-- end container -->
     </section><!-- end question-area -->
     <script>
+        var page = 1;
+        $("#load-more").on("click", function () {
+            page++;
+            load_more(page);
+        });
+
+        function load_more(page) {
+            $.ajax({
+                type: 'Get',
+                url: '{{route("answers-page",["id"=>$id]) ."?page="}}' + page,
+                dataType: 'json',
+                success: function (response) {
+                    console.log("hellosuccess");
+                    $(".container1").append(response.view);
+                    if (response.button = "false") {
+                        $("#load-more").hide();
+                    } else {
+                        $("#load-more").show();
+                    }
+
+                }
+            });
+
+        }
+
+
         $(document).ready(function () {
             $('#limit').change(function () {
                 $("#submit_limit_form").submit();
             });
         });
-        var ENDPOINT = "{{ url('/') }}";
-        var page = 1;
-        $(window).scroll(function () {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-                 page++;
-                infiniteLoadMore(page);
-            }
-        });
-
-        function infiniteLoadMore(page) {
-            $.ajax({
-                url: ENDPOINT + "/answers/{{$id}}?page=" + page,
-                datatype: "text",
-                type: "get",
-
-                beforeSend: function () {
-                    $('.auto-load').show();
-                }
-            })
-                .done(function (response) {
-                    if (response.length == 0) {
-                        $('.auto-load').html("We don't have more data to display :(");
-                        return;
-                    }
-                    $('.auto-load').hide();
-                    $("#data-wrapper").append(response);
-                })
-
-                .fail(function (jqXHR, ajaxOptions, thrownError) {
-                    console.log('Server error occured');
-                });
-        }
-
     </script>
 @endsection
 
