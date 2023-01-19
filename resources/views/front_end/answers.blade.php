@@ -3,8 +3,10 @@
     @php
 
         $questionRecord  = $pageData["question-record"];
+         $lastAnswer = $pageData['last-answer'] ;
+        // dd($lastAnswer);
         $time = getTimeAgo($questionRecord->created_at);
-        $activeTime = getTimeAgo($questionRecord->updated_at);
+        $activeTime = getTimeAgo($lastAnswer->updated_at);
         $id = request()->id;
        $totalNumberOfAnswers =   $pageData['answer-total-record'];
        $perPageAnswers = $pageData['answer-per-page'];

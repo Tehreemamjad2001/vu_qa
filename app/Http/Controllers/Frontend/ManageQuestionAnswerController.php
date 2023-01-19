@@ -222,6 +222,8 @@ class ManageQuestionAnswerController extends Controller
 
     public function updateViewCount(Request $request, $id)
     {
+        $lastAnswer = Answer::select("*")->where("question_id",$id)->orderBy('id','desc')->limit("1")->first();
+        $this->pageData['last-answer'] = $lastAnswer;
         $clientIP = request()->ip();
         $insertIp = QuestionViewCount::firstOrNew([
             "ip" => $clientIP,
@@ -238,11 +240,11 @@ class ManageQuestionAnswerController extends Controller
 
 
         $answerRecord = Answer::select("answers.*"
-//            , "users.name", "users.profile_pic"
+            , "users.name", "users.profile_pic"
         )
             ->join("questions", "answers.question_id", "questions.id")
-//            ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
+            ->join("users", "answers.user_id", "users.id")
             ->paginate(4);
 
 
@@ -280,6 +282,7 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveAnswer(Request $request)
     {
+        //dd($request);
         $id = request()->question_id;
 
         $insertAnswer = Answer::insert([

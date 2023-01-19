@@ -1,3 +1,15 @@
+<?php
+require_once 'Text/LanguageDetect.php';
+
+$text = 'Was wäre, wenn ich Ihnen das jetzt sagen würde?';
+
+$ld = new Text_LanguageDetect();
+$language = $ld->detectSimple($text);
+
+echo $language;
+?>
+
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
