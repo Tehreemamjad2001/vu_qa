@@ -25,6 +25,7 @@ class ManageQuestionAnswerController extends Controller
             $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
             $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
             $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
+
             $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
             $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
 
@@ -47,6 +48,7 @@ class ManageQuestionAnswerController extends Controller
                 if ($sort == "Newest") {
                     $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
                 } elseif ($sort == "Oldest") {
+
                     $questionRecord = $questionRecord->orderBy("questions.created_at", "asc");
                 }
             } else {

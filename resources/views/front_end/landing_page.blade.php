@@ -175,7 +175,7 @@
             jQuery("#filter").submit();
         }
 
-        var maxLength = 100;
+        var maxLength = 180;
         jQuery(".readmore").each(function () {
             var str = jQuery(this).text();
             if (jQuery.trim(str).length > maxLength) {
