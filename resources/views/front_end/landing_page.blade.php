@@ -2,6 +2,7 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question-Record"];
+        //dd($questionRecord);
         $selectRandomQuestions =  $pageData["related-questions"];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
@@ -55,8 +56,8 @@
                                 <div class="selectize-control select-container single">
                                     <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                             id="sort">
-                                        <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                        <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
+                                        <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
+                                        <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
                                     </select>
                                 </div>
                             </div>
@@ -175,7 +176,7 @@
             jQuery("#filter").submit();
         }
 
-        var maxLength = 180;
+        var maxLength = 100;
         jQuery(".readmore").each(function () {
             var str = jQuery(this).text();
             if (jQuery.trim(str).length > maxLength) {

@@ -34,10 +34,12 @@ class Controller extends BaseController
     {
         $dimension = profilePicDimension();
         foreach ($dimension as $key => $item) {
+
             $path = $sourcePath . $pathName;
             $img = Image::make($path)->resize($item["width"], $item["height"]);
             $thumbnailPath = $sourcePath . $key . "_" . $pathName;
             $img->save($thumbnailPath);
+
         }
     }
 

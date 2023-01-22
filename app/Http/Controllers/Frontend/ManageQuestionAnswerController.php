@@ -100,6 +100,7 @@ class ManageQuestionAnswerController extends Controller
         }
 
         $questionRecord = $questionRecord->paginate($limit);
+
         $this->pageData["question-Record"] = $questionRecord;
         $this->pageData["page_title"] = "Public Question";
 

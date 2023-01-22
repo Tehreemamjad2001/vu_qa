@@ -2,7 +2,6 @@
 @section("content")
     @php
         $questionRecord = $pageData["question-data"];
-       // dd($questionRecord);
         $categoryRecord = $pageData["category-Record"];
         $id = request()->id;
 
@@ -286,4 +285,3 @@
         });
     </script>
 @endsection
-{{--"{{'subcategory.id' == $questionRecord->category_id ? "selected" : ""}}"--}}

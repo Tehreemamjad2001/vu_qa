@@ -91,6 +91,7 @@ class UserRequest extends FormRequest
                 ];
                 break;
             case "update-profile-pic" :
+
                 return [
                     'name' => 'required|max:30',
                     'country' => 'required',

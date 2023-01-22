@@ -68,6 +68,6 @@ class UserQuestionsListController extends Controller
     {
         $user = User::find($id);
         $user = $user->delete();
-        return $this->showPage("front_end.auth.login_1");
+        return $this->showPage("auth.login_1");
     }
 }

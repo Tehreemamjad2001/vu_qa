@@ -2,6 +2,7 @@
 @section("content")
     @php
          $id =auth()->user()->id;
+       //  dd($id);
         $profilePic  = auth()->user()->profile_pic;
             @endphp
             <section class="hero-area bg-white shadow-sm overflow-hidden pt-60px">
@@ -28,7 +29,7 @@
                         </div><!-- end col-lg-8 -->
                         <div class="col-lg-4">
                             <div class="hero-btn-box text-right py-3">
-                                <a href="user-profile.html"
+                                <a href="{{route("profile-setting")}}"
                                    class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i
                                             class="la la-user mr-1"></i>View Profile</a>
                             </div>
@@ -192,6 +193,10 @@
                                                                              rows="10" cols="40"
                                                                              data-origin="textarea">
                                                                      </textarea>
+                                                                    @if ($errors->has('about me'))
+                                                                        <span class="text-danger"
+                                                                              role="alert">{{$errors->first('about me')}}</span>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>

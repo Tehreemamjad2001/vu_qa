@@ -21,8 +21,9 @@ class ProfileSettingController extends Controller
         return $this->showPage("front_end.profile_setting");
     }
 
-    public function updateProfilePic(UserRequest $request, $id)
+    public function updateProfilePic(Request $request, $id)
     {
+        //dd($request);
         $oldRow = User::find($id);
         $dataBaseProfilePicName = isset($oldRow->profile_pic) && !empty($oldRow->profile_pic) ? $oldRow->profile_pic : "";
         $row = User::find($id);
@@ -40,10 +41,12 @@ class ProfileSettingController extends Controller
             $row->save();
             $sourcePath = storage_path('app/images/profile_pic/' . $id . "/");
             if (isset($dataBaseProfilePicName) && !empty($dataBaseProfilePicName)) {
+
                 if ($dataBaseProfilePicName != $dataBaseUpdatedProfilePicName) {
                     deleteProfilePicFromFolder($sourcePath, $dataBaseProfilePicName);
                 }
             }
+
             $this->createThumbnail($sourcePath, $filename);
             $this->setFormMessage('update-user-profile-pic', "success", "Profile Pic has been updated");
         } else {

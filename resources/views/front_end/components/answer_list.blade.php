@@ -1,6 +1,6 @@
 @php
     $answerRecord = isset($pageData['answer-record']) && !empty($pageData['answer-record']) ? $pageData['answer-record'] : $answerRecord;
-   $usrId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
+    $usrId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
 @endphp
 <div>
     @foreach($answerRecord as $item)

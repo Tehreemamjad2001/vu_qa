@@ -3,10 +3,9 @@
     @php
 
         $questionRecord  = $pageData["question-record"];
-         $lastAnswer = $pageData['last-answer'] ;
-        // dd($lastAnswer);
+        $lastAnswer = $pageData['last-answer'] ;
         $time = getTimeAgo($questionRecord->created_at);
-        $activeTime = getTimeAgo($lastAnswer->updated_at);
+        $activeTime = getTimeAgo(isset($lastAnswer->updated_at) && !empty($lastAnswer->updated_at) ? $lastAnswer->updated_at : "no record found");
         $id = request()->id;
        $totalNumberOfAnswers =   $pageData['answer-total-record'];
        $perPageAnswers = $pageData['answer-per-page'];

@@ -37,7 +37,7 @@
                                 <h5 class="fs-19 fw-medium mb-1 "><a
                                             href="{{$catId ? route("home")."?slug=".$record->slug  :  route("sub-category-list")."?id=".$record->id }}">{{$record->category_name}}</a>
                                 </h5>
-                                <p class="fw-medium fs-15 text-black-50 lh-18">{{$record->total_no_of_questions}}</p>
+                                <p class="fw-medium fs-15 text-black-50 lh-18">{{ $catId ? $record->total_no_of_questions_sc : $record->total_no_of_questions}}</p>
                             </div><!-- end media-body -->
                         </div><!-- end media -->
                     </div><!-- end col-lg-3 -->
