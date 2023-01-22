@@ -1,5 +1,6 @@
 @php
-    //dd($pageData);
+    require_once 'Text/LanguageDetect.php';
+    $ld = new Text_LanguageDetect();
 @endphp
         <!DOCTYPE html>
 <html lang="en">
@@ -162,4 +163,5 @@
         UIBootbox.init();
     });
 </script>
+
 </html>

@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Str;
+use Text_LanguageDetect;
 
 class ManageQuestionAnswerController extends Controller
 {
@@ -192,12 +193,18 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveQuestion(UserRequest $request)
     {
+
+        $text = $request->description;
+
+        $ld = new Text_LanguageDetect();
+        $language = $ld->detect($text);
+dd($language);
         $id = auth()->user()->id;
         $parentId = $request->parent_cat;
         $categoryId = $request->cat;
         $addQuestion = Question::insert([
             "title" => $request->title,
-            "description" => $request->description,
+            "description" => $language,
             "user_id" => $id,
             "category_id" => $categoryId,
             "parent_id" => $parentId,

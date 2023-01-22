@@ -21,6 +21,9 @@ use App\Http\Middleware\auth_admin;
 Route::get("php", function (){
     return view("php_info");
 });
+Route::get("wlcm", function (){
+    return view("welcome");
+});
 
 Route::get("contact-us", [ContactUsController::class, "contactUs"])->name("contact-us");
 Route::get("about-us", [AboutUsController::class, "aboutUs"])->name("about-us");
