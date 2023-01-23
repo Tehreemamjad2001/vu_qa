@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\UserRequest;
+use App\Mail\TestMail;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -26,7 +27,7 @@ class ContactUsController extends Controller
             "message" => $request->message,
         ]);
 
-        
+        Mail::to($request->email)->send(new TestMail());
         if ($contactUser) {
             $this->setFormMessage("contact-us-record", "success", "Your message has been sent ");
         } else {

@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Contact;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -28,6 +29,7 @@ class TestMail extends Mailable
      */
     public function build()
     {
-        return $this->view('view.name');
+        $row = Contact::select("*")->orderBy("id","desc")->first();
+        return $this->view('front_end.test_mail')->with("row",$row);
     }
 }
