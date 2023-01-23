@@ -3,7 +3,7 @@
     $ld = new Text_LanguageDetect();
 @endphp
         <!DOCTYPE html>
-<html lang="en">
+<html lang="en ,ur">
 
 <!-- Mirrored from techydevs.com/demos/themes/html/disilab-demo/disilab/category-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 14 Dec 2022 05:46:37 GMT -->
 <head>

@@ -1,14 +1,13 @@
 @extends("front_end/layout/main")
 @section("content")
     @php
-
         $questionRecord  = $pageData["question-record"];
-        $lastAnswer = $pageData['last-answer'] ;
         $time = getTimeAgo($questionRecord->created_at);
+        $lastAnswer = $pageData['last-answer'] ;
         $activeTime = getTimeAgo(isset($lastAnswer->updated_at) && !empty($lastAnswer->updated_at) ? $lastAnswer->updated_at : "no record found");
         $id = request()->id;
-       $totalNumberOfAnswers =   $pageData['answer-total-record'];
-       $perPageAnswers = $pageData['answer-per-page'];
+        $totalNumberOfAnswers =   $pageData['answer-total-record'];
+        $perPageAnswers = $pageData['answer-per-page'];
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden pt-40px pb-40px">
         <span class="stroke-shape stroke-shape-1"></span>

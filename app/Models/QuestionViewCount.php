@@ -15,7 +15,5 @@ class QuestionViewCount extends Model
     protected $fillable = [
         'ip',
         'question_id',
-
-
     ];
 }

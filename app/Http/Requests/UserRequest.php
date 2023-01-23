@@ -33,6 +33,7 @@ class UserRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
+//        dd($routeName);
         $id = isset($this->id) ? $this->id : null;
         switch ($routeName) {
 
@@ -107,17 +108,25 @@ class UserRequest extends FormRequest
                 break;
             case "save-question" :
                 return [
-                   'title' =>'required',
-                    'tags' =>'',
-                   'description' =>'required',
-                   'parent_cat' =>'required',
+                    'title' => 'required',
+                    'tags' => '',
+                    'description' => 'required',
+                    'parent_cat' => 'required',
                 ];
                 break;
             case "question-update-page" :
                 return [
-                   'title' =>'required',
-                   'description' =>'required',
-                   'parent_cat' =>'required',
+                    'title' => 'required',
+                    'description' => 'required',
+                    'parent_cat' => 'required',
+                ];
+                break;
+            case "contact" :
+                return [
+                    'name' => 'required',
+                    'email' => 'required',
+                    'phone' => 'required',
+                    'message' => 'required',
                 ];
                 break;
         }

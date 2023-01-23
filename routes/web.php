@@ -25,7 +25,8 @@ Route::get("wlcm", function (){
     return view("welcome");
 });
 
-Route::get("contact-us", [ContactUsController::class, "contactUs"])->name("contact-us");
+Route::get("contact-us", [ContactUsController::class, "contactUsView"])->name("contact-us");
+Route::post("contact", [ContactUsController::class, "contactUs"])->name("contact");
 Route::get("about-us", [AboutUsController::class, "aboutUs"])->name("about-us");
 
 Auth::routes();

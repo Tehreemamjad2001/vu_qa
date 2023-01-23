@@ -85,12 +85,13 @@ function dateFormat($date)
 
  function getTimeAgo($carbonObject) {
     //dd($carbonObject);
-    return str_ireplace(
-        [' seconds', ' second', ' minutes', ' minute', ' hours', ' hour', ' days', ' day', ' weeks', ' week'],
-        ['s', 's', 'm', 'm', 'h', 'h', 'd', 'd', 'w', 'w'],
-        $carbonObject->diffForHumans()
+     $date = str_ireplace(
+         [' seconds', ' second', ' minutes', ' minute', ' hours', ' hour', ' days', ' day', ' weeks', ' week'],
+         ['s', 's', 'm', 'm', 'h', 'h', 'd', 'd', 'w', 'w'],
+         $carbonObject->diffForHumans()
 
-    );
+     );
+     return $date;
 }
 
 
