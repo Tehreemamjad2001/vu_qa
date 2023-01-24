@@ -83,18 +83,44 @@ function dateFormat($date)
     }
 }
 
- function getTimeAgo($carbonObject) {
+function getTimeAgo($carbonObject)
+{
     //dd($carbonObject);
-     $date = str_ireplace(
-         [' seconds', ' second', ' minutes', ' minute', ' hours', ' hour', ' days', ' day', ' weeks', ' week'],
-         ['s', 's', 'm', 'm', 'h', 'h', 'd', 'd', 'w', 'w'],
-         $carbonObject->diffForHumans()
+    $date = str_ireplace(
+        [' seconds', ' second', ' minutes', ' minute', ' hours', ' hour', ' days', ' day', ' weeks', ' week'],
+        ['s', 's', 'm', 'm', 'h', 'h', 'd', 'd', 'w', 'w'],
+        $carbonObject->diffForHumans()
 
-     );
-     return $date;
+    );
+    return $date;
 }
 
+function langLimit($text)
+{
+    $detector = new \LanguageDetector\LanguageDetector(null, ['en', 'ur']);
 
+    $description = explode(" ", $text);
+    $urduWordCount = 1;
+    $engWordCount = 1;
+
+    foreach ($description as $item) {
+        $language = $detector->evaluate($item)->getLanguage();
+
+        if ($language == "ur") {
+            $urduWordCount++;
+        }
+        if ($language == "en") {
+            $engWordCount++;
+        }
+    }
+    $totalWords = $urduWordCount + $engWordCount;
+    if ($engWordCount <= ($totalWords * (20 / 100))) {
+        return $text;
+    } else {
+        return false;
+    }
+
+}
 
 
 

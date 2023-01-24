@@ -4,6 +4,7 @@
 @endphp
 <div>
     @foreach($answerRecord as $item)
+
         <div class="answer-wrap d-flex">
             <div class="votes votes-styled w-auto  ">
                 <div id="vote2" class="upvotejs">

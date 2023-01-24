@@ -123,6 +123,9 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('title')}}</span>
                                     @endif
+                                    @if(Session::has('alert-lang-limit'))
+                                        {!!Session::get('alert-lang-limit')!!}
+                                    @endif
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
@@ -209,6 +212,9 @@
                                     @if ($errors->has('description'))
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('description')}}</span>
+                                    @endif
+                                    @if(Session::has('alert-lang-limit'))
+                                        {!!Session::get('alert-lang-limit')!!}
                                     @endif
                                     <div class="d-flex align-items-center pt-2">
                                         <div class="mr-3">

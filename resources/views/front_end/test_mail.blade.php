@@ -3,4 +3,3 @@ From:{{$row->email}}
 Name:{{$row->name}}
 <br>
 Body:{{$row->message}}
-

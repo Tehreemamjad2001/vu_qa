@@ -247,6 +247,13 @@
                                                 class="form-control form--control form-control-sm fs-13 user-text-editor"
                                                 name="answer" rows="6" placeholder="Your answer here..."></textarea>
                                     </div>
+                                    @if ($errors->has('answer'))
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('answer')}}</span>
+                                    @endif
+                                    {{--@if(Session::has('alert-lang-limit'))--}}
+                                        {{--{!!Session::get('alert-lang-limit')!!}--}}
+                                    {{--@endif--}}
                                 </div>
                                 <input type="hidden" name="question_id" value="{{$id}}">
                                 <button class="btn theme-btn theme-btn-sm" type="submit">Post Your Answer</button>

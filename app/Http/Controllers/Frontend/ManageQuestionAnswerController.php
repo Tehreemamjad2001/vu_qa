@@ -142,9 +142,17 @@ class ManageQuestionAnswerController extends Controller
     {
         // dd($id);
         $updateQuestion = Question::where("id", $id);
+        $title = langLimit($request->title);
+        $description = langLimit($request->description);
+        if ($title == "false" || $description == "false") {
+            $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
+            return back();
+        }
+
+
         $updateQuestion = $updateQuestion->update([
-            "title" => $request->title,
-            "description" => $request->description,
+            "title" => $title,
+            "description" => $description,
             "user_id" => $id,
             "parent_id" => $request->parent_cat,
             "category_id" => $request->cat,
@@ -194,23 +202,27 @@ class ManageQuestionAnswerController extends Controller
     public function saveQuestion(UserRequest $request)
     {
 
-        $text = $request->description;
+        $title = langLimit($request->title);
+        $description = langLimit($request->description);
 
-        $ld = new Text_LanguageDetect();
-        $language = $ld->detect($text);
-dd($language);
+        if ($title == "false" ) {
+            dd("false");
+            $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
+            return back();
+        }
+
         $id = auth()->user()->id;
         $parentId = $request->parent_cat;
         $categoryId = $request->cat;
         $addQuestion = Question::insert([
-            "title" => $request->title,
-            "description" => $language,
+            "title" => $title,
+            "description" => $description,
             "user_id" => $id,
             "category_id" => $categoryId,
             "parent_id" => $parentId,
             "tags" => Str::words($request->tags, "5"),
         ]);
-
+//dd($addQuestion);
         $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
         $updateQuestionRecord = Category::where("id", $parentId);
         $updateQuestionRecord = $updateQuestionRecord->update([
@@ -232,7 +244,7 @@ dd($language);
 
     public function updateViewCount(Request $request, $id)
     {
-        $lastAnswer = Answer::select("*")->where("question_id",$id)->orderBy('id','desc')->limit("1")->first();
+        $lastAnswer = Answer::select("*")->where("question_id", $id)->orderBy('id', 'desc')->limit("1")->first();
         $this->pageData['last-answer'] = $lastAnswer;
         $clientIP = request()->ip();
         $insertIp = QuestionViewCount::firstOrNew([
@@ -294,9 +306,13 @@ dd($language);
     {
         //dd($request);
         $id = request()->question_id;
-
+        $answer = langLimit($request->answer);
+        if ($answer == "false") {
+            $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
+            return back();
+        }
         $insertAnswer = Answer::insert([
-            "answer" => $request->answer,
+            "answer" => $answer,
             "question_id" => $request->question_id,
         ]);
 
