@@ -25,13 +25,14 @@ class CategoryController extends Controller
 
     public function save(CategoryRequest $request)
     {
-        //dd($request);
-        $insertCategory = Category::insert([
+       // dd($request);
+        $insertCategory = Category::create([
             "category_name" => trim($request->category_name),
             "parent_id" => $request->parent_id,
             "description" => Str::limit($request->description, 40),
             "icon" => $request->icon,
             "status" => $request->status,
+            "slug" => Str::slug($request->category_name),
         ]);
         if ($insertCategory) {
             $this->setFormMessage('add-category', "success", "Record has been saved ");
@@ -86,7 +87,7 @@ class CategoryController extends Controller
         return $this->showPage("back_end.category.update_category");
     }
 
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $request, $id)
     {
         $updateCategory = Category::where("id", $id)->update([
             "category_name" => $request->category_name,
@@ -94,6 +95,7 @@ class CategoryController extends Controller
             "description" => $request->description,
             "icon" => $request->icon,
             "status" => $request->status,
+            "slug" => Str::slug($request->category_name),
         ]);
         if ($updateCategory) {
             $this->setFormMessage('update-category', "success", "Record has been saved ");

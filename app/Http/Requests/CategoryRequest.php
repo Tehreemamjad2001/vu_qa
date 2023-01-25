@@ -16,6 +16,7 @@ class CategoryRequest extends FormRequest
     {
         return true;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -24,6 +25,9 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         $getFormRoute = Route::currentRouteName();
+//      dd($getFormRoute);
+        $id = isset($this->id) ? $this->id : null;
+       // dd($id);
         switch ($getFormRoute) {
             case "category-save" :
                 return [
@@ -32,19 +36,24 @@ class CategoryRequest extends FormRequest
                 ];
                 break;
             case "category-update" :
-                return [
-                    "category" => "required",
 
+                return [
+                   "category_name" => "required|string|unique:categories,category_name," .$id. ",id,deleted_at,NULL",
+                    "parent_id" => "required",
+                    "slug" => "required|string|unique:categories,slug," .$id. ",id,deleted_at,NULL",
                 ];
+
                 break;
         }
 
     }
+
     public function messages()
     {
         return [
             "category_name.required" => "Enter category name",
             "category_name.unique" => "Title already exist!",
+            "slug.unique" => "Slug already exist!",
             "parent_id.required" => "Enter category name",
         ];
     }

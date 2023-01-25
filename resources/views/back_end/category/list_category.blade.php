@@ -84,7 +84,7 @@
                                             </i></a>
                                     </th>
                                     <th class="sorting_disabled" style="">
-                                        <a href="{{getSortPageURL('description')}}"> Description <i
+                                        <a href="{{getSortPageURL('description')}}"> Slug <i
                                                     class="{{($sort == "description") && ($sortDir == "asc")   ? "fa fa-caret-up" :"" }}
                                                     {{($sort == "description") &&  ($sortDir == "desc") ? "fa fa-caret-down": ""}}
                                                     {{($sortDir) && $sort != "description" ? "fa fa-unsorted": ""}}
@@ -110,7 +110,7 @@
                                             {{isset($list->parent_name) ? $list->parent_name : "Parent"}}
                                         </td>
                                         <td class="center " style="vertical-align: middle">
-                                            {{ucfirst($list->description)}}
+                                            {{$list->slug}}
                                         </td>
                                         <td class=" text-center" style="vertical-align: middle">
 

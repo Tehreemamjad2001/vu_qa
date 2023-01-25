@@ -14,7 +14,6 @@ class User extends Authenticatable
 //    use Thumbnail;
     use SoftDeletes;
     use HasApiTokens, HasFactory, Notifiable;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -26,6 +25,15 @@ class User extends Authenticatable
         'email',
         'password',
         'ip',
+        'gender',
+        'user_role',
+        'profile_pic',
+        'profile_pic_thumbnail',
+        'comment',
+        'country',
+        'remember_token',
+
+
 
     ];
 

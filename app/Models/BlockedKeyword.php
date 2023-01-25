@@ -12,4 +12,7 @@ class BlockedKeyword extends Model
     public $table = "blocked_keywords";
     use softDeletes;
     use HasFactory;
+    protected $fillable = [
+        'keyword',
+    ];
 }

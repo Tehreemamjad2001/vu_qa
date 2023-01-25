@@ -10,4 +10,14 @@ class Category extends Model
 {
     use SoftDeletes;
     use HasFactory;
+    protected $fillable = [
+       'category_name',
+       'parent_id',
+       'description',
+       'icon',
+       'status',
+       'slug',
+       'total_no_of_questions_sc',
+       'total_no_of_questions',
+ ];
 }

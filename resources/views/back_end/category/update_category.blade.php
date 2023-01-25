@@ -29,9 +29,22 @@
                                value="{{isset($recordForCategoryEditPage->id) && !empty($recordForCategoryEditPage->id )
                            ? $recordForCategoryEditPage->category_name : old("category_name")}}"
                                class="form-control"
-                               placeholder="Example: abc">
+                               placeholder="Example: Category name">
                         @if($errors->has("category_name"))
                             <span class="text-danger" role="alert">{{ $errors->first('category_name') }}</span>
+                        @endif
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Slug*</label>
+                    <div class="col-md-4">
+                        <input type="text" name="slug"
+                               value="{{isset($recordForCategoryEditPage->id) && !empty($recordForCategoryEditPage->id )
+                           ? $recordForCategoryEditPage->category_name : old("slug")}}"
+                               class="form-control"
+                               placeholder="Example: Category-name">
+                        @if($errors->has("slug"))
+                            <span class="text-danger" role="alert">{{ $errors->first('slug') }}</span>
                         @endif
                     </div>
                 </div>
@@ -41,7 +54,7 @@
                         <select name="parent_id" class="form-control">
                             <option value="0"> --Parent--</option>
                             @foreach($listCategoryInSelectOption as $item)
-                                <option value="{{$item->id}}" {{($item->parent_id = $item->id) ? "selected" : ""}}>{{$item->category_name}}</option>
+                                <option value="{{$item->id}}" {{( $item->id == $recordForCategoryEditPage->parent_id) ? "selected" : ""}}>{{$item->category_name}}</option>
                             @endforeach
                         </select>
                         @if($errors->has("parent_id"))

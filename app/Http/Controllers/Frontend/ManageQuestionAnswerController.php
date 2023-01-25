@@ -15,10 +15,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Str;
-use Text_LanguageDetect;
+use App\Traits\Search;
 
 class ManageQuestionAnswerController extends Controller
 {
+    use Search;
+
     public function questionAnswerList(Request $request)
     {
         if (Auth::check()) {
@@ -85,9 +87,11 @@ class ManageQuestionAnswerController extends Controller
         }
         if (isset($searchBySlug) && !empty($searchBySlug)) {
             $questionRecord = $questionRecord->where("slug", $searchBySlug);
+
         }
         if (isset($searchByTitle) && !empty($searchByTitle)) {
-            $questionRecord = $questionRecord->where("title", $searchByTitle);
+//            $title = $this->scopeSearch($questionRecord, $searchByTitle);
+//            $questionRecord = $questionRecord->where("title", $searchByTitle);
         }
         if (isset($sort) && !empty($sort)) {
             if ($sort == "Newest") {
@@ -129,11 +133,14 @@ class ManageQuestionAnswerController extends Controller
 
     public function editQuestion($id)
     {
+        //dd($id);
         $question = Question::select("*")->where("questions.id", $id)->first();
         $this->pageData["question-data"] = $question;
         $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
 
         $this->pageData["category-Record"] = $getCategoryList;
+//        $subCat = $getCategoryList->where("categories.id",$id)->get();
+//        $this->pageData["sub-category-Record"] = $subCat;
         return $this->showPage("front_end.update_login_user_question");
     }
 
@@ -205,7 +212,7 @@ class ManageQuestionAnswerController extends Controller
         $title = langLimit($request->title);
         $description = langLimit($request->description);
 
-        if ($title == "false" ) {
+        if ($title == "false") {
             dd("false");
             $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
             return back();
@@ -214,7 +221,7 @@ class ManageQuestionAnswerController extends Controller
         $id = auth()->user()->id;
         $parentId = $request->parent_cat;
         $categoryId = $request->cat;
-        $addQuestion = Question::insert([
+        $addQuestion = Question::create([
             "title" => $title,
             "description" => $description,
             "user_id" => $id,
@@ -311,7 +318,7 @@ class ManageQuestionAnswerController extends Controller
             $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
             return back();
         }
-        $insertAnswer = Answer::insert([
+        $insertAnswer = Answer::create([
             "answer" => $answer,
             "question_id" => $request->question_id,
         ]);
@@ -335,7 +342,7 @@ class ManageQuestionAnswerController extends Controller
         $user_id = $_POST["user_id"];
         $voteType = $_POST["vote_type"];
 
-        $addVote = AnswerVotes::insert([
+        $addVote = AnswerVotes::create([
             "user_id" => $user_id,
             "answer_id" => $ans_id,
             "vote_type" => $voteType,

@@ -11,9 +11,15 @@ class Question extends Model
 
     use softDeletes;
     use HasFactory;
+    public $timestamps = true;
     protected $fillable = [
-
         '0',
+        "title",
+        "description",
+        "user_id",
+        "category_id",
+        "parent_id" ,
+        "tags" ,
 
     ];
 }

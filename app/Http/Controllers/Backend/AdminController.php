@@ -25,7 +25,7 @@ class AdminController extends Controller
 
     public function save(UserRequest $request)
     {
-        $saveAdminRecord = User::insert([
+        $saveAdminRecord = User::create([
             "name" => trim($request->name),
             "email" => trim($request->email),
             "gender" => $request->gender,

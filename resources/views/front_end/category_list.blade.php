@@ -4,6 +4,7 @@
         $categoryRecord =  $pageData["category_name"];
         $search = isset($_GET["category"]) && !empty($_GET["category"]) ? $_GET["category"] : "";
         $catId = isset($_GET["id"]) && !empty($_GET["id"]) ? $_GET["id"] : "" ;
+
     @endphp
     <section class="question-area pt-90px pb-40px">
         <div class="container">
@@ -21,7 +22,7 @@
                                        placeholder="Filter by category">
                             </label>
                             <a href="{{route("frontend-category-list")}}"><input class="btn theme-btn " type="button"
-                                                                                 value="reset"></a>
+                            value="reset"></a>
                         </div>
                     </form>
                 </div>

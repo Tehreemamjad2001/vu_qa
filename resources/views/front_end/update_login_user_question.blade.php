@@ -3,6 +3,7 @@
     @php
         $questionRecord = $pageData["question-data"];
         $categoryRecord = $pageData["category-Record"];
+       // dd($questionRecord);
         $id = request()->id;
 
     @endphp
@@ -207,7 +208,7 @@
 
                                             data-placeholder="Select a Category">
                                         <option selected value="">Select Sub Category</option>
-                                        <option value=""></option>
+                                        <option value="{{$questionRecord->category_id}}"></option>
                                     </select>
                                 </div>
                             </div><!-- end input-box -->
@@ -262,6 +263,7 @@
 
     <script>
         $(document).ready(function () {
+
             $('#parent_cat').on('change', function () {
                 var cat_id = $(this).val();
                 $('#sub_cat').empty();
@@ -274,14 +276,13 @@
                             '<select class="form-control form--control select-container select--container" name="cat" ' +
                             'id="cat" data-placeholder="Select a Category">' +
                             '</select>'
-
-
                         );
                         $.each(data.sub_cat, function (index, subcategory) {
                             $('#cat').append('<option value="' + subcategory.id + '" >' + subcategory.category_name + '</option>');
                         });
                     });
             });
+
         });
     </script>
 @endsection

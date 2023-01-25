@@ -11,4 +11,11 @@ class AnswerVotes extends Model
     public $table = "answer_votes";
     use SoftDeletes;
     use HasFactory;
+    protected $fillable = [
+
+        "user_id" ,
+        "answer_id" ,
+        "vote_type" ,
+
+    ];
 }

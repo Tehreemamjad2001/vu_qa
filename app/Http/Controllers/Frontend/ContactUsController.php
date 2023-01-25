@@ -20,7 +20,7 @@ class ContactUsController extends Controller
 
     public function contactUs(UserRequest $request)
     {
-        $contactUser = Contact::insert([
+        $contactUser = Contact::create([
             "name" => $request->name,
             "email" => $request->email,
             "phone" => $request->phone,

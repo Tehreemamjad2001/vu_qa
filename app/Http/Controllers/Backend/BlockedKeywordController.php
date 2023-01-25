@@ -20,7 +20,7 @@ class BlockedKeywordController extends Controller
 
     public function save(BlockedKeywordRequest $request)
     {
-        $saveKeyword = BlockedKeyword::insert([
+        $saveKeyword = BlockedKeyword::create([
             "keyword" => $request->keyword
         ]);
         if($saveKeyword){
