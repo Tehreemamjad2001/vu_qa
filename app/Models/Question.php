@@ -11,15 +11,23 @@ class Question extends Model
 
     use softDeletes;
     use HasFactory;
-    public $timestamps = false;
     protected $fillable = [
         '0',
         "title",
         "description",
         "user_id",
         "category_id",
-        "parent_id" ,
-        "tags" ,
+        "parent_id",
+        "tags",
 
     ];
+
+    public function questionViewCount($id)
+    {
+        $ViewsCount = $insertIp->where("question_id", $id)->count();
+        $updateView = Question::where("id", $id);
+        $updateView = $updateView->update([
+            "views" => $ViewsCount,
+        ]);
+    }
 }

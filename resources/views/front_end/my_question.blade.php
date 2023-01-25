@@ -1,16 +1,15 @@
 @extends("front_end/layout/main")
 @section("content")
     @php
-        $questionRecord =  $pageData["question-Record"];
-        //dd($questionRecord);
-        $RandomQuestions =$pageData['related-questions'] ;
+        $questionRecord =  $pageData["question_Record"];
+        $RandomQuestions =$pageData['related_questions'] ;
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
         $tags = isset($_GET["tag"]) && !empty($_GET["tag"]) ? $_GET["tag"] : "";
         $id = request()->id;
-     $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? $_GET['slug'] : "";
- //   dd($slug);
+        $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? $_GET['slug'] : "";
+
 
     @endphp
     <section class="question-area pt-40px pb-40px">
@@ -72,8 +71,10 @@
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                            <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
+                                            <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest
+                                            </option>
+                                            <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

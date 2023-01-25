@@ -20,58 +20,8 @@ use App\Traits\Search;
 class ManageQuestionAnswerController extends Controller
 {
     use Search;
-
     public function questionAnswerList(Request $request)
     {
-        if (Auth::check()) {
-            $id = auth()->user()->id;
-            $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
-            $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
-            $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
-
-            $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
-            $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
-
-
-            $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
-                "views", "total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
-                ->join("users", "users.id", "questions.user_id")
-                ->join("categories", "categories.id", "questions.category_id")
-                ->where("questions.user_id", $id);
-            if (isset($searchByTitle) && !empty($searchByTitle)) {
-                $questionRecord = $questionRecord->where("title", $searchByTitle);
-            }
-            if (isset($search) && !empty($search)) {
-                $questionRecord = $questionRecord->where("tags", $search);
-            }
-            if (isset($searchBySlug) && !empty($searchBySlug)) {
-                $questionRecord = $questionRecord->where("slug", $searchBySlug);
-            }
-            if (isset($sort) && !empty($sort)) {
-                if ($sort == "Newest") {
-                    $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
-                } elseif ($sort == "Oldest") {
-
-                    $questionRecord = $questionRecord->orderBy("questions.created_at", "asc");
-                }
-            } else {
-                $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
-            }
-            $questionRecord = $questionRecord->paginate($limit);
-
-            $this->pageData["question-Record"] = $questionRecord;
-            $this->pageData["page_title"] = "My Question";
-
-            $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
-                ->join("users", "questions.user_id", "users.id")
-                ->orderBy(DB::raw('RAND()'))
-                ->paginate("3");
-
-            $this->pageData["related-questions"] = $selectRandomQuestions;
-
-            return $this->showPage("front_end.my_question");
-        }
-
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
@@ -131,6 +81,54 @@ class ManageQuestionAnswerController extends Controller
 
     }
 
+    public function myQuestionList()
+    {
+        $id = auth()->user()->id;
+        $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
+        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
+        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
+
+        $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
+        $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
+
+
+        $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
+            "views", "total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
+            ->join("users", "users.id", "questions.user_id")
+            ->join("categories", "categories.id", "questions.category_id")
+            ->where("questions.user_id", $id);
+        if (isset($searchByTitle) && !empty($searchByTitle)) {
+            $questionRecord = $questionRecord->where("title", $searchByTitle);
+        }
+        if (isset($search) && !empty($search)) {
+            $questionRecord = $questionRecord->where("tags", $search);
+        }
+        if (isset($searchBySlug) && !empty($searchBySlug)) {
+            $questionRecord = $questionRecord->where("slug", $searchBySlug);
+        }
+        if (isset($sort) && !empty($sort)) {
+            if ($sort == "Newest") {
+                $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
+            } elseif ($sort == "Oldest") {
+
+                $questionRecord = $questionRecord->orderBy("questions.created_at", "asc");
+            }
+        } else {
+            $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
+        }
+        $questionRecord = $questionRecord->paginate($limit);
+        $this->pageData["question_Record"] = $questionRecord;
+        $this->pageData["page_title"] = "My Question";
+        $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
+            ->join("users", "questions.user_id", "users.id")
+            ->orderBy(DB::raw('RAND()'))
+            ->paginate("3");
+
+        $this->pageData["related_questions"] = $selectRandomQuestions;
+        return $this->showPage("front_end.my_question");
+
+    }
+
     public function editQuestion($id)
     {
         //dd($id);
@@ -147,7 +145,7 @@ class ManageQuestionAnswerController extends Controller
 
     public function updateQuestion(UserRequest $request, $id)
     {
-       //dd($request);
+        //dd($request);
         $updateQuestion = Question::where("id", $id);
         $title = langLimit($request->title);
         $description = langLimit($request->description);
@@ -247,24 +245,19 @@ class ManageQuestionAnswerController extends Controller
         return back();
     }
 
-    public function updateViewCount(Request $request, $id)
+    public function questionDetail(Request $request, $id)
     {
-        $lastAnswer = Answer::select("*")->where("question_id", $id)->orderBy('id', 'desc')->limit("1")->first();
-        $this->pageData['last-answer'] = $lastAnswer;
         $clientIP = request()->ip();
         $insertIp = QuestionViewCount::firstOrNew([
             "ip" => $clientIP,
             "question_id" => $id,
         ]);
-
         $insertIp->save();
-        //  dd($insertIp);
-        $ViewsCount = $insertIp->where("question_id", $id)->count();
-        $updateView = Question::where("id", $id);
-        $updateView = $updateView->update([
-            "views" => $ViewsCount,
-        ]);
+        dd($insertIp);
 
+//        if ($insertIp) {
+//            questionViewCount($id);
+//        }
 
         $answerRecord = Answer::select("answers.*"
             , "users.name", "users.profile_pic"
@@ -276,9 +269,9 @@ class ManageQuestionAnswerController extends Controller
 
 
         $totalRecord = $answerRecord->total();
-        $this->pageData['answer-total-record'] = $totalRecord;
+        $this->pageData['answer_total_record'] = $totalRecord;
         $perPage = $answerRecord->perPage();
-        $this->pageData['answer-per-page'] = $perPage;
+        $this->pageData['answer_per_page'] = $perPage;
 
         $articles = '';
         if ($request->ajax()) {
@@ -297,11 +290,11 @@ class ManageQuestionAnswerController extends Controller
         }
 
 
-        $this->pageData["answer-record"] = $answerRecord;
+        $this->pageData["answer_record"] = $answerRecord;
         $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic")
             ->join("users", "questions.user_id", "users.id")
             ->where("questions.id", $id)->first();
-        $this->pageData["question-record"] = $questionRecord;
+        $this->pageData["question_record"] = $questionRecord;
 
         $this->pageData["page_title"] = "Answers";
         return $this->showPage("front_end.answers");

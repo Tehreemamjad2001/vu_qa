@@ -39,7 +39,7 @@ class UserQuestionsListController extends Controller
         }
 
         $questionRecord = $questionRecord->paginate($limit);
-        $this->pageData["question-Record"] = $questionRecord;
+        $this->pageData["question_Record"] = $questionRecord;
 
         $this->pageData["page_title"] = "User Questions";
 
@@ -59,7 +59,7 @@ class UserQuestionsListController extends Controller
             ->orderBy(DB::raw('RAND()'))
             ->paginate("3");
 
-        $this->pageData["related-questions"] = $selectRandomQuestions;
+        $this->pageData["related_questions"] = $selectRandomQuestions;
 
         return $this->showPage("front_end.my_question");
     }

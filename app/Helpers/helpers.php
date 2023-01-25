@@ -85,7 +85,11 @@ function dateFormat($date)
 
 function getTimeAgo($date)
 {
-    $getDate =  \Carbon\Carbon::parse($date)->diffForHumans() ;
+
+//    echo $date;
+//    echo " >>> ";
+
+    $getDate = \Carbon\Carbon::parse($date)->diffForHumans();
     return $getDate;
 }
 
@@ -115,6 +119,7 @@ function langLimit($text)
     }
 
 }
+
 
 
 

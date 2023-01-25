@@ -1,4 +1,7 @@
-<div class="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
+@php
+    $routeName = Route::currentRouteName();
+@endphp
+    <div class="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
     <div class="votes text-center votes-2">
         <div class="answer-block answered my-2">
                                             <span class="answer-counts d-block lh-20 fw-medium">{{isset($data->total_no_of_ans)
@@ -28,14 +31,14 @@
             @endforeach
         </div>
         <div class="media media-card user-media align-items-center px-0 border-bottom-0 pb-0">
-            <a href="{{Auth::check() ? route("home") :route("user-questions-list",["id"=>$data->id])}}"
+            <a href="{{route("user-questions-list",["id"=>$data->id])}}"
                class="media-img d-block">
                 <img src="{{getProfileThumbnail($data->id,'small',$data->profile_pic)}}" alt="avatar">
             </a>
             <div class="media-body d-flex flex-wrap align-items-center justify-content-between">
                 <div>
                     <h5 class="pb-1"><a
-                                href="{{Auth::check() ? route("home") : route("user-questions-list",["id"=>$data->id])}}">{{$data->name}}</a>
+                                href="{{ route("user-questions-list",["id"=>$data->id])}}">{{$data->name}}</a>
                     </h5>
                     <div class="stats fs-12 d-flex align-items-center lh-18">
                                                         <span class="text-black pr-2"
@@ -58,17 +61,17 @@
             </div>
         </div>
     </div>
-    @if(Auth::check())
+    @if($routeName == "my-question")
         <div class="text-center">
             <div class="">
-                <a name="delete" class="del_ete  btn default"
+                <a name="delete" class="del_ete  btn theme-btn theme-btn-sm"
                    href="{{route("question-delete-page",["id"=>$data->question_id])}}">
                     <b>Delete</b>
                 </a>
             </div>
-
+<br>
             <div class="view-block">
-                <a class="btn default"
+                <a class="btn theme-btn theme-btn-sm"
                    href="{{route("question-edit-page",["id"=>$data->question_id])}}">
                     <b>Update</b>
                 </a>

@@ -31,13 +31,15 @@ Route::get("about-us", [AboutUsController::class, "aboutUs"])->name("about-us");
 
 Auth::routes();
 Route::get("/", [ManageQuestionAnswerController::class, "questionAnswerList"])->name('home');
-Route::get("answers/{id}", [ManageQuestionAnswerController::class, "updateViewCount"])->name('answers-page');
+
+Route::get("answers/{id}", [ManageQuestionAnswerController::class, "questionDetail"])->name('answers-page');
 Route::get("categories", [CategoryListController::class, "categoryList"])->name('frontend-category-list');
 Route::get("sub-categories", [CategoryListController::class, "subcategoryList"])->name('sub-category-list');
 
 Route::group([
     "middleware" => "auth"
 ], function () {
+    Route::get("my-question", [ManageQuestionAnswerController::class, "myQuestionList"])->name('my-question');
     Route::get("user-questions/{id}", [UserQuestionsListController::class, "userQuestionsList"])->name('user-questions-list');
     Route::post("save-answer", [ManageQuestionAnswerController::class, "saveAnswer"])->name('save-answer');
     Route::Post("answer-votes", [ManageQuestionAnswerController::class, "answerVotes"]);

@@ -1,5 +1,5 @@
 @php
-    $answerRecord = isset($pageData['answer-record']) && !empty($pageData['answer-record']) ? $pageData['answer-record'] : $answerRecord;
+    $answerRecord = isset($pageData['answer_record']) && !empty($pageData['answer_record']) ? $pageData['answer_record'] : $answerRecord;
     $usrId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
 @endphp
 <div>
