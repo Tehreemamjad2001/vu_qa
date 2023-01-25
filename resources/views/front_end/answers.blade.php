@@ -2,10 +2,10 @@
 @section("content")
     @php
         $questionRecord  = $pageData["question-record"];
-        $time = getTimeAgo($questionRecord->created_at);
-        $lastAnswer = $pageData['last-answer'] ;
-        $activeTime = getTimeAgo(isset($lastAnswer->updated_at) && !empty($lastAnswer->updated_at) ? $lastAnswer->updated_at : "no record found");
-        $id = request()->id;
+
+       $time = getTimeAgo($questionRecord->created_at);
+       $activeTime = getTimeAgo($questionRecord->updated_at);
+         $id = request()->id;
         $totalNumberOfAnswers =   $pageData['answer-total-record'];
         $perPageAnswers = $pageData['answer-per-page'];
     @endphp

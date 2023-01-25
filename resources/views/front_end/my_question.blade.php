@@ -166,7 +166,7 @@
                 var nstr = str.substring(0, maxLength);
                 var rmstr = str.substring(maxLength, $.trim(str).length);
                 // jQuery(this).empty().html(nstr);
-                jQuery(this).append('<a href = "javascript:void(0);" class="read_more"> read more... </a>');
+                jQuery(this).append('<a href = "javascript:void(0);" class="read_more" > read more... </a>');
                 jQuery(this).append('<span class = "moretext">' + rmstr + '</span> ');
             }
         });

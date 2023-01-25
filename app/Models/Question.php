@@ -11,7 +11,7 @@ class Question extends Model
 
     use softDeletes;
     use HasFactory;
-    public $timestamps = true;
+    public $timestamps = false;
     protected $fillable = [
         '0',
         "title",

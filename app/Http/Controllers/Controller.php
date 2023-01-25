@@ -33,6 +33,7 @@ class Controller extends BaseController
     public function createThumbnail($sourcePath, $pathName)
     {
         $dimension = profilePicDimension();
+
         foreach ($dimension as $key => $item) {
 
             $path = $sourcePath . $pathName;

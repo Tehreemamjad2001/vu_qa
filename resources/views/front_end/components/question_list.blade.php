@@ -11,13 +11,13 @@
         </div>
     </div>
     <div class="media-body">
-        <h5 class="mb-2 fw-medium readmore">
+        <h5 class="mb-2 fw-medium readmore"  style="direction: rtl" >
             <a
                     href="{{route("answers-page",["id"=>$data->question_id])}}">{{$data->title}}
             </a>
         </h5>
         <p class="mb-2 truncate lh-20 fs-15">{{$data->category_name}}</p>
-        <p class="mb-2 truncate lh-20 fs-15 readmore">{{$data->description}}</p>
+        <p class="mb-2 truncate lh-20 fs-15 readmore" style="direction: rtl">{{$data->description}}</p>
         <div class="tags">
             @php
                 $tagsRecord = explode(",",$data->tags);

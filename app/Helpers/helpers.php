@@ -83,16 +83,10 @@ function dateFormat($date)
     }
 }
 
-function getTimeAgo($carbonObject)
+function getTimeAgo($date)
 {
-    //dd($carbonObject);
-    $date = str_ireplace(
-        [' seconds', ' second', ' minutes', ' minute', ' hours', ' hour', ' days', ' day', ' weeks', ' week'],
-        ['s', 's', 'm', 'm', 'h', 'h', 'd', 'd', 'w', 'w'],
-        $carbonObject->diffForHumans()
-
-    );
-    return $date;
+    $getDate =  \Carbon\Carbon::parse($date)->diffForHumans() ;
+    return $getDate;
 }
 
 function langLimit($text)

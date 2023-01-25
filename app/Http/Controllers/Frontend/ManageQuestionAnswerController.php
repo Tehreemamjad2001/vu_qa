@@ -147,7 +147,7 @@ class ManageQuestionAnswerController extends Controller
 
     public function updateQuestion(UserRequest $request, $id)
     {
-        // dd($id);
+       //dd($request);
         $updateQuestion = Question::where("id", $id);
         $title = langLimit($request->title);
         $description = langLimit($request->description);
@@ -156,11 +156,9 @@ class ManageQuestionAnswerController extends Controller
             return back();
         }
 
-
         $updateQuestion = $updateQuestion->update([
             "title" => $title,
             "description" => $description,
-            "user_id" => $id,
             "parent_id" => $request->parent_cat,
             "category_id" => $request->cat,
             "tags" => $request->tags,
