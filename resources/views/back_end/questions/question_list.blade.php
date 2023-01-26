@@ -105,22 +105,11 @@
                                         <input class="btn dark" type="submit" value="Search">
                                         <a href="{{route('question-list')}}"><input class="btn red" type="button"
                                                                                     value="Reset"></a>
-                                        <a href="{{route('question-list')}}"> <input id="advance" class="btn red" type="button"
+                                        <a href="{{route('question-list')}}"> <input id="advance" class="btn red"
+                                                                                     type="button"
                                                                                      value="Advance"></a>
                                     </div>
                                 </form>
-                                <script>
-                                    jQuery(document).ready(function () {
-                                        jQuery('#advance').on('click', function (e) {
-                                            e.preventDefault();
-                                            var advanceSearch = $("#advance_search").val();
-                                            advanceSearch = 1 - advanceSearch;
-                                            $("#advance_search").val(advanceSearch);
-                                            $("#toggle").toggleClass('hide show');s
-                                        });
-                                    });
-
-                                </script>
                             </div>
                         </div>
 
@@ -293,6 +282,15 @@
                 jQuery('.option').change(function () {
                     this.form.submit();
                 });
+            });
+
+            jQuery('#advance').on('click', function (e) {
+                e.preventDefault();
+                var advanceSearch = $("#advance_search").val();
+                advanceSearch = 1 - advanceSearch;
+                $("#advance_search").val(advanceSearch);
+                $("#toggle").toggleClass('hide show');
+
             });
         });
     </script>

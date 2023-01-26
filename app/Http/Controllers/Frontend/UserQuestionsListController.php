@@ -16,7 +16,7 @@ class UserQuestionsListController extends Controller
     {
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
-        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
+        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
         $userName = User::select("name")->where("users.id", $id)->first();
         $this->pageData["user_name"] = $userName;
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",

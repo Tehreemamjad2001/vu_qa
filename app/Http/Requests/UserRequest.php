@@ -33,6 +33,7 @@ class UserRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
+        //dd($routeName);
         $id = isset($this->id) ? $this->id : null;
 
         switch ($routeName) {

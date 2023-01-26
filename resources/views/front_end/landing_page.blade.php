@@ -6,7 +6,7 @@
         $selectRandomQuestions =  $pageData["related-questions"];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
-        $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
+        $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "desc";
         $tags = isset($_GET["tag"]) && !empty($_GET["tag"]) ? $_GET["tag"] : "";
         $title = isset($_GET["title"]) && !empty($_GET["title"]) ? $_GET["title"] : "";
         $countTotalNumOfUsers = $pageData["no_of_user"];
@@ -23,7 +23,7 @@
     <!-- ================================
              START QUESTION AREA
     ================================= -->
-    <section class="question-area pt-80px pb-30px">
+    <section class="question-area pt-85px pb-30px">
         <div class="container">
             <div class="row">
                 <form id="filter">
@@ -66,7 +66,8 @@
                         <div class="questions-snippet border-top border-top-gray">
                             @foreach($questionRecord as $data)
                                 @php
-                                    $time = getTimeAgo($data->created_at);
+                                    $time = dateFormat($data->created_at);
+                                    $timeInAgo = getUserTimeZone($data->created_at);
                                 @endphp
                                 @include("front_end.components.question_list")
                             @endforeach
@@ -133,7 +134,7 @@
                                 <div class="sidebar-questions pt-3">
                                     @foreach($selectRandomQuestions as $value)
                                         @php
-                                            $time = getTimeAgo($value->created_at);
+                                            $time = getUserTimeZone($value->created_at);
                                         @endphp
                                         <div class="media media-card media--card media--card-2">
                                             <div class="media-body">

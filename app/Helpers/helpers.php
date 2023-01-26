@@ -75,23 +75,31 @@ function deleteProfilePicFromFolder($path, $name)
 
 }
 
-function dateFormat($date)
+function dateFormat($date, $timeZone = 'Asia/Karachi')
 {
     if (isset($date) && !empty($date)) {
-        $currentTime = Carbon::parse($date)->format('d-M-Y  g:i:s A');
-        return $currentTime;
+        $utc = $date;
+        $dt = new DateTime($utc);
+        $original = $dt->format('r');
+        $tz = new DateTimeZone($timeZone);
+        $dt->setTimezone($tz);
+        $getDateTime = $dt->format('d-M-Y  g:i:s A');
+        return $getDateTime;
     }
 }
 
-function getTimeAgo($date)
+function getUserTimeZone($date, $timeZone = 'Asia/Karachi')
 {
-
-//    echo $date;
-//    echo " >>> ";
-
-    $getDate = \Carbon\Carbon::parse($date)->diffForHumans();
+    $utc = $date;
+    $dt = new DateTime($utc);
+    $original = $dt->format('r');
+    $tz = new DateTimeZone($timeZone);
+    $dt->setTimezone($tz);
+    $getDateTime = $dt->format('r');
+    $getDate = \Carbon\Carbon::parse($getDateTime)->diffForHumans();
     return $getDate;
 }
+
 
 function langLimit($text)
 {

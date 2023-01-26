@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\QuestionRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Answer;
 use App\Models\AnswerVotes;
@@ -20,6 +21,7 @@ use App\Traits\Search;
 class ManageQuestionAnswerController extends Controller
 {
     use Search;
+
     public function questionAnswerList(Request $request)
     {
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
@@ -27,7 +29,7 @@ class ManageQuestionAnswerController extends Controller
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
 
-        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "desc";
+        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "categories.category_name", "views", "total_no_of_ans",
             "questions.created_at", "users.name", "users.id", "users.profile_pic")
             ->join("users", "users.id", "questions.user_id")
@@ -86,7 +88,7 @@ class ManageQuestionAnswerController extends Controller
         $id = auth()->user()->id;
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
-        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "";
+        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
 
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
@@ -131,21 +133,22 @@ class ManageQuestionAnswerController extends Controller
 
     public function editQuestion($id)
     {
-        //dd($id);
         $question = Question::select("*")->where("questions.id", $id)->first();
-        $this->pageData["question-data"] = $question;
-        $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
+        $this->pageData["question_data"] = $question;
 
-        $this->pageData["category-Record"] = $getCategoryList;
-//        $subCat = $getCategoryList->where("categories.id",$id)->get();
-//        $this->pageData["sub-category-Record"] = $subCat;
+        $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
+        $this->pageData["category_Record"] = $getCategoryList;
+
+        $parentCategoryId = $question->parent_id;
+        $subCategoryList = Category::select("categories.*")->where("parent_id", $parentCategoryId)->get();
+        $this->pageData["sub_category_Record"] = $subCategoryList;
+        $this->pageData["page_title"] = "update question";
         return $this->showPage("front_end.update_login_user_question");
     }
 
 
     public function updateQuestion(UserRequest $request, $id)
     {
-        //dd($request);
         $updateQuestion = Question::where("id", $id);
         $title = langLimit($request->title);
         $description = langLimit($request->description);
@@ -171,10 +174,20 @@ class ManageQuestionAnswerController extends Controller
 
     public function deleteQuestion($id)
     {
-        //dd($id);
-        $deleteRow = question::find($id);
+        $deleteRow = Question::find($id);
+        $categoryId = isset($deleteRow->category_id) && !empty($deleteRow->category_id) ? $deleteRow->category_id : "";
+        $parentId = isset($deleteRow->parent_id) && !empty($deleteRow->parent_id) ? $deleteRow->parent_id : "";
         $deleteRow->delete();
+
         if ($deleteRow) {
+
+            $getSubCatTotalQuestionCount = Question::select("*")->where("category_id", $categoryId)->count();
+            $parentCatQuestionCount = Question::select("*")->where("parent_id", $parentId)->count();
+            $updateInCategory = Category::where("id", $categoryId)->orwhere("id", $parentId);
+            $update = $updateInCategory->update([
+                "total_no_of_questions_sc" => $getSubCatTotalQuestionCount,
+                "total_no_of_questions" => $parentCatQuestionCount,
+            ]);
             $this->setFormMessage("delete-question-record", "success", "Record has been deleted ");
         } else {
             $this->setFormMessage("delete-question-record", "danger", "Record does not exit");
@@ -204,7 +217,6 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveQuestion(UserRequest $request)
     {
-
         $title = langLimit($request->title);
         $description = langLimit($request->description);
 
@@ -225,19 +237,19 @@ class ManageQuestionAnswerController extends Controller
             "parent_id" => $parentId,
             "tags" => Str::words($request->tags, "5"),
         ]);
-//dd($addQuestion);
-        $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
-        $updateQuestionRecord = Category::where("id", $parentId);
-        $updateQuestionRecord = $updateQuestionRecord->update([
-            "total_no_of_questions" => $totalQuestionAccordingParentCategory,
-        ]);
-        $totalQuestionAccordingSubCategory = Question::where("category_id", $categoryId)->count();
-        $updateQuestionRecord = Category::where("id", $categoryId);
-        $updateQuestionRecord = $updateQuestionRecord->update([
-            "total_no_of_questions_sc" => $totalQuestionAccordingSubCategory,
-        ]);
+
 
         if ($addQuestion) {
+            $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
+            $updateQuestionRecord = Category::where("id", $parentId);
+            $updateQuestionRecord = $updateQuestionRecord->update([
+                "total_no_of_questions" => $totalQuestionAccordingParentCategory,
+            ]);
+            $totalQuestionAccordingSubCategory = Question::where("category_id", $categoryId)->count();
+            $updateQuestionRecord = Category::where("id", $categoryId);
+            $updateQuestionRecord = $updateQuestionRecord->update([
+                "total_no_of_questions_sc" => $totalQuestionAccordingSubCategory,
+            ]);
             $this->setFormMessage('add-question', "success", "Question has been saved ");
         } else {
             $this->setFormMessage('add-question', "danger", "Question does not exit");
@@ -247,27 +259,17 @@ class ManageQuestionAnswerController extends Controller
 
     public function questionDetail(Request $request, $id)
     {
-        $clientIP = request()->ip();
-        $insertIp = QuestionViewCount::firstOrNew([
-            "ip" => $clientIP,
-            "question_id" => $id,
-        ]);
-        $insertIp->save();
-        dd($insertIp);
+        $findRecord = QuestionViewCount::where("question_id", $id)->where("ip", request()->ip())->first();
+        if ($findRecord == null) {
+            $question = new Question;
+            $question->questionViewCount($id);
+        }
 
-//        if ($insertIp) {
-//            questionViewCount($id);
-//        }
-
-        $answerRecord = Answer::select("answers.*"
-            , "users.name", "users.profile_pic"
-        )
+        $answerRecord = Answer::select("answers.*")
             ->join("questions", "answers.question_id", "questions.id")
             ->where("answers.question_id", $id)
-            ->join("users", "answers.user_id", "users.id")
+            // ->join("users", "answers.user_id", "users.id")
             ->paginate(4);
-
-
         $totalRecord = $answerRecord->total();
         $this->pageData['answer_total_record'] = $totalRecord;
         $perPage = $answerRecord->perPage();
@@ -289,20 +291,19 @@ class ManageQuestionAnswerController extends Controller
             ], 200);
         }
 
-
         $this->pageData["answer_record"] = $answerRecord;
         $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic")
             ->join("users", "questions.user_id", "users.id")
             ->where("questions.id", $id)->first();
         $this->pageData["question_record"] = $questionRecord;
 
-        $this->pageData["page_title"] = "Answers";
+        $this->pageData["page_title"] = Str::limit($questionRecord->title, "20");
         return $this->showPage("front_end.answers");
     }
 
-    public function saveAnswer(Request $request)
+    public function saveAnswer(QuestionRequest $request)
     {
-        //dd($request);
+
         $id = request()->question_id;
         $answer = langLimit($request->answer);
         if ($answer == "false") {

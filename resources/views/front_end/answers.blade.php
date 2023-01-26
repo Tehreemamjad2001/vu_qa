@@ -2,13 +2,13 @@
 @section("content")
     @php
         $questionRecord  = $pageData["question_record"];
-        $time = getTimeAgo($questionRecord->created_at);
-        $activeTime = getTimeAgo($questionRecord->updated_at);
+        $time = getUserTimeZone($questionRecord->created_at);
+        $activeTime = getUserTimeZone($questionRecord->updated_at);
         $id = request()->id;
         $totalNumberOfAnswers =   $pageData['answer_total_record'];
         $perPageAnswers = $pageData['answer_per_page'];
     @endphp
-    <section class="hero-area bg-white shadow-sm overflow-hidden pt-40px pb-40px">
+    <section class="hero-area bg-white shadow-sm overflow-hidden pt-0px pb-40px">
         <span class="stroke-shape stroke-shape-1"></span>
         <span class="stroke-shape stroke-shape-2"></span>
         <span class="stroke-shape stroke-shape-3"></span>
@@ -222,9 +222,9 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('answer')}}</span>
                                     @endif
-                                    {{--@if(Session::has('alert-lang-limit'))--}}
-                                    {{--{!!Session::get('alert-lang-limit')!!}--}}
-                                    {{--@endif--}}
+                                    @if(Session::has('alert-lang-limit'))
+                                    {!!Session::get('alert-lang-limit')!!}
+                                    @endif
                                 </div>
                                 <input type="hidden" name="question_id" value="{{$id}}">
                                 <button class="btn theme-btn theme-btn-sm" type="submit">Post Your Answer</button>

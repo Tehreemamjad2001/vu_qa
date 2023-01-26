@@ -12,7 +12,7 @@
 
 
     @endphp
-    <section class="question-area pt-40px pb-40px">
+    <section class="question-area pt-85px pb-40px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -24,7 +24,7 @@
                                 <div class="sidebar-questions pt-3">
                                     @foreach($RandomQuestions as $item)
                                         @php
-                                            $time = getTimeAgo($item->created_at);
+                                            $time =getUserTimeZone($item->created_at);
                                         @endphp
                                         <div class="media media-card media--card media--card-2">
                                             <div class="media-body">
@@ -84,7 +84,8 @@
 
                             @foreach($questionRecord as $data)
                                 @php
-                                    $time = getTimeAgo($data->created_at);
+                                    $time = dateFormat($data->created_at);
+                                      $timeInAgo = getUserTimeZone($data->created_at);
                                 @endphp
                                 @include("front_end.components.question_list")
                             @endforeach

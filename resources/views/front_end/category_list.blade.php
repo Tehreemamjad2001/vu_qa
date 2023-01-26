@@ -17,6 +17,7 @@
                     <form class="mr-3 w-25">
                         <div class="form-group">
                             <label>
+                                <input type="hidden" name="sub_id" value="{{$catId}}">
                                 <input class="form-control form--control form-control-sm h-auto lh-34" type="search"
                                        name="category" value="{{$search}}"
                                        placeholder="Filter by category">
@@ -36,7 +37,7 @@
                             </div>
                             <div class="media-body">
                                 <h5 class="fs-19 fw-medium mb-1 "><a
-                                            href="{{$catId ? route("home")."?slug=".$record->slug  :  route("sub-category-list")."?id=".$record->id }}">{{$record->category_name}}</a>
+                                            href="{{$catId ? route("home")."?slug=".$record->slug  :  route("sub-category-list")."?id=".$record->id}}">{{$record->category_name}}</a>
                                 </h5>
                                 <p class="fw-medium fs-15 text-black-50 lh-18">{{ $catId ? $record->total_no_of_questions_sc : $record->total_no_of_questions}}</p>
                             </div><!-- end media-body -->

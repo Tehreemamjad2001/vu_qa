@@ -24,7 +24,16 @@ class Question extends Model
 
     public function questionViewCount($id)
     {
-        $ViewsCount = $insertIp->where("question_id", $id)->count();
+        $clientIP = request()->ip();
+        $insertIp = QuestionViewCount::firstOrNew([
+            "ip" => $clientIP,
+            "question_id" => $id,
+        ]);
+        $insertIp->save();
+
+
+
+        $ViewsCount = QuestionViewCount:: where("question_id", $id)->count();
         $updateView = Question::where("id", $id);
         $updateView = $updateView->update([
             "views" => $ViewsCount,

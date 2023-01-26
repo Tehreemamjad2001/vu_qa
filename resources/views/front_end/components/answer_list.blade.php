@@ -117,7 +117,7 @@
 
                             <small class="meta d-block text-right">
                                 <span class="text-black d-block lh-18">answered</span>
-                                <span class="d-block lh-18 fs-12">{{getTimeAgo($item->created_at)}}</span>
+                                <span class="d-block lh-18 fs-12">{{dateFormat($item->created_at)}}</span>
                             </small>
                         </div>
                     </div><!-- end media -->

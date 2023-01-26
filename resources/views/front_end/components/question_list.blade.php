@@ -56,14 +56,14 @@
                 <small class="meta d-block text-right">
                     <span class="text-black d-block lh-18">asked</span>
                     <span class="d-block lh-18 fs-12">{{$time}}</span>
-                    <span class="d-block lh-18 fs-12">{{$data->created_at}}</span>
+                    <span class="d-block lh-18 fs-12">{{$timeInAgo}}</span>
                 </small>
             </div>
         </div>
     </div>
-    @if($routeName == "my-question")
+    @if($routeName = "my-question")
         <div class="text-center">
-            <div class="">
+            <div >
                 <a name="delete" class="del_ete  btn theme-btn theme-btn-sm"
                    href="{{route("question-delete-page",["id"=>$data->question_id])}}">
                     <b>Delete</b>

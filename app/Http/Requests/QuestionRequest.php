@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
+
 
 class QuestionRequest extends FormRequest
 {
@@ -23,16 +25,31 @@ class QuestionRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            "title"=>"required",
-            "description"=>"required",
-        ];
+
+        $routeName = Route::currentRouteName();
+       // dd($routeName);
+
+        switch ($routeName) {
+            case "user-save" :
+                return [
+                    "title" => "required",
+                    "description" => "required",
+                ];
+                break;
+            case "save-answer" :
+                return [
+                    "answer" => "required",
+                ];
+                break;
+        }
     }
-    public function messages()
+
+    public
+    function messages()
     {
         return [
-            "title.required"=>"Enter Question Title",
-            "question.required"=>"Enter Question"
+            "title.required" => "Enter Question Title",
+            "question.required" => "Enter Question"
         ];
     }
 }

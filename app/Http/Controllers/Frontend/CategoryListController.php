@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Question;
 use App\Models\User;
+use function Couchbase\defaultDecoder;
 use Illuminate\Http\Request;
 use DB;
 
@@ -31,7 +32,7 @@ class CategoryListController extends Controller
 
     public function subcategoryList(Request $request)
     {
-        $catId = isset($request->id) && !empty($request->id) ? $request->id : "";
+        $catId = isset($request->id) && !empty($request->id) ? $request->id : $request->sub_id;
         $searchByCategory = isset($request->category) && !empty($request->category) ? $request->category : "";
         $subCategory = Category::select("categories.id", "categories.icon", "categories.slug",
             "categories.category_name", "categories.total_no_of_questions_sc")
@@ -39,7 +40,7 @@ class CategoryListController extends Controller
         if ($searchByCategory) {
             $subCategory = $subCategory->where("categories.category_name", $searchByCategory);
         }
-        $subCategory = $subCategory->paginate("30");
+        $subCategory = $subCategory->paginate("30");//dd($subCategory);
         $this->pageData["category_name"] = $subCategory;
         $this->pageData["page_title"] = "Category List";
         return $this->showPage("front_end.category_list");

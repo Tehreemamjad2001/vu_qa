@@ -1,10 +1,10 @@
 @extends("front_end/layout/main")
 @section("content")
     @php
-        $questionRecord = $pageData["question-data"];
-        $categoryRecord = $pageData["category-Record"];
+        $questionRecord = $pageData["question_data"];
+        $categoryRecord = $pageData["category_Record"];
+        $subCat = $pageData["sub_category_Record"];
         $id = request()->id;
-
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden">
         <span class="stroke-shape stroke-shape-1"></span>
@@ -103,7 +103,6 @@
         </div><!-- end container -->
     </section>
     <section class="question-area pt-80px pb-40px">
-
         <div class="container">
             @if(Session::has('alert-update-record'))
                 {!!Session::get('alert-update-record')!!}
@@ -131,20 +130,25 @@
                                     @endif
                                 </div>
                             </div><!-- end input-box -->
-                                <div class="input-box">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div>
-                                            <label class="fs-14 text-black fw-medium mb-0">Tags</label>
-                                            <p class="fs-13 pb-3 lh-20">Add up to 5 tags to describe what your question is
-                                                about:</p>
-                                        </div>
+                            <div class="input-box">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div>
+                                        <label class="fs-14 text-black fw-medium mb-0">Tags</label>
+                                        <p class="fs-13 pb-3 lh-20">Add up to 5 tags to describe what your question is
+                                            about:</p>
                                     </div>
-                                    <div class="form-group">
+                                </div>
+                                @php
+                                    $tags = explode(",",$questionRecord->tags);
+                                @endphp
+                                <div class="form-group">
+                                    @foreach($tags as $item)
                                         <input type="hidden" name="tags" id="select2_sample5"
                                                class="form-control form--control input-tags input--tags select2"
-                                               value="{{old($questionRecord->tags)}}">
-                                    </div>
-                                </div><!-- end input-box -->
+                                               value="{{$item}}">
+                                    @endforeach
+                                </div>
+                            </div><!-- end input-box -->
                             <div class="input-box">
                                 <label class="fs-14 text-black fw-medium mb-0">Category</label>
                                 <p class="fs-13 pb-3 lh-20">Please choose the appropriate section so the question can be
@@ -168,15 +172,15 @@
                                 </div>
                                 <div class="form-group" id="sub_cat">
                                     <select class="form-control form--control select-container select--container"
-                                            name="sub_cat"
-
+                                            name="cat"
                                             data-placeholder="Select a Category">
                                         <option selected value="">Select Sub Category</option>
-                                        <option value="{{$questionRecord->category_id}}"></option>
+                                        @foreach($subCat as $item)
+                                            <option value="{{$item->id}}" {{$questionRecord->category_id == $item->id ? "selected" : ""}}>{{$item->category_name}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div><!-- end input-box -->
-
                             <div class="input-box">
                                 <label class="fs-14 text-black fw-medium mb-0">Details</label>
                                 <p class="fs-13 pb-3 lh-20">Include all the information someone would need to answer
