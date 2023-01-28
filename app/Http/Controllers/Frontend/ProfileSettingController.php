@@ -23,12 +23,12 @@ class ProfileSettingController extends Controller
 
     public function updateProfilePic(Request $request, $id)
     {
-        //dd($request);
         $oldRow = User::find($id);
         $dataBaseProfilePicName = isset($oldRow->profile_pic) && !empty($oldRow->profile_pic) ? $oldRow->profile_pic : "";
         $row = User::find($id);
         $row->name = $request->name;
         $row->country = $request->country;
+        $row->comment = $request->about_me;
         $row->save();
 
         if ($request->hasfile('profile_pic')) {
@@ -46,11 +46,8 @@ class ProfileSettingController extends Controller
                     deleteProfilePicFromFolder($sourcePath, $dataBaseProfilePicName);
                 }
             }
-
             $this->createThumbnail($sourcePath, $filename);
             $this->setFormMessage('update-user-profile-pic', "success", "Profile Pic has been updated");
-        } else {
-            $this->setFormMessage('update-user-profile-pic', "danger", "Please select image");
         }
         return back();
     }

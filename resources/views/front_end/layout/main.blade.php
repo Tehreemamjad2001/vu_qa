@@ -22,7 +22,8 @@
     <link rel="icon" sizes="16x16" href="{{assets("images/favicon.png",true)}}">
 
     <!-- inject:css -->
-    <link rel="stylesheet" href="{{asset("css/upvotejs.min.css",true)}}">
+    <link rel="stylesheet" href="{{assets("css/upvotejs.min.css", true)}}">
+
     <link rel="stylesheet" href="{{assets("css/bootstrap.min.css", true )}}">
     <link rel="stylesheet" href="{{assets('css/line-awesome.css',true)}}">
     <link rel="stylesheet" href="{{assets('css/owl.carousel.min.css',true)}}">
@@ -30,7 +31,7 @@
     <link rel="stylesheet" href="{{assets('css/style.css',true)}}">
     {{--alert msg css--}}
     <link href="{{assets('assets/css/style.css')}}" rel="stylesheet" type="text/css"/>
-{{--alert msg css--}}
+    {{--alert msg css--}}
 <!-- end inject -->
     <script src="{{assets('js/jquery-3.4.1.min.js',true)}}"></script>
     <script src="{{assets('js/bootstrap.bundle.min.js',true)}}"></script>
@@ -52,8 +53,8 @@
     <!-- END THEME STYLES -->
     <link rel="{{assets('shortcut icon',true)}}" href="{{assets("favicon.ico",true)}}"/>
     <link rel="stylesheet" type="text/css" href="{{assets("assets/plugins/select2/select2_metro.css",true)}}"/>
-    <script src="{{asset("js/upvote.vanilla.js",true)}}"></script>
-    <script src="{{asset("js/upvote-script.js",true)}}"></script>
+    <script src="{{assets("js/upvote.vanilla.js",true)}}"></script>
+    <script src="{{assets("js/upvote-script.js",true)}}"></script>
 
     <!-- for drop down -->
     <link rel="stylesheet" href="{{assets("css/selectize.css",true)}}">

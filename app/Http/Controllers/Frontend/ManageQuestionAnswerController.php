@@ -88,8 +88,7 @@ class ManageQuestionAnswerController extends Controller
         $id = auth()->user()->id;
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
-        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
-
+        $sort = isset(request()->sort) && !empty(request()->sort) ? request()->sort : "Newest";
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
 
@@ -225,7 +224,6 @@ class ManageQuestionAnswerController extends Controller
             $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
             return back();
         }
-
         $id = auth()->user()->id;
         $parentId = $request->parent_cat;
         $categoryId = $request->cat;
@@ -237,8 +235,6 @@ class ManageQuestionAnswerController extends Controller
             "parent_id" => $parentId,
             "tags" => Str::words($request->tags, "5"),
         ]);
-
-
         if ($addQuestion) {
             $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
             $updateQuestionRecord = Category::where("id", $parentId);
@@ -306,59 +302,84 @@ class ManageQuestionAnswerController extends Controller
 
         $id = request()->question_id;
         $answer = langLimit($request->answer);
-        if ($answer == "false") {
+
+        if (!$answer) {
             $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
             return back();
         }
+
         $insertAnswer = Answer::create([
-            "answer" => $answer,
+            "answer" => $request->answer,
             "question_id" => $request->question_id,
         ]);
 
-        $totalNoOfAnswers = Answer::where("question_id", $id)->count();
-        $updateIntoQuestion = Question::where("id", $id);
-        $updateIntoQuestion = $updateIntoQuestion->update([
-            "total_no_of_ans" => $totalNoOfAnswers
-        ]);
+
         if ($insertAnswer) {
+
+            $totalNoOfAnswers = Answer::where("question_id", $id)->count();
+
+            Question::where("id", $id)->update([
+                "total_no_of_ans" => $totalNoOfAnswers
+            ]);
+
             $this->setFormMessage("save-answer", "success", "Your answer have been saved");
         } else {
             $this->setFormMessage("save-answer", "danger", "Something is wrong");
         }
+
         return redirect()->to(route("answers-page", ["id" => $id]) . "#save-answer");
     }
 
     public function answerVotes()
     {
+
         $ans_id = $_POST["ans_id"];
         $user_id = $_POST["user_id"];
         $voteType = $_POST["vote_type"];
 
-        $addVote = AnswerVotes::create([
-            "user_id" => $user_id,
-            "answer_id" => $ans_id,
-            "vote_type" => $voteType,
-        ]);
+
+        $record = AnswerVotes::select("*")->where("user_id", $user_id)->where("answer_id", $ans_id)->first();
+
+        if ($record == null) {
+
+            $addVote = AnswerVotes::create([
+                "user_id" => $user_id,
+                "answer_id" => $ans_id,
+                "vote_type" => $voteType,
+            ]);
+
+            if ($voteType == "vote Up") {
+
+                $countUpVotes = AnswerVotes::select("vote_type")->where("vote_type", "vote Up")
+                    ->where("answer_id", $ans_id)->count();
+                $votes = Answer::where("id", $ans_id);
+                $votes = $votes->update([
+                    "total_up_vote" => $countUpVotes,
+                ]);
+
+                return response()->json([
+                    "up_vote" => $countUpVotes,
+                    "answer_id" => $ans_id,
+                    "vote_type" => "vote Up"
+                ], 200);
+            } else {
+
+                $countDownVotes = AnswerVotes::select("vote_type")->where("vote_type", "vote Down")
+                    ->where("answer_id", $ans_id)->count();
+                $votes = Answer::where("id", $ans_id);
+                $votes = $votes->update([
+                    "total_down_vote" => $countDownVotes,
+                ]);
+
+                return response()->json([
+                    "down_vote" => $countDownVotes,
+                    "answer_id" => $ans_id,
+                    "vote_type" => "vote down"
+                ], 200);
+            }
 
 
-        $countUpVotes = AnswerVotes::select("vote_type")->where("vote_type", "vote Up")
-            ->where("answer_id", $ans_id)->count();
-        $countDownVotes = AnswerVotes::select("vote_type")->where("vote_type", "vote Down")
-            ->where("answer_id", $ans_id)->count();
-
-        $votes = Answer::where("id", $ans_id);
-        $votes = $votes->update([
-            "total_up_vote" => $countUpVotes,
-            "total_down_vote" => $countDownVotes,
-        ]);
-
-        return response()->json([
-            "up_vote" => $countUpVotes,
-            "down_vote" => $countDownVotes,
-            "answer_id" => $ans_id
-        ], 200);
-
-
+        }
     }
 
     public function acceptedAnswer()
@@ -366,13 +387,15 @@ class ManageQuestionAnswerController extends Controller
         $ansId = $_POST["ans_id"];
         $successType = $_POST["success_type"];
 
-        $acceptAns = Answer::where("id", $ansId);
-        $acceptAns = $acceptAns->update([
-//            "id" => $ansId,
-//            "user_id" => $userId,
+        $acceptAns = Answer::query()->update([
+            "is_accepted" => Null
+        ]);
+
+        $updateAcceptAns = Answer::where("id", $ansId)->update([
             "is_accepted" => $successType,
         ]);
         return response()->json([
+            "id" => $ansId,
             "accept_ans" => $acceptAns,
         ], 200);
     }

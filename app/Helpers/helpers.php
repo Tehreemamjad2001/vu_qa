@@ -9,7 +9,6 @@ function assets($path, $front = false, $secure = null)
         $folder = "back-end";
     else
         $folder = "web";
-
     return app('url')->asset("public/$folder/" . $path, $secure) . "?=$currentTime";
 
 }

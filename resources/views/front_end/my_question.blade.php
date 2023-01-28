@@ -71,17 +71,17 @@
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest" {{$sort == "Newest"  ?  "selected" : ""}}>Newest
-                                            </option>
-                                            <option value="oldest" {{$sort == "Oldest"  ?  "selected" : ""}}>Oldest
-                                            </option>
+                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
+                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div><!-- end filters -->
                         <div class="questions-snippet border-top border-top-gray">
-
+                            @if(Session::has('alert-delete-question-record'))
+                                {!!Session::get('alert-delete-question-record')!!}
+                            @endif
                             @foreach($questionRecord as $data)
                                 @php
                                     $time = dateFormat($data->created_at);

@@ -188,14 +188,14 @@
                                                                     me</label>
                                                                 <div class="jqte_source jqte_hiddenField">
                                                                      <textarea
-                                                                             name="about me"
+                                                                             name="about_me"
                                                                              class="form-control form--control user-text-editor"
                                                                              rows="10" cols="40"
-                                                                             data-origin="textarea">
+                                                                             data-origin="textarea">{{old("about_me")}}
                                                                      </textarea>
-                                                                    @if ($errors->has('about me'))
+                                                                    @if ($errors->has('about_me'))
                                                                         <span class="text-danger"
-                                                                              role="alert">{{$errors->first('about me')}}</span>
+                                                                              role="alert">{{$errors->first('about_me')}}</span>
                                                                     @endif
                                                                 </div>
                                                             </div>

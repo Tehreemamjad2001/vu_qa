@@ -61,7 +61,7 @@
             </div>
         </div>
     </div>
-    @if($routeName = "my-question")
+    @if($routeName == "my-question")
         <div class="text-center">
             <div >
                 <a name="delete" class="del_ete  btn theme-btn theme-btn-sm"
