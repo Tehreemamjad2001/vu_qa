@@ -267,16 +267,14 @@ class ManageQuestionAnswerController extends Controller
             ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
             ->orderBy("id", "desc")
-            ->paginate(2);
+            ->paginate(4);
 
         $finalResult = [];
         foreach ($answerRecord as $item) {
             $upVoteCheck = AnswerVotes::where("user_id", auth()->user()->id)->where("answer_id", $item->id)->where("vote_type", "vote up")->count();
             if ($upVoteCheck == 1) {
                 $item["is_logged_user_vote_up"] = "Yes";
-                $item["is_logged_user_vote_down"] = "No";
             } else {
-                $item["is_logged_user_vote_up"] = "No";
                 $item["is_logged_user_vote_down"] = "Yes";
             }
             $finalResult[] = $item;
@@ -289,7 +287,7 @@ class ManageQuestionAnswerController extends Controller
 
         $articles = '';
         if ($request->ajax()) {
-            $articles = view("front_end.components.answer_list")->with("answerRecord", $finalResult)->render();
+            $articles = view("front_end.components.answer_list")->with("finalResult", $finalResult)->render();
             $currentPage = $_GET['page'];
             $page = $perPage * $currentPage;
             if ($page < $totalRecord) {
@@ -303,7 +301,7 @@ class ManageQuestionAnswerController extends Controller
             ], 200);
         }
 
-        $this->pageData["answer_record"] = $answerRecord;
+        $this->pageData["answer_record"] = $finalResult;
         $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic", "categories.category_name")
             ->join("users", "questions.user_id", "users.id")
             ->where("questions.id", $id)
@@ -342,6 +340,23 @@ class ManageQuestionAnswerController extends Controller
         }
 
         return redirect()->to(route("answers-page", ["id" => $questionId]) . "#save-answer");
+    }
+
+    public function updateAnswer(Request $request)
+    {
+        $ansId = $request->answer_id;
+        $questionId = $request->question_id;
+        $answer = $request->answer;
+        $updateRecord = Answer::where("question_id", $questionId)->where("id", $ansId)->update([
+            "answer" => $answer
+        ]);
+        if ($updateRecord) {
+            $this->setFormMessage("save-answer", "success", "Your answer have been saved");
+        } else {
+            $this->setFormMessage("save-answer", "danger", "Something is wrong");
+        }
+
+        return redirect()->to(route("answers-page", ["id" => $questionId]) . "#update-answer");
     }
 
     public function answerVotes()

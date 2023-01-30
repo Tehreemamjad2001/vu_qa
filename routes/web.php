@@ -42,6 +42,7 @@ Route::group([
     Route::get("my-question", [ManageQuestionAnswerController::class, "myQuestionList"])->name('my-question');
     Route::get("user-questions/{id}", [UserQuestionsListController::class, "userQuestionsList"])->name('user-questions-list');
     Route::post("save-answer", [ManageQuestionAnswerController::class, "saveAnswer"])->name('save-answer');
+    Route::post("update-answer", [ManageQuestionAnswerController::class, "updateAnswer"])->name('update-answer');
     Route::Post("answer-votes", [ManageQuestionAnswerController::class, "answerVotes"]);
     Route::Post("accepted-answer", [ManageQuestionAnswerController::class, "acceptedAnswer"])->name("accepted-answer");
     Route::get("ask-question", [ManageQuestionAnswerController::class, "askQuestion"])->name('ask-question-page');
