@@ -1,33 +1,41 @@
 @php
     $answerRecord = isset($pageData['answer_record']) && !empty($pageData['answer_record']) ? $pageData['answer_record'] : $answerRecord;
+    $answerVote = $answerRecord->is_logged_user_vote_up = "Yes" ? "disable" : "";
+    $questionId = isset(request()->id) && !empty(request()->id) ? request()->id :"";
     $usrId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
+
 @endphp
 <div>
     @foreach($answerRecord as $item)
         <div class="answer-wrap d-flex">
             <div class="votes votes-styled w-auto">
                 <div id="vote2" class="upvotejs">
-                <span class="counter"
-                      id="upvote_count_{{$item->id}}">{{"0"}}</span>
-                    <a onclick="voteUp({{$item->id}})" id="up_answer_{{$item->id}}" class="upvote vote_{{$item->id}}"
+                    <a onclick="voteUp({{$item->id}})" id="up_answer_{{$item->id}}"
+                       class="upvote
+                               vote_{{$item->id}}"
                        data-toggle="tooltip" data-placement="right"
-                       title="This question is useful"></a>
+                       title="Up Vote" style="cursor: pointer"></a>
+                    @php
+                        $voteValue = $item->total_up_vote > $item->total_down_vote
+                                             ? $item->total_up_vote : $item->total_down_vote;
+                    @endphp
+                    <span id="vote_counter_{{$item->id}}">{{ isset($voteValue) && !empty($voteValue) ? $voteValue : "0"}}</span>
 
-                    <span class="counter"
-                          id="downvote_count_{{$item->id}}">{{"0"}}</span>
                     <a onclick="voteDown({{$item->id}})" id="down_answer_{{$item->id}}"
                        class="downvote  vote_{{$item->id}}"
                        data-vote-type="0"
                        id="post_vote_down_{{$item->id}}"
                        data-toggle="tooltip" data-placement="right"
-                       title="This question is not useful"></a>
+                       title="Down Vote" style="cursor: pointer"></a>
 
+                    <br>
+                    <span id="vote_counter_{{$item->id}}"></span>
                     <br>
                     <span class="counter" id="vote_down_count_{{$item->id}}"></span>
                     <a onclick="isAccepted({{$item->id}})" id="accepted_{{$item->id}}"
                        class="star approve   {{$item->is_accepted == "true" ? "star-on" : "star"}}"
                        data-toggle="tooltip" data-placement="right"
-                       title="The question owner accepted this answer">
+                       title="Approve" style="cursor: pointer">
                     </a>
                 </div>
             </div><!-- end votes -->
@@ -74,13 +82,14 @@
 
                     </div><!-- end post-menu -->
                     <div class="media media-card user-media align-items-center">
-                        <a href="user-profile.html" class="media-img d-block">
+                        <a href="{{route("user-questions-list",["id"=>$item->user_id])}}" class="media-img d-block">
                             <img src="{{getProfileThumbnail($item->user_id,"small",$item->profile_pic)}}"
                                  alt="avatar">
                         </a>
                         <div class="media-body d-flex align-items-center justify-content-between">
                             <div>
-                                <h5 class="pb-1"><a href="user-profile.html">{{$item->name}}</a>
+                                <h5 class="pb-1"><a
+                                            href="{{route("user-questions-list",["id"=>$item->user_id])}}">{{$item->name}}</a>
                                 </h5>
 
                             </div>
@@ -120,16 +129,14 @@
             success: function (response) {
 
                 if (response.vote_type == "vote Up") {
-                    $("#upvote_count_" + id).empty().text(response.up_vote);
+                    $("#down_answer_" + id).removeClass("downvote-on");
                     $("#up_answer_" + id).addClass("upvote-on");
-                    $(this).prop('disabled', true);
-
+                    $("#vote_counter_" + id).empty().text(response.up_vote);
                 }
-
-                if (response.vote_type == "vote down") {
-                    $("#downvote_count_" + id).text(response.down_vote);
+                else if (response.vote_type == "vote Down") {
+                    $("#up_answer_" + id).removeClass("upvote-on");
                     $("#down_answer_" + id).addClass("downvote-on");
-                    $(this).prop('disabled', true);
+                    $("#vote_counter_" + id).empty().text(response.down_vote);
                 }
             }
         });
@@ -148,6 +155,7 @@
                 "_token": "{{ csrf_token() }}",
                 user_id: "{{isset($usrId) && !empty($usrId) ? $usrId : ""}}",
                 ans_id: id,
+                question_id: "{{$questionId}}",
                 success_type: successType
             },
             success: function (response) {

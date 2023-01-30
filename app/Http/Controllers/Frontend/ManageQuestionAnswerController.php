@@ -11,10 +11,12 @@ use App\Models\Category;
 use App\Models\Question;
 use App\Models\QuestionViewCount;
 use App\Models\User;
+use function Couchbase\defaultDecoder;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use App\Traits\Search;
 
@@ -261,11 +263,25 @@ class ManageQuestionAnswerController extends Controller
             $question->questionViewCount($id);
         }
 
-        $answerRecord = Answer::select("answers.*")
-            ->join("questions", "answers.question_id", "questions.id")
+        $answerRecord = Answer::select("answers.*", "users.id as user_id", "users.name", "users.profile_pic")
+            ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
-            // ->join("users", "answers.user_id", "users.id")
-            ->paginate(4);
+            ->orderBy("id", "desc")
+            ->paginate(2);
+
+        $finalResult = [];
+        foreach ($answerRecord as $item) {
+            $upVoteCheck = AnswerVotes::where("user_id", auth()->user()->id)->where("answer_id", $item->id)->where("vote_type", "vote up")->count();
+            if ($upVoteCheck == 1) {
+                $item["is_logged_user_vote_up"] = "Yes";
+                $item["is_logged_user_vote_down"] = "No";
+            } else {
+                $item["is_logged_user_vote_up"] = "No";
+                $item["is_logged_user_vote_down"] = "Yes";
+            }
+            $finalResult[] = $item;
+        }
+
         $totalRecord = $answerRecord->total();
         $this->pageData['answer_total_record'] = $totalRecord;
         $perPage = $answerRecord->perPage();
@@ -273,7 +289,7 @@ class ManageQuestionAnswerController extends Controller
 
         $articles = '';
         if ($request->ajax()) {
-            $articles = view("front_end.components.answer_list")->with("answerRecord", $answerRecord)->render();
+            $articles = view("front_end.components.answer_list")->with("answerRecord", $finalResult)->render();
             $currentPage = $_GET['page'];
             $page = $perPage * $currentPage;
             if ($page < $totalRecord) {
@@ -288,9 +304,11 @@ class ManageQuestionAnswerController extends Controller
         }
 
         $this->pageData["answer_record"] = $answerRecord;
-        $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic")
+        $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic", "categories.category_name")
             ->join("users", "questions.user_id", "users.id")
-            ->where("questions.id", $id)->first();
+            ->where("questions.id", $id)
+            ->join("categories", "categories.id", "questions.category_id")
+            ->first();
         $this->pageData["question_record"] = $questionRecord;
 
         $this->pageData["page_title"] = Str::limit($questionRecord->title, "20");
@@ -299,26 +317,22 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveAnswer(QuestionRequest $request)
     {
-
-        $id = request()->question_id;
+        $questionId = request()->question_id;
         $answer = langLimit($request->answer);
-
+        $userId = auth()->user()->id;
         if (!$answer) {
-            $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
-            return back();
-        }
+            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
+                ->withErrors(['answer_limit' => 'Usage of English words must be 20 %'])->withInput();
 
+        }
         $insertAnswer = Answer::create([
             "answer" => $request->answer,
-            "question_id" => $request->question_id,
+            "question_id" => $questionId,
+            "user_id" => $userId,
         ]);
-
-
         if ($insertAnswer) {
-
-            $totalNoOfAnswers = Answer::where("question_id", $id)->count();
-
-            Question::where("id", $id)->update([
+            $totalNoOfAnswers = Answer::where("question_id", $questionId)->count();
+            Question::where("id", $questionId)->update([
                 "total_no_of_ans" => $totalNoOfAnswers
             ]);
 
@@ -327,67 +341,48 @@ class ManageQuestionAnswerController extends Controller
             $this->setFormMessage("save-answer", "danger", "Something is wrong");
         }
 
-        return redirect()->to(route("answers-page", ["id" => $id]) . "#save-answer");
+        return redirect()->to(route("answers-page", ["id" => $questionId]) . "#save-answer");
     }
 
     public function answerVotes()
     {
+        $ans_id = $_REQUEST["ans_id"];
+        $user_id = $_REQUEST["user_id"];
+        $voteType = $_REQUEST["vote_type"];
 
-        $ans_id = $_POST["ans_id"];
-        $user_id = $_POST["user_id"];
-        $voteType = $_POST["vote_type"];
-
-
-        $record = AnswerVotes::select("*")->where("user_id", $user_id)->where("answer_id", $ans_id)->first();
-
-        if ($record == null) {
-
-            $addVote = AnswerVotes::create([
+        $checkRecordIfExist = AnswerVotes::select("*")->where("user_id", $user_id)
+            ->where("answer_id", $ans_id)->first();
+        if ($checkRecordIfExist == null) {
+            $voteData = AnswerVotes::create([
                 "user_id" => $user_id,
                 "answer_id" => $ans_id,
                 "vote_type" => $voteType,
             ]);
+        } else {
+            $record = AnswerVotes::where("user_id", $user_id)->where("answer_id", $ans_id)->update([
+                "vote_type" => $voteType,
+            ]);
+            $ans = new AnswerVotes;
+            $getCount = $ans->answerVote($voteType, $ans_id);
 
-            if ($voteType == "vote Up") {
+            return response()->json([
+                "user_id" => $user_id,
+                "answer_id" => $ans_id,
+                "vote_type" => $voteType,
+                "up_vote" => $getCount["up_vote_count"],
+                "down_vote" => $getCount["down_vote_count"],
 
-                $countUpVotes = AnswerVotes::select("vote_type")->where("vote_type", "vote Up")
-                    ->where("answer_id", $ans_id)->count();
-                $votes = Answer::where("id", $ans_id);
-                $votes = $votes->update([
-                    "total_up_vote" => $countUpVotes,
-                ]);
-
-                return response()->json([
-                    "up_vote" => $countUpVotes,
-                    "answer_id" => $ans_id,
-                    "vote_type" => "vote Up"
-                ], 200);
-            } else {
-
-                $countDownVotes = AnswerVotes::select("vote_type")->where("vote_type", "vote Down")
-                    ->where("answer_id", $ans_id)->count();
-                $votes = Answer::where("id", $ans_id);
-                $votes = $votes->update([
-                    "total_down_vote" => $countDownVotes,
-                ]);
-
-                return response()->json([
-                    "down_vote" => $countDownVotes,
-                    "answer_id" => $ans_id,
-                    "vote_type" => "vote down"
-                ], 200);
-            }
-
-
+            ], 200);
         }
     }
 
     public function acceptedAnswer()
     {
-        $ansId = $_POST["ans_id"];
-        $successType = $_POST["success_type"];
+        $ansId = $_REQUEST["ans_id"];
+        $successType = $_REQUEST["success_type"];
+        $questionId = $_REQUEST["question_id"];
 
-        $acceptAns = Answer::query()->update([
+        $acceptAns = Answer::where("question_id", $questionId)->update([
             "is_accepted" => Null
         ]);
 

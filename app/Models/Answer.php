@@ -14,6 +14,6 @@ class Answer extends Model
         'answer',
         'question_id',
         'is_accepted',
-
+        'user_id',
     ];
 }
