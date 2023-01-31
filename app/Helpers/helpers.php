@@ -103,7 +103,6 @@ function getUserTimeZone($date, $timeZone = 'Asia/Karachi')
 function langLimit($text)
 {
     $detector = new \LanguageDetector\LanguageDetector(null, ['en', 'ur']);
-
     $description = explode(" ", $text);
     $urduWordCount = 1;
     $engWordCount = 1;

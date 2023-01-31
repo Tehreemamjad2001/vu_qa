@@ -258,11 +258,11 @@ class ManageQuestionAnswerController extends Controller
     public function questionDetail(Request $request, $id)
     {
         $findRecord = QuestionViewCount::where("question_id", $id)->where("ip", request()->ip())->first();
-        if ($findRecord == null) {
+        //dd($findRecord);
+        if ($findRecord = null) {
             $question = new Question;
             $question->questionViewCount($id);
         }
-
         $answerRecord = Answer::select("answers.*", "users.id as user_id", "users.name", "users.profile_pic")
             ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
@@ -278,9 +278,9 @@ class ManageQuestionAnswerController extends Controller
             } else {
                 $item["is_logged_user_vote_up"] = "No";
             }
-            if($downVoteCheck == 1){
+            if ($downVoteCheck == 1) {
                 $item["is_logged_user_vote_down"] = "Yes";
-            }else{
+            } else {
                 $item["is_logged_user_vote_down"] = "No";
             }
             $finalResult[] = $item;
@@ -361,9 +361,9 @@ class ManageQuestionAnswerController extends Controller
             "answer" => $answer
         ]);
         if ($updateRecord) {
-            $this->setFormMessage("update-user-answer-". $ansId, "success", "Your answer has been updated");
+            $this->setFormMessage("update-user-answer-" . $ansId, "success", "Your answer has been updated");
         } else {
-            $this->setFormMessage("update-user-answer-". $ansId, "danger", "Something is wrong");
+            $this->setFormMessage("update-user-answer-" . $ansId, "danger", "Something is wrong");
         }
 
         return redirect()->to(route("answers-page", ["id" => $questionId]) . "#update-answer");
