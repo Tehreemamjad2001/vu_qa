@@ -52,6 +52,17 @@
                                 <h3 class="fs-18 fw-medium">All Questions</h3>
                                 <p class="pt-1 fs-14 fw-medium lh-20">{{number_format($questionRecord->total())}}</p>
                             </div>
+
+                            <div class="filter-option-box w-20">
+                                <div class="selectize-control select-container single">
+                                    <select class="selectize-input items full has-options has-items select-container select-container selectized"
+                                            size="1" id="limit">
+                                        <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>
+                                        <option value="20" {{$limit == "20" ? "selected" : ""}}>20</option>
+                                        <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
+                                    </select>
+                                </div>
+                            </div>
                             <div class="filter-option-box w-20">
                                 <div class="selectize-control select-container single">
                                     <select class="selectize-input items full has-options has-items select-container select-container selectized"
@@ -61,7 +72,6 @@
                                     </select>
                                 </div>
                             </div>
-
                         </div><!-- end filters -->
                         <div class="questions-snippet border-top border-top-gray">
                             @foreach($questionRecord as $data)
@@ -77,18 +87,6 @@
                                 <nav aria-label="Page navigation example">
                                     {!!$questionRecord->appends($_GET)->render()!!}
                                 </nav>
-                            </div>
-
-
-                            <div class="filter-option-box w-20">
-                                <div class="selectize-control select-container single">
-                                    <select class="selectize-input items full has-options has-items select-container select-container selectized"
-                                            size="1" id="limit">
-                                        <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>
-                                        <option value="20" {{$limit == "20" ? "selected" : ""}}>20</option>
-                                        <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
-                                    </select>
-                                </div>
                             </div>
                         </div>
                     </div><!-- end question-main-bar -->
@@ -138,11 +136,14 @@
                                         @endphp
                                         <div class="media media-card media--card media--card-2">
                                             <div class="media-body">
-                                                <h5><a href="{{route("answers-page",["id"=>$value->questions_id])}}">{{Str::limit($value->title,30)}}</a></h5>
+                                                <h5>
+                                                    <a href="{{route("answers-page",["id"=>$value->questions_id])}}">{{Str::limit($value->title,30)}}</a>
+                                                </h5>
                                                 <small class="meta">
                                                     <span class="pr-1">{{$time}}</span>
                                                     <span class="pr-1">. by</span>
-                                                    <a href="{{route("user-questions-list",["id"=>$value->id])}}" class="author">{{$value->name}}</a>
+                                                    <a href="{{route("user-questions-list",["id"=>$value->id])}}"
+                                                       class="author">{{$value->name}}</a>
                                                 </small>
                                             </div>
                                         </div><!-- end media -->

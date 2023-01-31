@@ -7,7 +7,6 @@
         $id = request()->id;
         $totalNumberOfAnswers =   $pageData['answer_total_record'];
         $perPageAnswers = $pageData['answer_per_page'];
-
     @endphp
     <section class="question-area pt-40px pb-40px">
         <div class="container">
@@ -53,18 +52,28 @@
                         <!-- end question -->
                         <div class="subheader">
                             <div class="subheader-title">
-                                <h3 class="fs-16">{{$totalNumberOfAnswers == 1 ? "Answer" : "Answers"}}</h3>
+                                <h3 class="fs-16">{{$totalNumberOfAnswers <= 1 ? "Answer" : "Answers"}}</h3>
                             </div><!-- end subheader-title -->
                         </div><!-- end subheader -->
                         <div class="container1">
-                            @include("front_end.components.answer_list")
+                            @if($totalNumberOfAnswers == "0")
+                                <div class="row pt-10px" >
+                                    <p class="col-sm-5 col-sm-5"></p>
+                                    <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center" >No data is available</p>
+                                </div>
+
+                            @else
+                                @include("front_end.components.answer_list")
+                            @endif
                         </div>
                         <div id="no-more" class="row">
-                            <p class="col-sm-4 col-sm-4"></p>
+                            <p class="col-sm-5 col-sm-5"></p>
+                            @if($perPageAnswers < $totalNumberOfAnswers)
+                                <input type="submit" value="Load More" id="load-more"
+                                       class="btn theme-btn col-sm-1 col-sm-1">
+                            @endif
                         </div>
-                        @if($perPageAnswers < $totalNumberOfAnswers)
-                            <input type="submit" value="Load More" id="load-more" class="btn theme-btn">
-                        @endif
+
                         <div class="post-form" id="save-answer">
                             <form method="post" action="{{route("save-answer")}}" class="pt-3" id="error">
                                 @csrf
@@ -114,7 +123,7 @@
                     $(".container1").append(response.view);
                     if (response.button == "false") {
                         $("#load-more").hide();
-                        $("#no-more").append("<p class=\"col-md-4 col-sm-4 alert alert-info\" style=\"text-align: center\" >No more data is available</p>");
+                        $("#no-more").append("<p class=\"col-md-3 col-sm-3 alert alert-info\" style=\"text-align: center\" >No more data is available</p>");
 
                     } else {
                         $("#load-more").show();
@@ -124,7 +133,6 @@
             });
 
         }
-
 
         $(document).ready(function () {
             $('#limit').change(function () {

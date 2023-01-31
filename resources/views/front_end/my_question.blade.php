@@ -65,14 +65,26 @@
                             <div class="d-flex flex-wrap align-items-center justify-content-between">
                                 <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}
                                 </p>
-
+                                <div class="filter-option-box w-20">
+                                    <div class="selectize-control select-container single">
+                                        <select size="1" id="limit"
+                                                class="select-container selectize-input items full has-options has-items select-container select-container selectized"
+                                                id="sort">
+                                            <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>
+                                            <option value="20" {{$limit == "20" ? "selected" : ""}}>20</option>
+                                            <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
+                                        </select>
+                                    </div>
+                                </div>
 
                                 <div class="filter-option-box w-20">
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
+                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest
+                                            </option>
+                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -97,17 +109,7 @@
                                     {!!$questionRecord->appends($_GET)->render()!!}
                                 </nav>
                             </div>
-                            <div class="filter-option-box w-20">
-                                <div class="selectize-control select-container single">
-                                    <select size="1" id="limit"
-                                            class="select-container selectize-input items full has-options has-items select-container select-container selectized"
-                                            id="sort">
-                                        <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>
-                                        <option value="20" {{$limit == "20" ? "selected" : ""}}>20</option>
-                                        <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
-                                    </select>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div><!-- end question-main-bar -->

@@ -2,8 +2,7 @@
     $answerRecord = isset($pageData['answer_record']) && !empty($pageData['answer_record']) ? $pageData['answer_record'] : $finalResult;
     $questionId = isset(request()->id) && !empty(request()->id) ? request()->id :"";
     $usrId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
-    $shareComponent = $pageData["share_component"];
-   // dd($shareComponent);
+    $shareComponent = isset($pageData["share_component"]) && !empty($pageData["share_component"]) ? $pageData["share_component"] : "";
 @endphp
 @foreach($answerRecord as $item)
     <div class="answer-wrap d-flex">
@@ -25,9 +24,6 @@
                    id="post_vote_down_{{$item->id}}"
                    data-toggle="tooltip" data-placement="right"
                    title="Down Vote" style="cursor: pointer"></a>
-
-                <br>
-                <span id="vote_counter_{{$item->id}}"></span>
                 <br>
                 <span class="counter" id="vote_down_count_{{$item->id}}"></span>
                 <a onclick="isAccepted({{$item->id}})" id="accepted_{{$item->id}}"
@@ -38,9 +34,11 @@
             </div>
         </div><!-- end votes -->
         <div class="answer-body-wrap flex-grow-1">
-            @if(Session::has('alert-update-user-answer-'. $item->id))
-                {!!Session::get('alert-update-user-answer-'. $item->id)!!}
-            @endif
+            <div class="success-message">
+                @if(Session::has('alert-update-user-answer-'. $item->id))
+                    {!!Session::get('alert-update-user-answer-'. $item->id)!!}
+                @endif
+            </div>
             <div class="answer-body">
                 <p id="ansewr_body_{{$item->id}}">{{$item->answer}}</p>
                 <div id="update_answer_{{$item->id}}"></div>
@@ -72,10 +70,9 @@
                             <button class="btn theme-btn theme-btn-sm" type="submit" id="save_updated_answer">Post Your
                                 Answer
                             </button>
-                            <button onclick="hideTextArea({{$item->id}})" class="btn theme-btn theme-btn-sm"
-                                    type="reset"
-                                    id="reset_{{$item->id}}">Reset
-                            </button>
+                            <input onclick="hideTextArea({{$item->id}})" class="btn theme-btn theme-btn-sm"
+                                   type="button"
+                                   id="reset_{{$item->id}}" value="Back">
                         </form>
                     </div>
 
@@ -165,7 +162,7 @@
                 success_type: successType
             },
             success: function (response) {
-                var attr = $("#accepted_" + id).attr("class");
+                $("#accepted_" + id).attr("class");
                 if (response.success_type = "true") {
                     $(".approve").removeClass("star-on");
                     if (id == response.id) {
@@ -184,13 +181,13 @@
     }
 
     function editAnswer(id) {
-        alert(id);
         $("#ansewr_body_" + id).hide();
         $("#update_answer_" + id).append(
-            $("#answer_" + id).show()
+            $("#answer_" + id).show(),
         );
     }
 
+    $(".success-message").delay(3000).fadeOut();
 </script>
 
 

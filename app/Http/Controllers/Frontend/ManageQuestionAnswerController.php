@@ -307,7 +307,7 @@ class ManageQuestionAnswerController extends Controller
             ], 200);
         }
 
-        $this->pageData["answer_record"] = $finalResult;
+        $this->pageData["answer_record"] = $answerRecord;
         $questionRecord = Question::select("questions.*", "users.name", "users.profile_pic", "categories.category_name")
             ->join("users", "questions.user_id", "users.id")
             ->where("questions.id", $id)
@@ -315,7 +315,7 @@ class ManageQuestionAnswerController extends Controller
             ->first();
         $this->pageData["question_record"] = $questionRecord;
 
-        $shareComponent = \Share::page('http://jorenvanhocht.be', 'facebook')
+        $shareComponent = \Share::page('http://jorenvanhocht.be', 'Share title')
             ->facebook();
 
         $this->pageData["share_component"] = $shareComponent;

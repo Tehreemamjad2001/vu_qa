@@ -142,9 +142,10 @@
                                     $tags = explode(",",$questionRecord->tags);
                                 @endphp
                                 <div class="form-group">
-                                    @foreach($tags as $item)
+
                                         <input type="hidden" name="tags" id="select2_sample5"
                                                class="form-control form--control input-tags input--tags select2"
+                                               @foreach($tags as $item)
                                                value="{{$item}}">
                                     @endforeach
                                 </div>

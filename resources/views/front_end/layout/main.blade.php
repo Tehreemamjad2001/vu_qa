@@ -97,7 +97,6 @@
 
 
     {{--facebook share button--}}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
     <script src="{{ assets('js/share.js',true) }}"></script>
     {{--facebook share button--}}
     <style>
@@ -111,17 +110,20 @@
         }
 
         div#social-links {
+            /*width: 20px;*/
             margin: 0 auto;
-            max-width: 1400px;
+            max-width: 300px;
         }
+
         div#social-links ul li {
-            display: inline-block;
+            display: block;
         }
+
         div#social-links ul li a {
-            padding: 10px;
+            padding: 6px;
             border: 1px solid #ccc;
-            margin: 1px;
-            font-size: 30px;
+            margin: 15px;
+            font-size: 10px;
             color: #222;
             background-color: #ccc;
         }
