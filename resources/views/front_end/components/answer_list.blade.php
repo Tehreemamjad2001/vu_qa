@@ -2,25 +2,25 @@
     $answerRecord = isset($pageData['answer_record']) && !empty($pageData['answer_record']) ? $pageData['answer_record'] : $finalResult;
     $questionId = isset(request()->id) && !empty(request()->id) ? request()->id :"";
     $usrId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
-
+    $shareComponent = $pageData["share_component"];
+   // dd($shareComponent);
 @endphp
 @foreach($answerRecord as $item)
     <div class="answer-wrap d-flex">
         <div class="votes votes-styled w-auto">
             <div id="vote2" class="upvotejs">
                 <a onclick="voteUp({{$item->id}})" id="up_answer_{{$item->id}}"
-                   class="upvote
-                               vote_{{$item->id}}"
+                   class="upvote {{$item->is_logged_user_vote_up == "No" ? "" : "upvote-on" }}
+                           vote_{{$item->id}}"
                    data-toggle="tooltip" data-placement="right"
                    title="Up Vote" style="cursor: pointer"></a>
                 @php
-                    $voteValue = $item->total_up_vote > $item->total_down_vote
-                                         ? $item->total_up_vote : $item->total_down_vote;
+                    $voteValue = $item->is_logged_user_vote_up == "Yes" ? $item->total_up_vote : $item->total_down_vote;
                 @endphp
-                <span id="vote_counter_{{$item->id}}">{{ isset($voteValue) && !empty($voteValue) ? $voteValue : "0"}}</span>
+                <span id="vote_counter_{{$item->id}}">{{isset($voteValue) && !empty($voteValue) ? $voteValue : "0"}}</span>
 
                 <a onclick="voteDown({{$item->id}})" id="down_answer_{{$item->id}}"
-                   class="downvote  vote_{{$item->id}}"
+                   class="downvote  {{$item->is_logged_user_vote_down == "No" ? "" : "downvote-on" }} vote_{{$item->id}}"
                    data-vote-type="0"
                    id="post_vote_down_{{$item->id}}"
                    data-toggle="tooltip" data-placement="right"
@@ -37,82 +37,50 @@
                 </a>
             </div>
         </div><!-- end votes -->
-        <div class="post-form" id="answer" style="display: none">
-            <form method="post" action="{{route("update-answer")}}" class="pt-3" id="#update-answer">
-                @csrf
-                @if(Session::has('alert-save-answer'))
-                    {!!Session::get('alert-save-answer')!!}
-                @endif
-                <div class="input-box">
-                    <label class="fs-14 text-black lh-20 fw-medium">Body</label>
-                    <div class="form-group">
+        <div class="answer-body-wrap flex-grow-1">
+            @if(Session::has('alert-update-user-answer-'. $item->id))
+                {!!Session::get('alert-update-user-answer-'. $item->id)!!}
+            @endif
+            <div class="answer-body">
+                <p id="ansewr_body_{{$item->id}}">{{$item->answer}}</p>
+                <div id="update_answer_{{$item->id}}"></div>
+            </div><!-- end answer-body -->
+            <div class="question-post-user-action">
+                <div class="post-menu">
+                    <div class="post-form" id="answer_{{$item->id}}" style="display: none">
+                        <form method="post" action="{{route("update-answer")}}" class="pt-3" id="#update-answer">
+                            @csrf
+                            <div class="input-box">
+                                <div class="form-group">
                                         <textarea
                                                 class="form-control form--control form-control-sm fs-13 user-text-editor"
                                                 name="answer" rows="6"
                                                 placeholder="Your answer here...">{{$item->answer}}</textarea>
-                    </div>
-                    @if ($errors->has('answer') )
-                        <span class="text-danger"
-                              role="alert">{{$errors->first('answer')}}</span>
-                    @endif
-                    @if ($errors->has('answer_limit') )
-                        <span class="text-danger"
-                              role="alert">{{$errors->first('answer_limit')}}</span>
-                    @endif
+                                </div>
+                                @if ($errors->has('answer') )
+                                    <span class="text-danger"
+                                          role="alert">{{$errors->first('answer')}}</span>
+                                @endif
+                                @if ($errors->has('answer_limit') )
+                                    <span class="text-danger"
+                                          role="alert">{{$errors->first('answer_limit')}}</span>
+                                @endif
 
-                </div>
-                <input type="hidden" name="answer_id" value="{{$item->id}}">
-                <input type="hidden" name="question_id" value="{{$item->question_id}}">
-                <button class="btn theme-btn theme-btn-sm" type="submit" id="save_updated_answer">Post Your Answer
-                </button>
-            </form>
-        </div>
-        <div class="answer-body-wrap flex-grow-1">
-            <div class="answer-body" id="update_answer_{{$item->id}}">
-                <p id="ansewr_body_{{$item->id}}">{{$item->answer}}</p>
-            </div><!-- end answer-body -->
-            <script>
-                function editAnswer(id) {
-                    $("#ansewr_body_" + id).hide();
-                    $("#update_answer_" + id).append(
-                        $("#answer").show()
-                    );
-                }
-            </script>
-            <div class="question-post-user-action">
-                <div class="post-menu">
-                    <div class="btn-group">
-                        <button class="btn dropdown-toggle after-none" type="button"
-                                id="shareDropdownMenuTwo" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">Share
-                        </button>
-                        <div class="dropdown-menu dropdown--menu dropdown--menu-2 mt-2"
-                             aria-labelledby="shareDropdownMenuTwo">
-                            <div class="py-3 px-4">
-                                <h4 class="fs-15 pb-2">Share a link to this question</h4>
-                                <form action="#" class="copy-to-clipboard">
-                                    <span class="text-success-message">Link Copied!</span>
-                                    <input type="text"
-                                           class="form-control form--control form-control-sm copy-input"
-                                           value="https://disilab.com/q/66552850/15319675">
-                                    <div class="btn-box pt-2 d-flex align-items-center justify-content-between">
-                                        <a href="#" class="btn-text copy-btn">Copy link</a>
-                                        <ul class="social-icons social-icons-sm">
-                                            <li><a href="#" class="bg-8 text-white shadow-none"
-                                                   title="Share link to this question on Facebook"><i
-                                                            class="la la-facebook"></i></a></li>
-                                            <li><a href="#" class="bg-9 text-white shadow-none"
-                                                   title="Share link to this question on Twitter"><i
-                                                            class="la la-twitter"></i></a></li>
-                                            <li><a href="#"
-                                                   class="bg-dark text-white shadow-none"
-                                                   title="Share link to this question on DEV"><i
-                                                            class="lab la-dev"></i></a></li>
-                                        </ul>
-                                    </div>
-                                </form>
                             </div>
-                        </div>
+                            <input type="hidden" name="answer_id" value="{{$item->id}}">
+                            <input type="hidden" name="question_id" value="{{$item->question_id}}">
+                            <button class="btn theme-btn theme-btn-sm" type="submit" id="save_updated_answer">Post Your
+                                Answer
+                            </button>
+                            <button onclick="hideTextArea({{$item->id}})" class="btn theme-btn theme-btn-sm"
+                                    type="reset"
+                                    id="reset_{{$item->id}}">Reset
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="btn-group">
+                        {!! $shareComponent !!}
                     </div><!-- btn-group -->
                     <a onclick="editAnswer({{$item->id}})" class="btn">Edit</a>
 
@@ -208,6 +176,20 @@
         });
     }
 
+    function hideTextArea(id) {
+        $("#reset_" + id).on("click", function () {
+            $("#answer_" + id).hide();
+            $("#ansewr_body_" + id).show();
+        })
+    }
+
+    function editAnswer(id) {
+        alert(id);
+        $("#ansewr_body_" + id).hide();
+        $("#update_answer_" + id).append(
+            $("#answer_" + id).show()
+        );
+    }
 
 </script>
 

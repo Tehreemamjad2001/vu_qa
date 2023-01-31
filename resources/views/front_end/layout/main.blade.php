@@ -94,6 +94,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
     {{--for sweetAlert--}}
+
+
+    {{--facebook share button--}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="{{ assets('js/share.js',true) }}"></script>
+    {{--facebook share button--}}
     <style>
         .readmore .moretext {
             display: none;
@@ -102,6 +108,22 @@
         .top_nav_active {
             color: #2d86eb;
             background-color: rgba(45, 134, 235, .05);
+        }
+
+        div#social-links {
+            margin: 0 auto;
+            max-width: 1400px;
+        }
+        div#social-links ul li {
+            display: inline-block;
+        }
+        div#social-links ul li a {
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 1px;
+            font-size: 30px;
+            color: #222;
+            background-color: #ccc;
         }
     </style>
 </head>

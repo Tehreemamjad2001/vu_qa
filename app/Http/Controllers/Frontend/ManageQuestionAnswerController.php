@@ -272,10 +272,16 @@ class ManageQuestionAnswerController extends Controller
         $finalResult = [];
         foreach ($answerRecord as $item) {
             $upVoteCheck = AnswerVotes::where("user_id", auth()->user()->id)->where("answer_id", $item->id)->where("vote_type", "vote up")->count();
+            $downVoteCheck = AnswerVotes::where("user_id", auth()->user()->id)->where("answer_id", $item->id)->where("vote_type", "vote Down")->count();
             if ($upVoteCheck == 1) {
                 $item["is_logged_user_vote_up"] = "Yes";
             } else {
+                $item["is_logged_user_vote_up"] = "No";
+            }
+            if($downVoteCheck == 1){
                 $item["is_logged_user_vote_down"] = "Yes";
+            }else{
+                $item["is_logged_user_vote_down"] = "No";
             }
             $finalResult[] = $item;
         }
@@ -309,6 +315,10 @@ class ManageQuestionAnswerController extends Controller
             ->first();
         $this->pageData["question_record"] = $questionRecord;
 
+        $shareComponent = \Share::page('http://jorenvanhocht.be', 'facebook')
+            ->facebook();
+
+        $this->pageData["share_component"] = $shareComponent;
         $this->pageData["page_title"] = Str::limit($questionRecord->title, "20");
         return $this->showPage("front_end.answers");
     }
@@ -351,9 +361,9 @@ class ManageQuestionAnswerController extends Controller
             "answer" => $answer
         ]);
         if ($updateRecord) {
-            $this->setFormMessage("save-answer", "success", "Your answer have been saved");
+            $this->setFormMessage("update-user-answer-". $ansId, "success", "Your answer has been updated");
         } else {
-            $this->setFormMessage("save-answer", "danger", "Something is wrong");
+            $this->setFormMessage("update-user-answer-". $ansId, "danger", "Something is wrong");
         }
 
         return redirect()->to(route("answers-page", ["id" => $questionId]) . "#update-answer");
