@@ -16,7 +16,7 @@
                     <form class="mr-3 w-25">
                         <div class="form-group">
                             <label>
-                                <input type="hidden" name="sub_id" value="{{$catId}}">
+                                <input type="hidden" name="id" value="{{$catId}}">
                                 <input class="form-control form--control form-control-sm h-auto lh-34" type="search"
                                        name="category" value="{{$search}}"
                                        placeholder="Filter by category">

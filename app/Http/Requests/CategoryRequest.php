@@ -25,9 +25,7 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         $getFormRoute = Route::currentRouteName();
-//      dd($getFormRoute);
         $id = isset($this->id) ? $this->id : null;
-       // dd($id);
         switch ($getFormRoute) {
             case "category-save" :
                 return [

@@ -75,7 +75,6 @@
                                    id="reset_{{$item->id}}" value="Back">
                         </form>
                     </div>
-
                     <div class="btn-group">
                         {!! $shareComponent !!}
                     </div><!-- btn-group -->

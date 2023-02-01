@@ -38,8 +38,4 @@ class AnswerVotes extends Model
 
         ];
     }
-
-    public function isVoteUpAndDown(){
-
-    }
 }

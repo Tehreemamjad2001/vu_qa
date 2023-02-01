@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
-use App\Http\Requests\UserRequest;
 use App\Models\Answer;
 use App\Models\AnswerVotes;
 use App\Models\Category;
+use App\Models\Option;
 use App\Models\Question;
 use App\Models\QuestionViewCount;
 use App\Models\User;
@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Traits\Search;
 
@@ -148,29 +149,29 @@ class ManageQuestionAnswerController extends Controller
     }
 
 
-    public function updateQuestion(UserRequest $request, $id)
+    public function updateQuestion(QuestionRequest $request, $id)
     {
         $updateQuestion = Question::where("id", $id);
-        $title = langLimit($request->title);
-        $description = langLimit($request->description);
-        if ($title == "false" || $description == "false") {
-            $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
+        $title = langLimit("question-title-limit", $request->title);
+        $description = langLimit("question-description-limit", $request->description);
+        if (!$title || !$description) {
+            return redirect()->to(route("question-update-page", ["id", $id]) . "#error")
+                ->withErrors(['limit' => 'English words exceed the limit!'])->withInput();
+        } else {
+            $updateQuestion = $updateQuestion->update([
+                "title" => $request->title,
+                "description" => $request->description,
+                "parent_id" => $request->parent_cat,
+                "category_id" => $request->cat,
+                "tags" => $request->tags,
+            ]);
+            if ($updateQuestion) {
+                $this->setFormMessage('update-record', "success", "Question has been update ");
+            } else {
+                $this->setFormMessage('update-record', "danger", "Question does not exit");
+            }
             return back();
         }
-
-        $updateQuestion = $updateQuestion->update([
-            "title" => $title,
-            "description" => $description,
-            "parent_id" => $request->parent_cat,
-            "category_id" => $request->cat,
-            "tags" => $request->tags,
-        ]);
-        if ($updateQuestion) {
-            $this->setFormMessage('update-record', "success", "Question has been update ");
-        } else {
-            $this->setFormMessage('update-record', "danger", "Question does not exit");
-        }
-        return back();
     }
 
     public function deleteQuestion($id)
@@ -216,50 +217,50 @@ class ManageQuestionAnswerController extends Controller
         ], 200);
     }
 
-    public function saveQuestion(UserRequest $request)
+    public function saveQuestion(QuestionRequest $request)
     {
-        $title = langLimit($request->title);
-        $description = langLimit($request->description);
+        $title = langLimit("question-title-limit", $request->title);
+        $description = langLimit("question-description-limit", $request->description);
 
-        if ($title == "false") {
-            dd("false");
-            $this->setFormMessage('lang-limit', "danger", "English words exceed the limit! ");
+        if (!$title || !$description) {
+            return redirect()->to(route("ask-question-page") . "#error")
+                ->withErrors(['limit' => 'English words exceed the limit!'])->withInput();
+        } else {
+            $id = auth()->user()->id;
+            $parentId = $request->parent_cat;
+            $categoryId = $request->cat;
+            $addQuestion = Question::create([
+                "title" => $request->title,
+                "description" => $request->description,
+                "user_id" => $id,
+                "category_id" => $categoryId,
+                "parent_id" => $parentId,
+                "tags" => Str::words($request->tags, "5"),
+            ]);
+            if ($addQuestion) {
+                $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
+                $updateQuestionRecord = Category::where("id", $parentId);
+                $updateQuestionRecord = $updateQuestionRecord->update([
+                    "total_no_of_questions" => $totalQuestionAccordingParentCategory,
+                ]);
+                $totalQuestionAccordingSubCategory = Question::where("category_id", $categoryId)->count();
+                $updateQuestionRecord = Category::where("id", $categoryId);
+                $updateQuestionRecord = $updateQuestionRecord->update([
+                    "total_no_of_questions_sc" => $totalQuestionAccordingSubCategory,
+                ]);
+                $this->setFormMessage('add-question', "success", "Question has been saved ");
+            } else {
+                $this->setFormMessage('add-question', "danger", "Question does not exit");
+            }
             return back();
         }
-        $id = auth()->user()->id;
-        $parentId = $request->parent_cat;
-        $categoryId = $request->cat;
-        $addQuestion = Question::create([
-            "title" => $title,
-            "description" => $description,
-            "user_id" => $id,
-            "category_id" => $categoryId,
-            "parent_id" => $parentId,
-            "tags" => Str::words($request->tags, "5"),
-        ]);
-        if ($addQuestion) {
-            $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
-            $updateQuestionRecord = Category::where("id", $parentId);
-            $updateQuestionRecord = $updateQuestionRecord->update([
-                "total_no_of_questions" => $totalQuestionAccordingParentCategory,
-            ]);
-            $totalQuestionAccordingSubCategory = Question::where("category_id", $categoryId)->count();
-            $updateQuestionRecord = Category::where("id", $categoryId);
-            $updateQuestionRecord = $updateQuestionRecord->update([
-                "total_no_of_questions_sc" => $totalQuestionAccordingSubCategory,
-            ]);
-            $this->setFormMessage('add-question', "success", "Question has been saved ");
-        } else {
-            $this->setFormMessage('add-question', "danger", "Question does not exit");
-        }
-        return back();
     }
 
     public function questionDetail(Request $request, $id)
     {
+        //dd(url('/'));
         $findRecord = QuestionViewCount::where("question_id", $id)->where("ip", request()->ip())->first();
-        //dd($findRecord);
-        if ($findRecord = null) {
+        if ($findRecord == null) {
             $question = new Question;
             $question->questionViewCount($id);
         }
@@ -315,9 +316,8 @@ class ManageQuestionAnswerController extends Controller
             ->first();
         $this->pageData["question_record"] = $questionRecord;
 
-        $shareComponent = \Share::page('http://jorenvanhocht.be', 'Share title')
+        $shareComponent = \Share::page("", 'hellooo')
             ->facebook();
-
         $this->pageData["share_component"] = $shareComponent;
         $this->pageData["page_title"] = Str::limit($questionRecord->title, "20");
         return $this->showPage("front_end.answers");
@@ -326,30 +326,31 @@ class ManageQuestionAnswerController extends Controller
     public function saveAnswer(QuestionRequest $request)
     {
         $questionId = request()->question_id;
-        $answer = langLimit($request->answer);
+        $answer = langLimit("answer-limit", $request->answer);
         $userId = auth()->user()->id;
         if (!$answer) {
             return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
-                ->withErrors(['answer_limit' => 'Usage of English words must be 20 %'])->withInput();
+                ->withErrors(['answer_limit' => 'English words exceed the limit!'])->withInput();
 
-        }
-        $insertAnswer = Answer::create([
-            "answer" => $request->answer,
-            "question_id" => $questionId,
-            "user_id" => $userId,
-        ]);
-        if ($insertAnswer) {
-            $totalNoOfAnswers = Answer::where("question_id", $questionId)->count();
-            Question::where("id", $questionId)->update([
-                "total_no_of_ans" => $totalNoOfAnswers
-            ]);
-
-            $this->setFormMessage("save-answer", "success", "Your answer have been saved");
         } else {
-            $this->setFormMessage("save-answer", "danger", "Something is wrong");
-        }
+            $insertAnswer = Answer::create([
+                "answer" => $request->answer,
+                "question_id" => $questionId,
+                "user_id" => $userId,
+            ]);
+            if ($insertAnswer) {
+                $totalNoOfAnswers = Answer::where("question_id", $questionId)->count();
+                Question::where("id", $questionId)->update([
+                    "total_no_of_ans" => $totalNoOfAnswers
+                ]);
 
-        return redirect()->to(route("answers-page", ["id" => $questionId]) . "#save-answer");
+                $this->setFormMessage("save-answer", "success", "Your answer have been saved");
+            } else {
+                $this->setFormMessage("save-answer", "danger", "Something is wrong");
+            }
+
+            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#save-answer");
+        }
     }
 
     public function updateAnswer(Request $request)

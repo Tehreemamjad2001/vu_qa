@@ -1,7 +1,7 @@
 @php
     $routeName = Route::currentRouteName();
 @endphp
-    <div class="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
+<div class="media media-card rounded-0 shadow-none mb-0 bg-transparent p-3 border-bottom border-bottom-gray">
     <div class="votes text-center votes-2">
         <div class="answer-block answered my-2">
                                             <span class="answer-counts d-block lh-20 fw-medium">{{isset($data->total_no_of_ans)
@@ -14,10 +14,9 @@
         </div>
     </div>
     <div class="media-body">
-        <h5 class="mb-2 fw-medium readmore"  style="direction: rtl" >
+        <h5 class="mb-2 fw-medium readmore" style="direction: rtl">
             <a
-                    href="{{route("answers-page",["id"=>$data->question_id])}}">{{$data->title}}
-            </a>
+                    href="{{route("answers-page",["id"=>$data->question_id])}}">{{$data->title}}</a>
         </h5>
         <p class="mb-2 truncate lh-20 fs-15">{{$data->category_name}}</p>
         <p class="mb-2 truncate lh-20 fs-15 readmore" style="direction: rtl">{{$data->description}}</p>
@@ -40,18 +39,6 @@
                     <h5 class="pb-1"><a
                                 href="{{ route("user-questions-list",["id"=>$data->id])}}">{{$data->name}}</a>
                     </h5>
-                    <div class="stats fs-12 d-flex align-items-center lh-18">
-                                                        <span class="text-black pr-2"
-                                                              title="Reputation score">224</span>
-                        <span class="pr-2 d-inline-flex align-items-center"
-                              title="Gold badge"><span
-                                    class="ball gold"></span>16</span>
-                        <span class="pr-2 d-inline-flex align-items-center"
-                              title="Silver badge"><span
-                                    class="ball silver"></span>93</span>
-                        <span class="pr-2 d-inline-flex align-items-center"
-                              title="Bronze badge"><span class="ball"></span>136</span>
-                    </div>
                 </div>
                 <small class="meta d-block text-right">
                     <span class="text-black d-block lh-18">asked</span>
@@ -62,14 +49,14 @@
         </div>
     </div>
     @if($routeName == "my-question")
-        <div class="text-center">
-            <div >
+        <div class="text-center" style="padding-left: 5px">
+            <div>
                 <a name="delete" class="del_ete  btn theme-btn theme-btn-sm"
                    href="{{route("question-delete-page",["id"=>$data->question_id])}}">
                     <b>Delete</b>
                 </a>
             </div>
-<br>
+            <br>
             <div class="view-block">
                 <a class="btn theme-btn theme-btn-sm"
                    href="{{route("question-edit-page",["id"=>$data->question_id])}}">

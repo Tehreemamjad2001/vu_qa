@@ -57,9 +57,10 @@
                         </div><!-- end subheader -->
                         <div class="container1">
                             @if($totalNumberOfAnswers == "0")
-                                <div class="row pt-10px" >
+                                <div class="row pt-10px">
                                     <p class="col-sm-5 col-sm-5"></p>
-                                    <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center" >No data is available</p>
+                                    <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center">No data is
+                                        available</p>
                                 </div>
 
                             @else

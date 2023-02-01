@@ -100,8 +100,9 @@ function getUserTimeZone($date, $timeZone = 'Asia/Karachi')
 }
 
 
-function langLimit($text)
+function langLimit($key, $text)
 {
+
     $detector = new \LanguageDetector\LanguageDetector(null, ['en', 'ur']);
     $description = explode(" ", $text);
     $urduWordCount = 1;
@@ -118,8 +119,10 @@ function langLimit($text)
         }
     }
     $totalWords = $urduWordCount + $engWordCount;
-    if ($engWordCount <= ($totalWords * (20 / 100))) {
-        return $text;
+    $option = new \App\Models\Option();
+    $value = $option->getValue($key);
+    if ($engWordCount <= ($totalWords * ($value / 100))) {
+        return true;
     } else {
         return false;
     }

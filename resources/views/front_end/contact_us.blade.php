@@ -44,11 +44,6 @@
                             <input type="email" id="email" name="email" class="form-control form--control"
                                    placeholder="e.g. alexsmith@gmail.com">
                         </div><!-- end form-group -->
-                        <div class="form-group">
-                            <label class="fs-14 text-black fw-medium lh-20">Phone Number</label>
-                            <input type="tel" id="phone-number" name="phone" class="form-control form--control"
-                                   placeholder="Your phone number">
-                        </div><!-- end form-group -->
                         <div class="form-group" >
                             <label class="fs-14 text-black fw-medium lh-20">Message</label>
                             <textarea id="message" name="message" class="form-control form--control" rows="6"

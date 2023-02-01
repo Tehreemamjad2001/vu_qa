@@ -111,6 +111,7 @@
                 <div class="col-lg-12">
                     <div class="card card-item">
                         <form method="post" action="{{route("question-update-page",["id"=>$id])}}" class="card-body"
+                              id="error"
                               enctype="multipart/form-data">
                             @if(Session::has('alert-add-question'))
                                 {!!Session::get('alert-add-question')!!}
@@ -128,6 +129,10 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('title')}}</span>
                                     @endif
+                                    @if ($errors->has('limit') )
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('limit')}}</span>
+                                    @endif
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
@@ -138,16 +143,11 @@
                                             about:</p>
                                     </div>
                                 </div>
-                                @php
-                                    $tags = explode(",",$questionRecord->tags);
-                                @endphp
                                 <div class="form-group">
+                                    <input type="hidden" name="tags" id="select2_sample5"
+                                           class="form-control form--control input-tags input--tags select2"
+                                           value="{{$questionRecord->tags}}">
 
-                                        <input type="hidden" name="tags" id="select2_sample5"
-                                               class="form-control form--control input-tags input--tags select2"
-                                               @foreach($tags as $item)
-                                               value="{{$item}}">
-                                    @endforeach
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
@@ -194,6 +194,10 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('description')}}</span>
                                     @endif
+                                    @if ($errors->has('limit') )
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('limit')}}</span>
+                                    @endif
                                     <div class="d-flex align-items-center pt-2">
                                         <div class="mr-3">
                                             ``` <code class="badge bg-gray border border-gray text-gray">code</code> ```
@@ -201,15 +205,6 @@
                                         <div class="mr-3 fw-bold">**bold**</div>
                                         <div class="mr-3 font-italic">*italic*</div>
                                         <div>&gt;quote</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-box pt-2">
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox fs-13 mb-1">
-                                        <input type="checkbox" class="custom-control-input" id="notifiedMe">
-                                        <label class="custom-control-label custom--control-label" for="notifiedMe">Get
-                                            notified by email when someone answers this question.</label>
                                     </div>
                                 </div>
                             </div>

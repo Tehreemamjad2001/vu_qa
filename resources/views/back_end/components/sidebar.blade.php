@@ -138,7 +138,7 @@ $currentRouteName = Route::currentRouteName();
             </li>
             <li class="{{ $currentRouteName == "answer-list" ? "active" : ""}}">
                 <a href="http://localhost/meme-creator/public/javascript:;?=20221130035639">
-                    <i class="fa fa-question"></i>
+                    <i class="fa fa-comments"></i>
                     <span class="title">
 						Manage Answer
 					</span>
@@ -151,6 +151,26 @@ $currentRouteName = Route::currentRouteName();
                     <li class="start {{$currentRouteName == "answer-list" ?  "active" :"" }} ">
                         <a href="{{route("answer-list")}}">
                             Answer List</a>
+                    </li>
+
+
+                </ul>
+            </li>
+            <li class="{{ $currentRouteName == "site-setting-list" ? "active" : ""}}">
+                <a href="http://localhost/meme-creator/public/javascript:;?=20221130035639">
+                    <i class="fa fa-percent">%</i>
+                    <span class="title">
+						Manage Language Limit
+					</span>
+                    <span class="selected">
+					</span>
+                    <span class="arrow open">
+					</span>
+                </a>
+                <ul class="sub-menu">
+                    <li class="start {{$currentRouteName == "site-setting-list" ?  "active" :"" }} ">
+                        <a href="{{route("site-setting-list")}}">
+                            Limit List</a>
                     </li>
 
 

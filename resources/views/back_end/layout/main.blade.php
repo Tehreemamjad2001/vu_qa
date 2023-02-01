@@ -67,14 +67,21 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
     <script type="text/javascript" src="{{assets("assets/plugins/select2/select2.min.js")}}"></script>
 
     <link rel="stylesheet" type="text/css" href="{{assets("assets/plugins/select2/select2_metro.css")}}"/>
-    <script type="text/javascript" src="{{assets("assets/plugins/jquery-multi-select/js/jquery.multi-select.js")}}"></script>
-    <script type="text/javascript" src="{{assets("assets/plugins/jquery-multi-select/js/jquery.quicksearch.js")}}"></script>
-    <script type="text/javascript" src="{{assets("assets/plugins/jquery.input-ip-address-control-1.0.min.js")}}"></script>
-    <script type="text/javascript" src="{{assets("assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js")}}"></script>
-    <script type="text/javascript" src="{{assets("assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery-multi-select/js/jquery.multi-select.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery-multi-select/js/jquery.quicksearch.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery.input-ip-address-control-1.0.min.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/jquery-inputmask/jquery.inputmask.bundle.min.js")}}"></script>
+    <script type="text/javascript"
+            src="{{assets("assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")}}"></script>
     <script type="text/javascript" src="{{assets("assets/plugins/fuelux/js/spinner.min.js")}}"></script>
-    <script src="{{assets("assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js")}}" type="text/javascript"></script>
-    <script src="{{assets("assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js")}}" type="text/javascript"></script>
+    <script src="{{assets("assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js")}}"
+            type="text/javascript"></script>
+    <script src="{{assets("assets/plugins/bootstrap-touchspin/bootstrap.touchspin.js")}}"
+            type="text/javascript"></script>
     <!-- END PAGE LEVEL SCRIPTS -->
 
 

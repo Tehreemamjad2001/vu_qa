@@ -105,7 +105,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card card-item">
-                        <form method="post" action="{{route("save-question")}}" class="card-body"
+                        <form method="post" action="{{route("save-question")}}" class="card-body" id="error"
                               enctype="multipart/form-data">
                             @if(Session::has('alert-add-question'))
                                 {!!Session::get('alert-add-question')!!}
@@ -123,8 +123,9 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('title')}}</span>
                                     @endif
-                                    @if(Session::has('alert-lang-limit'))
-                                        {!!Session::get('alert-lang-limit')!!}
+                                    @if ($errors->has('limit') )
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('limit')}}</span>
                                     @endif
                                 </div>
                             </div><!-- end input-box -->
@@ -178,8 +179,9 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('description')}}</span>
                                     @endif
-                                    @if(Session::has('alert-lang-limit'))
-                                        {!!Session::get('alert-lang-limit')!!}
+                                    @if ($errors->has('limit') )
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('limit')}}</span>
                                     @endif
                                     <div class="d-flex align-items-center pt-2">
                                         <div class="mr-3">
@@ -188,15 +190,6 @@
                                         <div class="mr-3 fw-bold">**bold**</div>
                                         <div class="mr-3 font-italic">*italic*</div>
                                         <div>&gt;quote</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="input-box pt-2">
-                                <div class="form-group">
-                                    <div class="custom-control custom-checkbox fs-13 mb-1">
-                                        <input type="checkbox" class="custom-control-input" id="notifiedMe">
-                                        <label class="custom-control-label custom--control-label" for="notifiedMe">Get
-                                            notified by email when someone answers this question.</label>
                                     </div>
                                 </div>
                             </div>

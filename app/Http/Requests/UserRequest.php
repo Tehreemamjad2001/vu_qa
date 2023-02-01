@@ -37,7 +37,6 @@ class UserRequest extends FormRequest
         $id = isset($this->id) ? $this->id : null;
 
         switch ($routeName) {
-
             case "user-save" :
                 return [
                     'name' => 'required',
@@ -126,7 +125,6 @@ class UserRequest extends FormRequest
                 return [
                     'name' => 'required',
                     'email' => 'required',
-                    'phone' => 'required',
                     'message' => 'required',
                 ];
                 break;
@@ -144,9 +142,6 @@ class UserRequest extends FormRequest
             "gender" => "Select any option!",
             "password.same" => "Confirm Password did not match",
             "password.required" => "Password is required",
-            "title.required" => "Write your questions title",
-            "description.required" => "Write your questions description",
-            "parent_cat.required" => "select category ",
         ];
     }
 }

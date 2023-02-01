@@ -27,8 +27,6 @@ class QuestionRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
-       // dd($routeName);
-
         switch ($routeName) {
             case "user-save" :
                 return [
@@ -41,15 +39,29 @@ class QuestionRequest extends FormRequest
                     "answer" => "required",
                 ];
                 break;
+            case "save-question" :
+                return [
+                    'title' => 'required',
+                    'tags' => '',
+                    'description' => 'required',
+                    'parent_cat' => 'required',
+                ];
+                break;
+            case "question-update-page" :
+                return [
+                    'title' => 'required',
+                    'description' => 'required',
+                    'parent_cat' => 'required',
+                ];
+                break;
         }
     }
-
-    public
-    function messages()
+    public function messages()
     {
         return [
-            "title.required" => "Enter Question Title",
-            "question.required" => "Enter Question"
+            "title.required" => "Write your questions title",
+            "description.required" => "Write your questions description",
+            "parent_cat.required" => "select category ",
         ];
     }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\BlockedKeywordController;
 use App\Http\Controllers\Backend\QuestionController;
 use App\Http\Controllers\Backend\AnswerController;
+use App\Http\Controllers\Backend\SiteSettingController;
 use App\Http\Controllers\Frontend\CategoryListController;
 use App\Http\Controllers\Frontend\ProfileSettingController;
 use App\Http\Controllers\Frontend\ManageQuestionAnswerController;
@@ -17,11 +18,10 @@ use App\Http\Controllers\Frontend\UserQuestionsListController;
 use App\Http\Middleware\auth_admin;
 
 
-
-Route::get("php", function (){
+Route::get("php", function () {
     return view("php_info");
 });
-Route::get("wlcm", function (){
+Route::get("wlcm", function () {
     return view("welcome");
 });
 
@@ -142,7 +142,15 @@ Route::group([
         Route::get("question-delete/{id}", [QuestionController::class, "delete"])->name("delete");
     });
 
-
+    Route::group([
+        "prefix" => "site-setting",
+        "as" => "site-setting-"
+    ], function () {
+        Route::get("site-setting-list", [SiteSettingController::class, "langLimitList"])->name("list");
+        Route::get("site-setting-edit/{id}", [SiteSettingController::class, "edit"])->name("edit");
+        Route::post("site-setting-update/{id}", [SiteSettingController::class, "update"])->name("update");
+        Route::get("site-setting-delete/{id}", [SiteSettingController::class, "delete"])->name("delete");
+    });
 });
 
 

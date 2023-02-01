@@ -23,7 +23,6 @@ class ContactUsController extends Controller
         $contactUser = Contact::create([
             "name" => $request->name,
             "email" => $request->email,
-            "phone" => $request->phone,
             "message" => $request->message,
         ]);
 

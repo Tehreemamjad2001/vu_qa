@@ -113,10 +113,9 @@
                                     <form action="">
                                         <label>Choose a Number:</label>
                                         <select class="option" size="1" name="limit">
-                                            <option selected="selected">{{isset($limit) && !empty($limit) ? $limit : "5"}}</option>
-                                            <option value="5">5</option>
-                                            <option value="10">10</option>
-                                            <option value="15">15</option>
+                                            <option value="5"  {{$limit == "5" ? "selected" : ""}}>5</option>
+                                            <option value="10"  {{$limit == "10" ? "selected" : ""}}>10</option>
+                                            <option value="15"  {{$limit == "15" ? "selected" : ""}}>15</option>
                                         </select> records
                                         <br><br>
                                         <input type="hidden" name="sort_dir" value="{{$sortDir}}">

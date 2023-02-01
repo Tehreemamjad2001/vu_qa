@@ -2,7 +2,6 @@
 @section("content")
     @php
         $record = $pageData["question_record"];
-        //dd($record);
         $parentCategories = $pageData["parent_category"];
      $childCategories = $pageData["child_category"];
 
@@ -19,73 +18,75 @@
                 </a>
             </div>
         </div>
-        <br><br>
-        <form action="{{route("question-update",["id"=>$record->id])}}" method="post" class="form-horizontal">
-            @if(Session::has('alert-update-question'))
-                {!!Session::get('alert-update-question')!!}
-            @endif
-            {{csrf_field()}}
-            <div class="form-group">
-                <label class="col-md-3 control-label">Question<span class="text-danger">*</span></label>
-                <div class="col-md-4 ">
-                    <input type="text" name="title" class="form-control" placeholder="Example: Programing"
-                           value="{{isset($record->id) && !empty($record->id) ? $record->title : old('title')}}">
-                    @if ($errors->has('title'))
-                        <span class="text-danger" role="alert">{{$errors->first('title')}}</span>
-                    @endif
+        <div class="col-md-12 col-sm-12">
+            <form action="{{route("question-update",["id"=>$record->id])}}" method="post" class="form-horizontal">
+                @if(Session::has('alert-update-question'))
+                    {!!Session::get('alert-update-question')!!}
+                @endif
+                {{csrf_field()}}
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Question<span class="text-danger">*</span></label>
+                    <div class="col-md-4 ">
+                        <input type="text" name="title" class="form-control" placeholder="Example: Programing"
+                               value="{{isset($record->id) && !empty($record->id) ? $record->title : old('title')}}">
+                        @if ($errors->has('title'))
+                            <span class="text-danger" role="alert">{{$errors->first('title')}}</span>
+                        @endif
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-3 control-label">Category*</label>
-                <div class="col-md-4">
-                    <select name="category" id="sub_cat" class="form-control">
-                        @foreach($parentCategories as $value)
-                            <optgroup label="{{$value->category_name}}">
-                                @foreach($childCategories as $item)
-                                    @if ($item->parent_id ==$value->id)
-                                        <option value="{{$item->id}}" {{ $record->category_id == $item->id ? "selected" : ""}}>
-                                            {{$item->category_name}}
-                                        </option>
-                                    @endif
-                                @endforeach
-                            </optgroup>
-                        @endforeach
-                    </select>
-                    @if($errors->has("parent_id"))
-                        <span class="text-danger" role="alert">{{ $errors->first('parent_id')}}</span>
-                    @endif()
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Category*</label>
+                    <div class="col-md-4">
+                        <select name="category" id="sub_cat" class="form-control">
+                            @foreach($parentCategories as $value)
+                                <optgroup label="{{$value->category_name}}">
+                                    @foreach($childCategories as $item)
+                                        @if ($item->parent_id ==$value->id)
+                                            <option value="{{$item->id}}" {{ $record->category_id == $item->id ? "selected" : ""}}>
+                                                {{$item->category_name}}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </optgroup>
+                            @endforeach
+                        </select>
+                        @if($errors->has("parent_id"))
+                            <span class="text-danger" role="alert">{{ $errors->first('parent_id')}}</span>
+                        @endif()
+                    </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <label class="col-md-3 control-label">Is Blocked<span class="text-danger">*</span></label>
-                <div class="col-md-4">
-                    <select name="is_blocked" class="form-control">
-                        <option value="1" {{$record->is_blocked == "1" ? "selected" : ""}}>True</option>
-                        <option value="0" {{$record->is_blocked == "0" ? "selected" : ""}}>False
-                        </option>
-                    </select>
-                    @if($errors->has("is_blocked"))
-                        <span class="text-danger" role="alert">{{ $errors->first('is_blocked') }}</span>
-                    @endif()
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Is Blocked<span class="text-danger">*</span></label>
+                    <div class="col-md-4">
+                        <select name="is_blocked" class="form-control">
+                            <option value="1" {{$record->is_blocked == "1" ? "selected" : ""}}>True</option>
+                            <option value="0" {{$record->is_blocked == "0" ? "selected" : ""}}>False
+                            </option>
+                        </select>
+                        @if($errors->has("is_blocked"))
+                            <span class="text-danger" role="alert">{{ $errors->first('is_blocked') }}</span>
+                        @endif()
+                    </div>
                 </div>
-            </div>
 
                 <div class="form-group">
                     <label class="control-label col-md-3">Tags Support List</label>
                     <div class="col-md-4">
-                        <input type="hidden" name="tags" id="select2_sample5" class="form-control select2" value="red, blue">
+                        <input type="hidden" name="tags" id="select2_sample5" class="form-control select2"
+                               value="{{$record->tags}}">
                     </div>
                 </div>
 
-            <div class="form-actions fluid">
-                <div class="col-md-offset-3 col-md-9">
-                    <button type="submit" class="btn blue">Save</button>
-                    <button type="reset" class="btn default">Cancel</button>
+                <div class="form-actions fluid">
+                    <div class="col-md-offset-3 col-md-9">
+                        <button type="submit" class="btn blue">Save</button>
+                        <button type="reset" class="btn default">Cancel</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
     <script>
         jQuery(document).ready(function () {

@@ -52,7 +52,6 @@
                                 <h3 class="fs-18 fw-medium">All Questions</h3>
                                 <p class="pt-1 fs-14 fw-medium lh-20">{{number_format($questionRecord->total())}}</p>
                             </div>
-
                             <div class="filter-option-box w-20">
                                 <div class="selectize-control select-container single">
                                     <select class="selectize-input items full has-options has-items select-container select-container selectized"
