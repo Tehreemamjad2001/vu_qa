@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use DB;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use App\Traits\Search;
@@ -62,19 +63,7 @@ class ManageQuestionAnswerController extends Controller
         $questionRecord = $questionRecord->paginate($limit);
 
         $this->pageData["question-Record"] = $questionRecord;
-        $this->pageData["page_title"] = "Public Question";
-
-        $countTotalNumOfUsers = User::count();
-        $this->pageData["no_of_user"] = $countTotalNumOfUsers;
-
-        $countTotalNumOfQuestions = Question::count();
-        $this->pageData["no_of_questions"] = $countTotalNumOfQuestions;
-
-        $countTotalNumOfAnswers = Answer::count();
-        $this->pageData["no_of_answer"] = $countTotalNumOfAnswers;
-
-        $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted', "true")->count();
-        $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
+        $this->pageData["page_title"] = "Question";
 
         $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
             ->join("users", "questions.user_id", "users.id")
@@ -258,7 +247,6 @@ class ManageQuestionAnswerController extends Controller
 
     public function questionDetail(Request $request, $id)
     {
-        //dd(url('/'));
         $findRecord = QuestionViewCount::where("question_id", $id)->where("ip", request()->ip())->first();
         if ($findRecord == null) {
             $question = new Question;
@@ -315,8 +303,8 @@ class ManageQuestionAnswerController extends Controller
             ->join("categories", "categories.id", "questions.category_id")
             ->first();
         $this->pageData["question_record"] = $questionRecord;
-
-        $shareComponent = \Share::page("", 'hellooo')
+        $url = Route::currentRouteName();
+        $shareComponent = \Share::page($url, 'share title')
             ->facebook();
         $this->pageData["share_component"] = $shareComponent;
         $this->pageData["page_title"] = Str::limit($questionRecord->title, "20");

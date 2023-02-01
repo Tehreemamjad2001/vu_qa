@@ -41,17 +41,6 @@ class UserQuestionsListController extends Controller
         $questionRecord = $questionRecord->paginate($limit);
         $this->pageData["question_Record"] = $questionRecord;
 
-        $this->pageData["page_title"] = "User Questions";
-
-        $countTotalNumOfUsers = User::count();
-        $this->pageData["no_of_user"] = $countTotalNumOfUsers;
-
-        $countTotalNumOfQuestions = Question::count();
-        $this->pageData["no_of_questions"] = $countTotalNumOfQuestions;
-
-        $countTotalNumOfAnswers = Answer::count();
-        $this->pageData["no_of_answer"] = $countTotalNumOfAnswers;
-
         $countTotalNumOfAcceptedAnswers = Answer::where('is_accepted', "true")->count();
         $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
         $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")

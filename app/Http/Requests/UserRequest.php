@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
-        //dd($routeName);
+       // dd($routeName);
         $id = isset($this->id) ? $this->id : null;
 
         switch ($routeName) {
@@ -64,7 +64,8 @@ class UserRequest extends FormRequest
                 break;
             case "user-update-profile-pic" :
                 return [
-                    'profile_pic' => 'mimes:jpeg,png,jpg'
+                    'profile_pic' => 'mimes:jpeg,png,jpg',
+
                 ];
                 break;
             case "admin-save" :
@@ -92,11 +93,11 @@ class UserRequest extends FormRequest
                 ];
                 break;
             case "update-profile-pic" :
-
+                //dd("1234jfg");
                 return [
-                    'name' => 'required|max:30',
+                    'name' => 'required|max:10',
                     'country' => 'required',
-                    'about me' => 'required|max:400',
+                    'about_me' => 'required|max:400',
                 ];
                 break;
             case "profile-pass-setting" :

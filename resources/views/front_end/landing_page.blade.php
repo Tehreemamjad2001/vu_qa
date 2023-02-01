@@ -2,18 +2,12 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question-Record"];
-        //dd($questionRecord);
         $selectRandomQuestions =  $pageData["related-questions"];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "desc";
         $tags = isset($_GET["tag"]) && !empty($_GET["tag"]) ? $_GET["tag"] : "";
         $title = isset($_GET["title"]) && !empty($_GET["title"]) ? $_GET["title"] : "";
-        $countTotalNumOfUsers = $pageData["no_of_user"];
-        $countTotalNumOfQuestions =  $pageData["no_of_questions"];
-        $countTotalNumOfAnswers = $pageData["no_of_answer"];
-        $countTotalNumOfAcceptedAnswers = $pageData["no_of_accepted_answer"];
-
     @endphp
     @include("front_end.components.question_content_hero_area")
     <!--======================================
@@ -94,38 +88,6 @@
                     <div class="sidebar">
                         <div class="card card-item">
                             <div class="card-body">
-                                <h3 class="fs-17 pb-3">Number Achievement</h3>
-                                <div class="divider"><span></span></div>
-                                <div class="row no-gutters text-center">
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color">{{$countTotalNumOfQuestions}}</span>
-                                            <p class="fs-14">Questions</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color-2">{{$countTotalNumOfAnswers}}</span>
-                                            <p class="fs-14">Answers</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color-3">{{$countTotalNumOfAcceptedAnswers}}</span>
-                                            <p class="fs-14">Answer accepted</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color-4">{{$countTotalNumOfUsers}}</span>
-                                            <p class="fs-14">Users</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
-                                </div><!-- end row -->
-                            </div>
-                        </div><!-- end card -->
-                        <div class="card card-item">
-                            <div class="card-body">
                                 <h3 class="fs-17 pb-3">Related Questions</h3>
                                 <div class="divider"><span></span></div>
                                 <div class="sidebar-questions pt-3">
@@ -183,16 +145,13 @@
             if (jQuery.trim(str).length > maxLength) {
                 var nstr = str.substring(0, maxLength);
                 var rmstr = str.substring(maxLength, $.trim(str).length);
-                // jQuery(this).empty().html(nstr);
-                jQuery(this).append('<a href = "javascript:void(0);" class="read_more"> read more... </a>');
-                jQuery(this).append('<span class = "moretext">' + rmstr + '</span> ');
+                    jQuery(this).append('<a href = "javascript:void(0);" class="read_more"> read more... </a>');
+                    jQuery(this).append('<span class = "moretext">' + rmstr + '</span> ');
             }
         });
         jQuery(".read_more").click(function () {
             jQuery(this).siblings(".moretext").contents().unwrap();
             jQuery(this).remove();
         });
-
-
     </script>
 @endsection

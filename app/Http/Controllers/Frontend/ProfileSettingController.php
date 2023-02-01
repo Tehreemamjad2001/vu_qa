@@ -21,7 +21,7 @@ class ProfileSettingController extends Controller
         return $this->showPage("front_end.profile_setting");
     }
 
-    public function updateProfilePic(Request $request, $id)
+    public function updateProfilePic(UserRequest $request, $id)
     {
         $oldRow = User::find($id);
         $dataBaseProfilePicName = isset($oldRow->profile_pic) && !empty($oldRow->profile_pic) ? $oldRow->profile_pic : "";

@@ -100,6 +100,9 @@
     <script src="{{ assets('js/share.js',true) }}"></script>
     {{--facebook share button--}}
     <style>
+        textarea{
+            direction: rtl;
+        }
         .readmore .moretext {
             display: none;
         }
