@@ -67,13 +67,21 @@
                             </div>
                         </div><!-- end filters -->
                         <div class="questions-snippet border-top border-top-gray">
-                            @foreach($questionRecord as $data)
-                                @php
-                                    $time = dateFormat($data->created_at);
-                                    $timeInAgo = getUserTimeZone($data->created_at);
-                                @endphp
-                                @include("front_end.components.question_list")
-                            @endforeach
+                            @if($questionRecord->total() == "0")
+                                <div class="row pt-10px">
+                                    <p class="col-sm-5 col-sm-5"></p>
+                                    <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center">No data is
+                                        available</p>
+                                </div>
+                            @else
+                                @foreach($questionRecord as $data)
+                                    @php
+                                        $time = dateFormat($data->created_at);
+                                         $timeInAgo = getUserTimeZone($data->created_at);
+                                    @endphp
+                                    @include("front_end.components.question_list")
+                                @endforeach
+                            @endif
                         </div><!-- end questions-snippet -->
                         <div class="pager d-flex flex-wrap align-items-center justify-content-between pt-30px px-3">
                             <div>
@@ -145,8 +153,8 @@
             if (jQuery.trim(str).length > maxLength) {
                 var nstr = str.substring(0, maxLength);
                 var rmstr = str.substring(maxLength, $.trim(str).length);
-                    jQuery(this).append('<a href = "javascript:void(0);" class="read_more"> read more... </a>');
-                    jQuery(this).append('<span class = "moretext">' + rmstr + '</span> ');
+                jQuery(this).append('<a href = "javascript:void(0);" class="read_more"> read more... </a>');
+                jQuery(this).append('<span class = "moretext">' + rmstr + '</span> ');
             }
         });
         jQuery(".read_more").click(function () {

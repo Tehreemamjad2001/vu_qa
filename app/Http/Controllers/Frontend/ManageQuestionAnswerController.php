@@ -77,12 +77,12 @@ class ManageQuestionAnswerController extends Controller
 
     public function myQuestionList()
     {
-        $id = auth()->user()->id;
-        $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
-        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
+        $id = isset(auth()->user()->id) && !empty(auth()->user()->id) ?auth()->user()->id : "";;
+        $search = isset(request()->tag) && !empty(request()->tag) ? request()->tag : "";
+        $limit = isset(request()->limit) && !empty(request()->limit) ? request()->limit : "10";
         $sort = isset(request()->sort) && !empty(request()->sort) ? request()->sort : "Newest";
-        $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
-        $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
+        $searchBySlug = isset(request()->slug) && !empty(request()->slug) ? request()->slug : "";
+        $searchByTitle = isset(request()->title) && !empty(request()->title) ? request()->title : "";
 
 
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
@@ -215,7 +215,7 @@ class ManageQuestionAnswerController extends Controller
             return redirect()->to(route("ask-question-page") . "#error")
                 ->withErrors(['limit' => 'English words exceed the limit!'])->withInput();
         } else {
-            $id = auth()->user()->id;
+            $id = isset(auth()->user()->id) && !empty(auth()->user()->id) ?auth()->user()->id : "";
             $parentId = $request->parent_cat;
             $categoryId = $request->cat;
             $addQuestion = Question::create([
@@ -247,6 +247,7 @@ class ManageQuestionAnswerController extends Controller
 
     public function questionDetail(Request $request, $id)
     {
+        $loggedUser = isset(auth()->user()->id) && !empty(auth()->user()->id) ?auth()->user()->id : "";
         $findRecord = QuestionViewCount::where("question_id", $id)->where("ip", request()->ip())->first();
         if ($findRecord == null) {
             $question = new Question;
@@ -260,8 +261,8 @@ class ManageQuestionAnswerController extends Controller
 
         $finalResult = [];
         foreach ($answerRecord as $item) {
-            $upVoteCheck = AnswerVotes::where("user_id", auth()->user()->id)->where("answer_id", $item->id)->where("vote_type", "vote up")->count();
-            $downVoteCheck = AnswerVotes::where("user_id", auth()->user()->id)->where("answer_id", $item->id)->where("vote_type", "vote Down")->count();
+            $upVoteCheck = AnswerVotes::where("user_id",$loggedUser )->where("answer_id", $item->id)->where("vote_type", "vote up")->count();
+            $downVoteCheck = AnswerVotes::where("user_id",$loggedUser)->where("answer_id", $item->id)->where("vote_type", "vote Down")->count();
             if ($upVoteCheck == 1) {
                 $item["is_logged_user_vote_up"] = "Yes";
             } else {
@@ -315,7 +316,7 @@ class ManageQuestionAnswerController extends Controller
     {
         $questionId = request()->question_id;
         $answer = langLimit("answer-limit", $request->answer);
-        $userId = auth()->user()->id;
+        $userId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
         if (!$answer) {
             return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
                 ->withErrors(['answer_limit' => 'English words exceed the limit!'])->withInput();

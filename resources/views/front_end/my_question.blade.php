@@ -81,8 +81,10 @@
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
+                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest
+                                            </option>
+                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -92,14 +94,20 @@
                             @if(Session::has('alert-delete-question-record'))
                                 {!!Session::get('alert-delete-question-record')!!}
                             @endif
-                            @foreach($questionRecord as $data)
-                                @php
-                                    $time = dateFormat($data->created_at);
-                                      $timeInAgo = getUserTimeZone($data->created_at);
-                                @endphp
-                                @include("front_end.components.question_list")
-                            @endforeach
-
+                            @if($questionRecord->total() == "0")
+                                <div class="row pt-10px">
+                                    <p class="col-sm-4 col-sm-4"></p>
+                                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No data is available</p>
+                                </div>
+                            @else
+                                @foreach($questionRecord as $data)
+                                    @php
+                                        $time = dateFormat($data->created_at);
+                                          $timeInAgo = getUserTimeZone($data->created_at);
+                                    @endphp
+                                    @include("front_end.components.question_list")
+                                @endforeach
+                            @endif
                         </div><!-- end questions-snippet -->
                         <div class="pager d-flex flex-wrap align-items-center justify-content-between pt-30px px-3">
                             <div>
