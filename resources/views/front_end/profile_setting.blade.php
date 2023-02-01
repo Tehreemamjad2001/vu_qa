@@ -174,7 +174,8 @@
                                                                     <input class="form-control form--control"
                                                                            type="text"
                                                                            name="country"
-                                                                           value="{{auth()->user()->country}}">
+                                                                           value="{{isset(auth()->user()->country) && !empty(auth()->user()->country)
+                                                                           ? auth()->user()->country : ""}}">
                                                                     @if ($errors->has('country'))
                                                                         <span class="text-danger"
                                                                               role="alert">{{$errors->first('country')}}</span>
