@@ -193,7 +193,7 @@
                                     <td class=" text-center" style="vertical-align: middle">
 
                                         <a name="delete" class="del_ete  btn default"
-                                           href="{{route('question-delete',["id"=>$list->id])}}"><b>Delete </b><span
+                                           href="{{route('answer-delete',["id"=>$list->id])}}"><b>Delete </b><span
                                                     class="fa fa-trash-o"></span></a>
                                         <a class="btn default"
                                            href="{{route('answer-edit',["id"=>$list->id])}}"><b>Edit </b><span

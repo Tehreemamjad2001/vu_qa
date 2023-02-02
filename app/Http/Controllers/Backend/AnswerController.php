@@ -46,7 +46,6 @@ class AnswerController extends Controller
 
     public function update(Request $request, $id)
     {
-        //  dd($request);
         $updateAnswerRecord = Answer::find($id);
         $updateAnswerRecord = $updateAnswerRecord->update([
             "answer" => $request->answer,
@@ -57,6 +56,17 @@ class AnswerController extends Controller
             $this->setFormMessage("update-question", "danger", "Something went wrong");
         }
 
+        return back();
+    }
+    public function delete($id)
+    {
+        $deleteAnswerRow = Answer::find($id);
+        $deleteAnswerRow->delete();
+        if ($deleteAnswerRow) {
+            $this->setFormMessage("delete-answer", "success", "Record has been deleted");
+        } else {
+            $this->setFormMessage("delete-answer", "danger", "No record has been found");
+        }
         return back();
     }
 }

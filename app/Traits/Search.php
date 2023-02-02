@@ -15,7 +15,6 @@ trait Search
                 $words[$key] = '+' . $word . '*';
             }
         }
-
         return implode(' ', $words);
     }
 
@@ -29,7 +28,7 @@ trait Search
     {
         //dd($query);
         $columns = implode(',', $this->searchable);
-dd($columns);
+        dd($columns);
         $query->whereRaw("MATCH ({$columns}) AGAINST (? IN BOOLEAN MODE)", $this->fullTextWildcards($term));
 
         return $query;

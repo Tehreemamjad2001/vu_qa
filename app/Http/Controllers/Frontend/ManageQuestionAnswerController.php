@@ -31,6 +31,7 @@ class ManageQuestionAnswerController extends Controller
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
+       // dd($searchByTitle);
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
 
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
@@ -46,8 +47,8 @@ class ManageQuestionAnswerController extends Controller
 
         }
         if (isset($searchByTitle) && !empty($searchByTitle)) {
-//            $title = $this->scopeSearch($questionRecord, $searchByTitle);
-//            $questionRecord = $questionRecord->where("title", $searchByTitle);
+            $title = $this->scopeSearch($questionRecord, $searchByTitle);
+            $questionRecord = $questionRecord->where("title", $searchByTitle);
         }
         if (isset($sort) && !empty($sort)) {
             if ($sort == "Newest") {
