@@ -43,6 +43,12 @@
                 <p id="ansewr_body_{{$item->id}}">{{$item->answer}}</p>
                 <div id="update_answer_{{$item->id}}"></div>
             </div><!-- end answer-body -->
+            <div class="error-message">
+                @if($errors->has('error_answer_limit_'.$item->id))
+                    <span class="text-danger" id="update-fail"
+                          role="alert">{{$errors->first('error_answer_limit_'.$item->id)}}</span>
+                @endif
+            </div>
             <div class="question-post-user-action">
                 <div class="post-menu">
                     <div class="post-form" id="answer_{{$item->id}}" style="display: none">
@@ -52,18 +58,13 @@
                                 <div class="form-group">
                                         <textarea
                                                 class="form-control form--control form-control-sm fs-13 user-text-editor"
-                                                name="answer" rows="6"
+                                                name="update_answer" rows="6"
                                                 placeholder="Your answer here...">{{$item->answer}}</textarea>
                                 </div>
                                 @if ($errors->has('answer') )
                                     <span class="text-danger"
                                           role="alert">{{$errors->first('answer')}}</span>
                                 @endif
-                                @if ($errors->has('answer_limit') )
-                                    <span class="text-danger"
-                                          role="alert">{{$errors->first('answer_limit')}}</span>
-                                @endif
-
                             </div>
                             <input type="hidden" name="answer_id" value="{{$item->id}}">
                             <input type="hidden" name="question_id" value="{{$item->question_id}}">
@@ -105,8 +106,6 @@
     </div><!-- end answer-wrap -->
 
 @endforeach
-
-
 
 <script>
     function voteUp(id) {
@@ -187,6 +186,7 @@
     }
 
     $(".success-message").delay(3000).fadeOut();
+    $(".error-message").delay(3000).fadeOut();
 </script>
 
 

@@ -2,7 +2,6 @@
 @section("content")
     @php
         $categoryRecord = $pageData["category-Record"];
-
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden">
         <span class="stroke-shape stroke-shape-1"></span>

@@ -62,7 +62,6 @@
                                     <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center">No data is
                                         available</p>
                                 </div>
-
                             @else
                                 @include("front_end.components.answer_list")
                             @endif

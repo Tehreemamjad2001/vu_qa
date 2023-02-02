@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Answer;
 use App\Models\AnswerVotes;
+use App\Models\BlockedKeyword;
 use App\Models\Category;
 use App\Models\Option;
 use App\Models\Question;
@@ -31,7 +32,7 @@ class ManageQuestionAnswerController extends Controller
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
-       // dd($searchByTitle);
+        // dd($searchByTitle);
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
 
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
@@ -78,7 +79,7 @@ class ManageQuestionAnswerController extends Controller
 
     public function myQuestionList()
     {
-        $id = isset(auth()->user()->id) && !empty(auth()->user()->id) ?auth()->user()->id : "";;
+        $id = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";;
         $search = isset(request()->tag) && !empty(request()->tag) ? request()->tag : "";
         $limit = isset(request()->limit) && !empty(request()->limit) ? request()->limit : "10";
         $sort = isset(request()->sort) && !empty(request()->sort) ? request()->sort : "Newest";
@@ -216,7 +217,7 @@ class ManageQuestionAnswerController extends Controller
             return redirect()->to(route("ask-question-page") . "#error")
                 ->withErrors(['limit' => 'English words exceed the limit!'])->withInput();
         } else {
-            $id = isset(auth()->user()->id) && !empty(auth()->user()->id) ?auth()->user()->id : "";
+            $id = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
             $parentId = $request->parent_cat;
             $categoryId = $request->cat;
             $addQuestion = Question::create([
@@ -248,7 +249,7 @@ class ManageQuestionAnswerController extends Controller
 
     public function questionDetail(Request $request, $id)
     {
-        $loggedUser = isset(auth()->user()->id) && !empty(auth()->user()->id) ?auth()->user()->id : "";
+        $loggedUser = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
         $findRecord = QuestionViewCount::where("question_id", $id)->where("ip", request()->ip())->first();
         if ($findRecord == null) {
             $question = new Question;
@@ -262,8 +263,8 @@ class ManageQuestionAnswerController extends Controller
 
         $finalResult = [];
         foreach ($answerRecord as $item) {
-            $upVoteCheck = AnswerVotes::where("user_id",$loggedUser )->where("answer_id", $item->id)->where("vote_type", "vote up")->count();
-            $downVoteCheck = AnswerVotes::where("user_id",$loggedUser)->where("answer_id", $item->id)->where("vote_type", "vote Down")->count();
+            $upVoteCheck = AnswerVotes::where("user_id", $loggedUser)->where("answer_id", $item->id)->where("vote_type", "vote up")->count();
+            $downVoteCheck = AnswerVotes::where("user_id", $loggedUser)->where("answer_id", $item->id)->where("vote_type", "vote Down")->count();
             if ($upVoteCheck == 1) {
                 $item["is_logged_user_vote_up"] = "Yes";
             } else {
@@ -315,6 +316,20 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveAnswer(QuestionRequest $request)
     {
+
+
+        $checkWords = BlockedKeyword::select("keyword")->get();
+        // dd($checkWords);
+        foreach ($checkWords as $item) {
+            echo strpos($request->answer, $item->keyword);
+        }
+        echo "<br>";
+        $txt = "I love php, I love php too!";
+        $word = "php";
+        echo strpos($txt, $word);
+        exit;
+
+
         $questionId = request()->question_id;
         $answer = langLimit("answer-limit", $request->answer);
         $userId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
@@ -333,31 +348,35 @@ class ManageQuestionAnswerController extends Controller
                 Question::where("id", $questionId)->update([
                     "total_no_of_ans" => $totalNoOfAnswers
                 ]);
-
                 $this->setFormMessage("save-answer", "success", "Your answer have been saved");
             } else {
                 $this->setFormMessage("save-answer", "danger", "Something is wrong");
             }
-
             return redirect()->to(route("answers-page", ["id" => $questionId]) . "#save-answer");
         }
     }
+
 
     public function updateAnswer(Request $request)
     {
         $ansId = $request->answer_id;
         $questionId = $request->question_id;
-        $answer = $request->answer;
-        $updateRecord = Answer::where("question_id", $questionId)->where("id", $ansId)->update([
-            "answer" => $answer
-        ]);
-        if ($updateRecord) {
-            $this->setFormMessage("update-user-answer-" . $ansId, "success", "Your answer has been updated");
+        $answer = langLimit("answer-limit", $request->update_answer);
+        if (!$answer) {
+            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#update-fail")
+                ->withErrors(['error_answer_limit_' . $ansId => 'English words exceed the limit!']);
         } else {
-            $this->setFormMessage("update-user-answer-" . $ansId, "danger", "Something is wrong");
-        }
+            $updateRecord = Answer::where("question_id", $questionId)->where("id", $ansId)->update([
+                "answer" => $request->update_answer
+            ]);
+            if ($updateRecord) {
+                $this->setFormMessage("update-user-answer-" . $ansId, "success", "Your answer has been updated");
+            } else {
+                $this->setFormMessage("update-user-answer-" . $ansId, "danger", "Something is wrong");
+            }
 
-        return redirect()->to(route("answers-page", ["id" => $questionId]) . "#update-answer");
+            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#update-answer");
+        }
     }
 
     public function answerVotes()

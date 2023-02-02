@@ -58,6 +58,7 @@ class AnswerController extends Controller
 
         return back();
     }
+
     public function delete($id)
     {
         $deleteAnswerRow = Answer::find($id);

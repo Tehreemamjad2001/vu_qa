@@ -102,12 +102,10 @@ function getUserTimeZone($date, $timeZone = 'Asia/Karachi')
 
 function langLimit($key, $text)
 {
-
     $detector = new \LanguageDetector\LanguageDetector(null, ['en', 'ur']);
     $description = explode(" ", $text);
     $urduWordCount = 1;
     $engWordCount = 1;
-
     foreach ($description as $item) {
         $language = $detector->evaluate($item)->getLanguage();
 
@@ -129,6 +127,10 @@ function langLimit($key, $text)
 
 }
 
+function Faisal()
+{
+    echo "Faisla123133";
+}
 
 
 

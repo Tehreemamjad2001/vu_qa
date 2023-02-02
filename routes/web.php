@@ -130,8 +130,7 @@ Route::group([
         Route::get("question-edit/{id}", [QuestionController::class, "edit"])->name("edit");
         Route::post("question-update/{id}", [QuestionController::class, "update"])->name("update");
     });
-
-
+    
     Route::group([
         "prefix" => "answer",
         "as" => "answer-"
