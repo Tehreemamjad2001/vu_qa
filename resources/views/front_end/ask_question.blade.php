@@ -126,6 +126,10 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('limit')}}</span>
                                     @endif
+                                    @if ($errors->has('blocked_keyword_title') )
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('blocked_keyword_title')}}</span>
+                                    @endif
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
@@ -139,7 +143,7 @@
                                 <div class="form-group">
                                     <input type="hidden" name="tags" id="select2_sample5"
                                            class="form-control form--control input-tags input--tags select2"
-                                           value="">
+                                           value="{{old("tags")}}">
                                 </div>
                             </div><!-- end input-box -->
                             <div class="input-box">
@@ -153,7 +157,7 @@
                                             data-placeholder="Select a Category">
                                         <option selected value="">Select Parentt Category</option>
                                         @foreach($categoryRecord as $item)
-                                            <option value="{{$item->id}}">{{$item->category_name}}</option>
+                                            <option value="{{isset($item->id) && !empty($item->id) ? $item->id : "" }}">{{$item->category_name}}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('parent_cat'))
@@ -181,6 +185,10 @@
                                     @if ($errors->has('limit') )
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('limit')}}</span>
+                                    @endif
+                                    @if ($errors->has('blocked_keyword') )
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('blocked_keyword')}}</span>
                                     @endif
                                     <div class="d-flex align-items-center pt-2">
                                         <div class="mr-3">

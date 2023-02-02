@@ -127,9 +127,14 @@ function langLimit($key, $text)
 
 }
 
-function Faisal()
+function checkBlockedKeyWord($string)
 {
-    echo "Faisla123133";
+    $checkWords = \App\Models\BlockedKeyword::select("keyword")->get();
+    foreach ($checkWords as $item) {
+        if (strpos($string, $item->keyword)) {
+            return $item->keyword;
+        }
+    }
 }
 
 

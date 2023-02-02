@@ -96,6 +96,10 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('answer_limit')}}</span>
                                     @endif
+                                    @if ($errors->has('blocked_keyword') )
+                                        <span class="text-danger"
+                                              role="alert">{{$errors->first('blocked_keyword')}}</span>
+                                    @endif
 
                                 </div>
                                 <input type="hidden" name="question_id" value="{{$id}}">

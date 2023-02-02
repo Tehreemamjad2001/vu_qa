@@ -145,6 +145,16 @@ class ManageQuestionAnswerController extends Controller
         $updateQuestion = Question::where("id", $id);
         $title = langLimit("question-title-limit", $request->title);
         $description = langLimit("question-description-limit", $request->description);
+        $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
+        $checkBlockedWordsForDescription = checkBlockedKeyWord($request->description);
+        if ($checkBlockedWordsForTitle != null) {
+            return redirect()->to(route("ask-question-page") . "#error")
+                ->withErrors(['blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!"])->withInput();
+        }
+        if ($checkBlockedWordsForDescription != null) {
+            return redirect()->to(route("ask-question-page") . "#error")
+                ->withErrors(['blocked_keyword' => "Can't use this '" . $checkBlockedWordsForDescription . "' word!"])->withInput();
+        }
         if (!$title || !$description) {
             return redirect()->to(route("question-update-page", ["id", $id]) . "#error")
                 ->withErrors(['limit' => 'English words exceed the limit!'])->withInput();
@@ -212,7 +222,16 @@ class ManageQuestionAnswerController extends Controller
     {
         $title = langLimit("question-title-limit", $request->title);
         $description = langLimit("question-description-limit", $request->description);
-
+        $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
+        $checkBlockedWordsForDescription = checkBlockedKeyWord($request->description);
+        if ($checkBlockedWordsForTitle != null) {
+            return redirect()->to(route("ask-question-page") . "#error")
+                ->withErrors(['blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!"])->withInput();
+        }
+        if ($checkBlockedWordsForDescription != null) {
+            return redirect()->to(route("ask-question-page") . "#error")
+                ->withErrors(['blocked_keyword' => "Can't use this '" . $checkBlockedWordsForDescription . "' word!"])->withInput();
+        }
         if (!$title || !$description) {
             return redirect()->to(route("ask-question-page") . "#error")
                 ->withErrors(['limit' => 'English words exceed the limit!'])->withInput();
@@ -316,23 +335,14 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveAnswer(QuestionRequest $request)
     {
-
-
-        $checkWords = BlockedKeyword::select("keyword")->get();
-        // dd($checkWords);
-        foreach ($checkWords as $item) {
-            echo strpos($request->answer, $item->keyword);
-        }
-        echo "<br>";
-        $txt = "I love php, I love php too!";
-        $word = "php";
-        echo strpos($txt, $word);
-        exit;
-
-
         $questionId = request()->question_id;
         $answer = langLimit("answer-limit", $request->answer);
         $userId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
+        $checkBlockedWords = checkBlockedKeyWord($request->answer);
+        if ($checkBlockedWords != null) {
+            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
+                ->withErrors(['blocked_keyword' => "Can't use this '" . $checkBlockedWords . "' word!"])->withInput();
+        }
         if (!$answer) {
             return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
                 ->withErrors(['answer_limit' => 'English words exceed the limit!'])->withInput();
@@ -362,6 +372,12 @@ class ManageQuestionAnswerController extends Controller
         $ansId = $request->answer_id;
         $questionId = $request->question_id;
         $answer = langLimit("answer-limit", $request->update_answer);
+        $checkBlockedWords = checkBlockedKeyWord($request->update_answer);
+        if ($checkBlockedWords != null) {
+            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
+                ->withErrors(['blocked_keyword_update_ans_' . $ansId => "Can't use this '" . $checkBlockedWords . "' word!"])->withInput();
+
+        }
         if (!$answer) {
             return redirect()->to(route("answers-page", ["id" => $questionId]) . "#update-fail")
                 ->withErrors(['error_answer_limit_' . $ansId => 'English words exceed the limit!']);

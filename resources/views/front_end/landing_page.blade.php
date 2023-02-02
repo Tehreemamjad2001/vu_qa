@@ -69,8 +69,8 @@
                         <div class="questions-snippet border-top border-top-gray">
                             @if($questionRecord->total() == "0")
                                 <div class="row pt-10px">
-                                    <p class="col-sm-5 col-sm-5"></p>
-                                    <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center">No data is
+                                    <p class="col-sm-4 col-sm-4"></p>
+                                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No data is
                                         available</p>
                                 </div>
                             @else

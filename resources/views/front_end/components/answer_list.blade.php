@@ -48,6 +48,10 @@
                     <span class="text-danger" id="update-fail"
                           role="alert">{{$errors->first('error_answer_limit_'.$item->id)}}</span>
                 @endif
+                    @if ($errors->has('blocked_keyword_update_ans_'.$item->id) )
+                        <span class="text-danger"
+                              role="alert">{{$errors->first('blocked_keyword_update_ans_'.$item->id)}}</span>
+                    @endif
             </div>
             <div class="question-post-user-action">
                 <div class="post-menu">
@@ -65,6 +69,7 @@
                                     <span class="text-danger"
                                           role="alert">{{$errors->first('answer')}}</span>
                                 @endif
+
                             </div>
                             <input type="hidden" name="answer_id" value="{{$item->id}}">
                             <input type="hidden" name="question_id" value="{{$item->question_id}}">
