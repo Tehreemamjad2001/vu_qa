@@ -28,7 +28,7 @@
                 </div><!-- end col-lg-8 -->
                 <div class="col-lg-4">
                     <div class="hero-btn-box text-right py-3">
-                        <a href="{{route("profile-setting")}}"
+                        <a href="{{route("profile-setting")}}" aria-controls="edit-profile" aria-selected="true"
                            class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i
                                     class="la la-user mr-1"></i>View Profile</a>
                     </div>
@@ -62,7 +62,7 @@
                              aria-labelledby="edit-profile-tab">
                             <div class="user-panel-main-bar">
                                 <div class="user-panel">
-                                    <div class="bg-gray p-3 rounded-rounded">
+                                    <div class="bg-gray p-3 rounded-rounded" id="profile">
                                         <h3 id="profile-pic" class="fs-17">Edit your profile</h3>
                                     </div>
                                     <form method="post" action="{{route("update-profile-pic",["id"=>$id])}}"
@@ -187,7 +187,7 @@
                                                                 <span class="text-danger"
                                                                       role="alert">{{$errors->first('about_me')}}</span>
                                                             @endif
-                                                        </div>
+                                                        </div>s
                                                     </div>
                                                 </div>
                                             </div><!-- end row -->
