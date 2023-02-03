@@ -27,23 +27,32 @@
                     </form>
                 </div>
             </div><!-- end filters -->
-            <div class="row">
-                @foreach($categoryRecord as $record)
-                    <div class="col-lg-3 responsive-column-half">
-                        <div class="media media-card p-3 align-items-center hover-y">
-                            <div class="icon-element shadow-sm flex-shrink-0 mr-3 border border-gray ">
-                                <span><i class="{{$record->icon}}"></i></span>
-                            </div>
-                            <div class="media-body">
-                                <h5 class="fs-19 fw-medium mb-1 "><a
-                                            href="{{$catId ? route("home")."?slug=".$record->slug  :  route("sub-category-list")."?id=".$record->id}}">{{$record->category_name}}</a>
-                                </h5>
-                                <p class="fw-medium fs-15 text-black-50 lh-18">{{ $catId ? $record->total_no_of_questions_sc : $record->total_no_of_questions}}</p>
-                            </div><!-- end media-body -->
-                        </div><!-- end media -->
-                    </div><!-- end col-lg-3 -->
-                @endforeach
-            </div><!-- end row -->
+            @if($categoryRecord->total() != "0")
+                <div class="row">
+                    @foreach($categoryRecord as $record)
+                        <div class="col-lg-3 responsive-column-half">
+                            <div class="media media-card p-3 align-items-center hover-y">
+                                <div class="icon-element shadow-sm flex-shrink-0 mr-3 border border-gray ">
+                                    <span><i class="{{$record->icon}}"></i></span>
+                                </div>
+                                <div class="media-body">
+
+                                    <h5 class="fs-19 fw-medium mb-1 "><a
+                                                href="{{$catId ? route("home")."?slug=".$record->slug  :  route("sub-category-list")."?id=".$record->id}}">{{$record->category_name}}</a>
+                                    </h5>
+
+                                    <p class="fw-medium fs-15 text-black-50 lh-18">{{ $catId ? $record->total_no_of_questions_sc : $record->total_no_of_questions}}</p>
+                                </div><!-- end media-body -->
+                            </div><!-- end media -->
+                        </div><!-- end col-lg-3 -->
+                    @endforeach
+                </div><!-- end row -->
+            @else
+                <div class="row pt-10px">
+                    <p class="col-sm-4 col-sm-4"></p>
+                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No data is available</p>
+                </div>
+            @endif
             <div class="pager pt-20px">
                 {!!$categoryRecord->appends($_GET)->render()!!}
             </div>
