@@ -145,6 +145,10 @@
                                            class="form-control form--control input-tags input--tags select2"
                                            value="{{old("tags")}}">
                                 </div>
+                                @if ($errors->has('tag_limit'))
+                                    <span class="text-danger"
+                                          role="alert">{{$errors->first('tag_limit')}}</span>
+                                @endif
                             </div><!-- end input-box -->
                             <div class="input-box">
                                 <label class="fs-14 text-black fw-medium mb-0">Category</label>

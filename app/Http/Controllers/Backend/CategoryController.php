@@ -25,7 +25,6 @@ class CategoryController extends Controller
 
     public function save(CategoryRequest $request)
     {
-       // dd($request);
         $insertCategory = Category::create([
             "category_name" => trim($request->category_name),
             "parent_id" => $request->parent_id,
@@ -104,4 +103,5 @@ class CategoryController extends Controller
         }
         return back();
     }
+
 }

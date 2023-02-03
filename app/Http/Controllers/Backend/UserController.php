@@ -130,7 +130,6 @@ class UserController extends Controller
         return redirect()->to(route("user-edit", ["id" => $id]) . "#update-pass");
     }
 
-
     public function updateProfilePic(Request $request, $id)
     {
 

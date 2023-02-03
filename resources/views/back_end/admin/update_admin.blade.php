@@ -5,8 +5,10 @@
     //dd($data);
     @endphp
     <div class="row">
+
         <div class="col-md-6 col-sm-6">
         </div>
+        {{--back to list button--}}
         <div class="col-md-6 col-sm-6 text-right">
             <div class="btn-group">
                 <a href="{{route('admin-list')}}">
@@ -16,6 +18,8 @@
                 </a>
             </div>
         </div>
+
+        {{--update user information--}}
         <div class="col-md-12 col-sm-12">
             <h3 class="form-section">Update Account Information</h3>
             <form action="{{route('admin-update',["id"=>$data->id])}}" method="post" class="form-horizontal">
@@ -23,6 +27,7 @@
                     {!!Session::get('alert-update-admin-info')!!}
                 @endif
                 {{csrf_field()}}
+                {{--email--}}
                 <div class="form-group">
                     <label class="col-md-3 control-label">Email</label>
                     <div class="col-md-4 ">
@@ -33,6 +38,7 @@
                         @endif
                     </div>
                 </div>
+                {{--name--}}
                 <div class="form-group">
                     <label class="col-md-3 control-label">Name</label>
                     <div class="col-md-4">
@@ -43,6 +49,7 @@
                         @endif
                     </div>
                 </div>
+                {{--gender--}}
                 <div class="form-group">
                     <label class="control-label col-md-3">Gender
                     </label>
@@ -63,6 +70,7 @@
                         </div>
                     </div>
                 </div>
+                {{--submit button--}}
                 <div class="form-actions fluid">
                     <div class="col-md-offset-3 col-md-9">
                         <button type="submit" class="btn blue">Update</button>
@@ -71,6 +79,8 @@
                 </div>
             </form>
         </div>
+
+        {{--update user password--}}
         <div class="col-md-12 col-sm-12">
             <h3 id="update-pass" class="form-section">Update Password</h3>
             <form action="{{route('admin-update-pass',["id"=>$data->id])}}" method="post" class="form-horizontal">
@@ -78,6 +88,7 @@
                     {!!Session::get('alert-update-admin-pass')!!}
                 @endif
                 {{csrf_field()}}
+                {{--password--}}
                 <div class="form-group">
                     <label class="col-md-3 control-label">Password *</label>
                     <div class="col-md-4">
@@ -85,7 +96,7 @@
                             <input type="password" name="password" value=""
                                    class="password form-control" placeholder="Password">
                             <span class="input-group-addon" style="cursor: pointer">
-                        <i class="showPass fa fa-eye-slash" ></i>
+                        <i class="showPass fa fa-eye-slash"></i>
                         </span>
                         </div>
                         @if ($errors->has('password'))
@@ -93,13 +104,14 @@
                         @endif
                     </div>
                 </div>
+                {{--confrim password--}}
                 <div class="form-group">
                     <label class="col-md-3 control-label">Confirm Password *</label>
                     <div class="col-md-4">
                         <div class="input-group">
                             <input type="password" name="confirmPassword" value=""
                                    class="password form-control" placeholder="Confirm Password">
-                            <span class="input-group-addon"  style="cursor: pointer">
+                            <span class="input-group-addon" style="cursor: pointer">
                         <i class="showPass fa fa-eye-slash"></i>
                         </span>
                         </div>
@@ -108,6 +120,7 @@
                         @endif
                     </div>
                 </div>
+                {{--submit button--}}
                 <div class="form-actions fluid">
                     <div class="col-md-offset-3 col-md-9">
                         <button type="submit" class="btn blue">Update</button>
@@ -116,6 +129,8 @@
                 </div>
             </form>
         </div>
+
+        {{--update profile pic--}}
         <div class="col-md-12 col-sm-12 ">
             @if(Session::has('alert-delete-admin-profile'))
                 {!!Session::get('alert-delete-admin-profile')!!}
@@ -129,6 +144,7 @@
 
                 {{csrf_field()}}
                 <div class="row">
+                    {{--profile pic--}}
                     <div class="form-group">
                         <label class="col-md-3 control-label">Profile Pic</label>
                         <div class="col-md-4 ">
@@ -158,19 +174,22 @@
                             ?>
                         </div>
                     </div>
-                </div>
-                <div class="form-actions fluid">
-                    <div class="col-md-offset-3 col-md-9">
-                        {{--{{dd($record['id'])}}--}}
-                        <button type="submit" class="btn blue">Update</button>
-                        <button type="reset" class="btn default">Cancel</button>
+                    {{--submit button--}}
+                    <div class="form-actions fluid">
+                        <div class="col-md-offset-3 col-md-9">
+                            {{--{{dd($record['id'])}}--}}
+                            <button type="submit" class="btn blue">Update</button>
+                            <button type="reset" class="btn default">Cancel</button>
+                        </div>
                     </div>
                 </div>
             </form>
         </div>
+
     </div>
     <script>
         jQuery(document).ready(function () {
+            // delete
             jQuery(".del_ete").on('click', function (e) {
                 e.preventDefault();
                 //console.log(jQuery(this).attr('href'));
@@ -194,7 +213,7 @@
                     }
                 })
             });
-
+            // toogle eye icon for password field
             jQuery('.showPass').on('click', function () {
                 var passInput = jQuery(".password");
                 if (passInput.attr('type') == 'password') {

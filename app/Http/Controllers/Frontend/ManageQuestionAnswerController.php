@@ -183,7 +183,6 @@ class ManageQuestionAnswerController extends Controller
         $deleteRow->delete();
 
         if ($deleteRow) {
-
             $getSubCatTotalQuestionCount = Question::select("*")->where("category_id", $categoryId)->count();
             $parentCatQuestionCount = Question::select("*")->where("parent_id", $parentId)->count();
             $updateInCategory = Category::where("id", $categoryId)->orwhere("id", $parentId);
@@ -220,6 +219,13 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveQuestion(QuestionRequest $request)
     {
+
+        $tags = explode(",", $request->tags);
+        $sizeOfArray = sizeof($tags);
+        if ($sizeOfArray > 5) {
+            return redirect()->to(route("ask-question-page") . "#error")
+                ->withErrors(['tag_limit' => "Tags exceeds the limit"])->withInput();
+        }
         $title = langLimit("question-title-limit", $request->title);
         $description = langLimit("question-description-limit", $request->description);
         $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
@@ -365,7 +371,6 @@ class ManageQuestionAnswerController extends Controller
             return redirect()->to(route("answers-page", ["id" => $questionId]) . "#save-answer");
         }
     }
-
 
     public function updateAnswer(Request $request)
     {

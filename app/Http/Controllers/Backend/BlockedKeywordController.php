@@ -61,6 +61,7 @@ class BlockedKeywordController extends Controller
         }
         return back();
     }
+
     public function edit($id){
         $this->pageData["page_title"] = "Update Blocked Keyword";
         $this->pageData["bc_title_1"] = "Blocked Keyword List";
@@ -71,6 +72,7 @@ class BlockedKeywordController extends Controller
         $this->pageData["record"] = $getRecord;
         return $this->showPage("back_end.blocked_keyword.update_blocked_keyword");
     }
+
     public function update(Request $request ,$id){
         $updateRecord = BlockedKeyword::where("id",$id);
         $updateRecord->update([

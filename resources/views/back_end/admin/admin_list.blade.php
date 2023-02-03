@@ -14,14 +14,19 @@
         <div class="col-md-12">
             <!-- BEGIN EXAMPLE TABLE PORTLET-->
             <div class="portlet box light-grey">
+
                 <div class="portlet-title">
                     <div class="caption">
                         <i class="fa fa-male"></i>Admin List
                     </div>
                 </div>
+
                 <div class="portlet-body">
+
                     <div id="sample_1_wrapper" class="dataTables_wrapper form-inline" role="grid">
+
                         <div class="row">
+                            {{--search--}}
                             <div class="col-md-6 col-sm-6">
                                 <div class="dataTables_filter " id="sample_1_filter">
                                     <form action="">
@@ -37,6 +42,7 @@
                                     </form>
                                 </div>
                             </div>
+                            {{--button for add user page--}}
                             <div class="col-md-6 col-sm-6 text-right">
                                 <div class="btn-group">
                                     <a href="{{route('admin-add')}}">
@@ -47,11 +53,14 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="table-scrollable">
+
                             <table class="table table-striped table-bordered table-hover dataTable" id="sample_1"
                                    aria-describedby="sample_1_info">
                                 <thead>
                                 <tr role="row">
+                                    {{--id--}}
                                     <th class="sorting" class="id" style="width: 70px;">
                                         @php
                                             $url = getSortPageURL("id");
@@ -65,6 +74,7 @@
                                             </i></a>
 
                                     </th>
+                                    {{--name--}}
                                     <th class="sorting" role="columnheader" tabindex="0" aria-controls="sample_1"
                                         rowspan="1" colspan="1" aria-label="
 									Username
@@ -76,6 +86,7 @@
                                                             ">
                                             </i></a>
                                     </th>
+                                    {{--email--}}
                                     <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1"
                                         aria-label="
 									Email
@@ -87,6 +98,7 @@
                                                             ">
                                             </i></a>
                                     </th>
+                                    {{--gender--}}
                                     <th class="sorting_disabled" role="columnheader" rowspan="1" colspan="1"
                                         aria-label="
 									Joined
@@ -98,12 +110,14 @@
                                                             ">
                                             </i></a>
                                     </th>
+                                    {{--action--}}
                                     <th class=" text-center"
                                         style="width: 200px;">
                                         Action
                                     </th>
                                 </tr>
                                 </thead>
+                                {{--list data--}}
                                 <tbody role="alert" aria-live="polite" aria-relevant="all">
                                 @foreach ($record as $list)
                                     <tr class="gradeX odd">
@@ -130,19 +144,21 @@
                                         </td>
                                     </tr>
                                 @endforeach
-
                                 </tbody>
                             </table>
+
                         </div>
+
                         <div class="row">
+                            {{--limit for display records--}}
                             <div class="col-md-6 col-sm-6">
                                 <div class="text-left">
                                     <form action="">
                                         <label>Choose a Number:</label>
                                         <select class="option" size="1" name="limit">
-                                            <option value="5"   {{$limit == "5" ? "selected" : ""}}>5</option>
-                                            <option value="10"   {{$limit == "10" ? "selected" : ""}}>10</option>
-                                            <option value="15"   {{$limit == "15" ? "selected" : ""}}>15</option>
+                                            <option value="5" {{$limit == "5" ? "selected" : ""}}>5</option>
+                                            <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>
+                                            <option value="15" {{$limit == "15" ? "selected" : ""}}>15</option>
                                         </select> records
                                         <br><br>
                                         <input type="hidden" name="sort_dir" value="{{$sortDir}}">
@@ -152,6 +168,7 @@
                                     </form>
                                 </div>
                             </div>
+                            {{--pagination--}}
                             <div class="col-md-6 col-sm-6">
                                 <div class="text-right">
                                     {!!$record->appends($_GET)->render()!!}
@@ -160,11 +177,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- END EXAMPLE TABLE PORTLET-->
+
             </div>
+
             <script>
                 jQuery(document).ready(function () {
-
+                    // delete button functionality
                     jQuery(".del_ete").on('click', function (e) {
                         e.preventDefault();
                         //console.log(jQuery(this).attr('href'));
@@ -190,13 +208,14 @@
                             }
                         })
                     });
+
+                    //on click form submit when sort label change
                     jQuery(function () {
                         jQuery('.option').change(function () {
                             this.form.submit();
                         });
                     });
                 });
-
             </script>
         </div>
 @endsection

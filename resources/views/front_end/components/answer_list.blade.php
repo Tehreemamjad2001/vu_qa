@@ -17,7 +17,6 @@
                     $voteValue = $item->is_logged_user_vote_up == "Yes" ? $item->total_up_vote : $item->total_down_vote;
                 @endphp
                 <span id="vote_counter_{{$item->id}}">{{isset($voteValue) && !empty($voteValue) ? $voteValue : "0"}}</span>
-
                 <a onclick="voteDown({{$item->id}})" id="down_answer_{{$item->id}}"
                    class="downvote  {{$item->is_logged_user_vote_down == "No" ? "" : "downvote-on" }} vote_{{$item->id}}"
                    data-vote-type="0"
@@ -48,10 +47,10 @@
                     <span class="text-danger" id="update-fail"
                           role="alert">{{$errors->first('error_answer_limit_'.$item->id)}}</span>
                 @endif
-                    @if ($errors->has('blocked_keyword_update_ans_'.$item->id) )
-                        <span class="text-danger"
-                              role="alert">{{$errors->first('blocked_keyword_update_ans_'.$item->id)}}</span>
-                    @endif
+                @if ($errors->has('blocked_keyword_update_ans_'.$item->id) )
+                    <span class="text-danger"
+                          role="alert">{{$errors->first('blocked_keyword_update_ans_'.$item->id)}}</span>
+                @endif
             </div>
             <div class="question-post-user-action">
                 <div class="post-menu">
@@ -84,8 +83,9 @@
                     <div class="btn-group">
                         {!! $shareComponent !!}
                     </div><!-- btn-group -->
-                    <a onclick="editAnswer({{$item->id}})" class="btn">Edit</a>
-
+                    @if(Auth::check() && $item->user_id = $usrId)
+                        <a onclick="editAnswer({{$item->id}})" class="btn">Edit</a>
+                    @endif
                 </div><!-- end post-menu -->
                 <div class="media media-card user-media align-items-center">
                     <a href="{{route("user-questions-list",["id"=>$item->user_id])}}" class="media-img d-block">

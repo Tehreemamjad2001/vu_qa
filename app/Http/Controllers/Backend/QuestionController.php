@@ -106,10 +106,8 @@ class QuestionController extends Controller
 
     public function update(Request $request, $id)
     {
-        // dd($request);
         $updateRow = Question::where("id", $id);
         $updateRow->update([
-           // "title" => Str::limit($request->title, 12),
             "title" => $request->title,
             "is_blocked" => $request->is_blocked,
             "category_id" => $request->category,
