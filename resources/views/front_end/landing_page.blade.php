@@ -41,13 +41,18 @@
                                                                        value="Reset"></a></div>
                             </form>
                         </div>
+
                         <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
-                            <div class="mr-3">
+                            <div class="mr-3 mb-10">
                                 <h3 class="fs-18 fw-medium">All Questions</h3>
                                 <p class="pt-1 fs-14 fw-medium lh-20">{{number_format($questionRecord->total())}}</p>
                             </div>
+                        </div>
+
+                        <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-end">
+
                             <div class="filter-option-box w-20">
-                                <div class="selectize-control select-container single">
+                                <div class="selectize-control select-container single mr-2">
                                     <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                             size="1" id="limit">
                                         <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>

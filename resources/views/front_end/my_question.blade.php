@@ -65,6 +65,14 @@
                                 <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm">Ask
                                     Question</a>
                             </div>
+
+                            <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
+                                <div class="mr-3 mb-10">
+                                    <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}
+                                    </p>
+                                </div>
+                            </div>
+
                             <form id="filter">
                                 <div>
                                     <input type="hidden" name="sort" id="sort_value" value="{{$sort}}">
@@ -73,11 +81,10 @@
                                     <input type="submit" value="submit" style="display: none">
                                 </div>
                             </form>
-                            <div class="d-flex flex-wrap align-items-center justify-content-between">
-                                <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}
-                                </p>
+                            <div class="d-flex flex-wrap align-items-center justify-content-end">
+
                                 <div class="filter-option-box w-20">
-                                    <div class="selectize-control select-container single">
+                                    <div class="selectize-control select-container single mr-2">
                                         <select size="1" id="limit"
                                                 class="select-container selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
