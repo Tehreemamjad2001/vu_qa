@@ -1,5 +1,7 @@
 <?php
 $currentRouteName = Route::currentRouteName();
+$search = isset($_GET["search"]) && !empty($_GET["search"]) ? $_GET["search"] : "";
+//dd($search);
 ?>
 <header class="header-area bg-white shadow-sm bg-white border-bottom border-bottom-gray fixed-top">
     <div class="container">
@@ -41,10 +43,10 @@ $currentRouteName = Route::currentRouteName();
                     </nav><!-- end main-menu -->
                     <form action="{{route("home")}}" class="mr-2 MultiFile-intercepted">
                         <div class="form-group mb-0">
-                            <input class="form-control form--control form--control-bg-gray" type="search" name="title"
-                                   {{--value="{{$title}}" --}}
+                            <input class="form-control form--control form--control-bg-gray" type="search" name="search"
+                                   value="{{$search}}"
                                    placeholder="Type your search words...">
-                            <button class="form-btn" type="search"><i class="la la-search"></i></button>
+                            <button class="form-btn" type="search"></button>
                         </div>
                     </form>
                     @if(Auth::check())

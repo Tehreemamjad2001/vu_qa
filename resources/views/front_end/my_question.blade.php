@@ -2,14 +2,14 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question_Record"];
-        $RandomQuestions =$pageData['related_questions'] ;
+        $RandomQuestions =$pageData['related_questions'];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
         $tags = isset($_GET["tag"]) && !empty($_GET["tag"]) ? $_GET["tag"] : "";
-        $id = request()->id;
+        $id = isset(request()->id) && !empty(request()->id) ? request()->id : "";
         $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? $_GET['slug'] : "";
-
+        $title = isset($_GET["title"]) && !empty($_GET["title"]) ? $_GET["title"] : "";
 
     @endphp
     <section class="question-area pt-85px pb-40px">
@@ -49,8 +49,19 @@
                     <div class="question-main-bar">
                         <div class="filters pb-4">
                             <div class="d-flex flex-wrap align-items-center justify-content-between pb-3">
-
                                 <h3 class="fs-22 fw-medium">{{isset($id) && !empty($id) ?$pageData["user_name"]->name . " Questions" : "My Questions"}}</h3>
+                            </div>
+                            <div class="filters d-flex align-items-center justify-content-between">
+                                <form action="">
+                                    <div class="form-group mb-10 mr-3 ">
+                                        <label> <input class="form-control form--control h-auto py-2" type="search"
+                                                       name="title"
+                                                       value="{{$title}}" placeholder="Type your search words...">
+                                        </label>
+                                        <a href="{{Route::current()->getName() === "my-question" ? route('my-question') : route('user-questions-list',["id"=>$id])}}"><input class="btn theme-btn " type="button"
+                                                                           value="Reset"></a></div>
+                                </form>
+
                                 <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm">Ask
                                     Question</a>
                             </div>
@@ -81,13 +92,16 @@
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldestss</option>
+                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest
+                                            </option>
+                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldestss
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div><!-- end filters -->
+
                         <div class="questions-snippet border-top border-top-gray">
                             @if(Session::has('alert-delete-question-record'))
                                 {!!Session::get('alert-delete-question-record')!!}
@@ -95,7 +109,8 @@
                             @if($questionRecord->total() == "0")
                                 <div class="row pt-10px">
                                     <p class="col-sm-4 col-sm-4"></p>
-                                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No data is available</p>
+                                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No data is
+                                        available</p>
                                 </div>
                             @else
                                 @foreach($questionRecord as $data)

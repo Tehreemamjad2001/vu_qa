@@ -188,7 +188,6 @@
                                                                       role="alert">{{$errors->first('about_me')}}</span>
                                                             @endif
                                                         </div>
-                                                        s
                                                     </div>
                                                 </div>
                                             </div><!-- end row -->

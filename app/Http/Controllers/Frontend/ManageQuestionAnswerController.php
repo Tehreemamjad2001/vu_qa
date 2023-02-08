@@ -32,7 +32,7 @@ class ManageQuestionAnswerController extends Controller
         $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
-        // dd($searchByTitle);
+        $searchBySearch = isset($request->search) && !empty($request->search) ? $request->search : "";
         $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
 
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
@@ -40,16 +40,17 @@ class ManageQuestionAnswerController extends Controller
             "questions.created_at", "users.name", "users.id", "users.profile_pic")
             ->join("users", "users.id", "questions.user_id")
             ->join("categories", "categories.id", "questions.category_id");
+        if (isset($searchBySearch) && !empty($searchBySearch)) {
+            $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchBySearch);
+        }
+        if (isset($searchByTitle) && !empty($searchByTitle)) {
+            $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
+        }
         if (isset($search) && !empty($search)) {
             $questionRecord = $questionRecord->where("tags", $search);
         }
         if (isset($searchBySlug) && !empty($searchBySlug)) {
             $questionRecord = $questionRecord->where("slug", $searchBySlug);
-
-        }
-        if (isset($searchByTitle) && !empty($searchByTitle)) {
-            $title = $this->scopeSearch($questionRecord, $searchByTitle);
-            $questionRecord = $questionRecord->where("title", $searchByTitle);
         }
         if (isset($sort) && !empty($sort)) {
             if ($sort == "Newest") {
@@ -64,7 +65,7 @@ class ManageQuestionAnswerController extends Controller
 
         $questionRecord = $questionRecord->paginate($limit);
 
-        $this->pageData["question-Record"] = $questionRecord;
+        $this->pageData["question_Record"] = $questionRecord;
         $this->pageData["page_title"] = "Question";
 
         $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
@@ -72,7 +73,7 @@ class ManageQuestionAnswerController extends Controller
             ->orderBy(DB::raw('RAND()'))
             ->paginate("3");
 
-        $this->pageData["related-questions"] = $selectRandomQuestions;
+        $this->pageData["related_questions"] = $selectRandomQuestions;
         return $this->showPage("front_end.landing_page");
 
     }
@@ -86,14 +87,13 @@ class ManageQuestionAnswerController extends Controller
         $searchBySlug = isset(request()->slug) && !empty(request()->slug) ? request()->slug : "";
         $searchByTitle = isset(request()->title) && !empty(request()->title) ? request()->title : "";
 
-
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
             "views", "total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
             ->join("users", "users.id", "questions.user_id")
             ->join("categories", "categories.id", "questions.category_id")
             ->where("questions.user_id", $id);
         if (isset($searchByTitle) && !empty($searchByTitle)) {
-            $questionRecord = $questionRecord->where("title", $searchByTitle);
+            $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
         }
         if (isset($search) && !empty($search)) {
             $questionRecord = $questionRecord->where("tags", $search);
@@ -157,13 +157,11 @@ class ManageQuestionAnswerController extends Controller
                     'limit' => 'English words exceed the limit!'
                 ])->withInput();
         } else {
-            $updateQuestion = $updateQuestion->update([
-                "title" => $request->title,
+            $updateQuestion = $updateQuestion->update(["title" => $request->title,
                 "description" => $request->description,
                 "parent_id" => $request->parent_cat,
                 "category_id" => $request->cat,
-                "tags" => $request->tags,
-            ]);
+                "tags" => $request->tags,]);
             if ($updateQuestion) {
                 $this->setFormMessage('update-record', "success", "Question has been update ");
             } else {
@@ -188,9 +186,9 @@ class ManageQuestionAnswerController extends Controller
                 "total_no_of_questions_sc" => $getSubCatTotalQuestionCount,
                 "total_no_of_questions" => $parentCatQuestionCount,
             ]);
-            $this->setFormMessage("delete-question-record", "success", "Record has been deleted ");
+            $this->setFormMessage("delete-question_record", "success", "Record has been deleted ");
         } else {
-            $this->setFormMessage("delete-question-record", "danger", "Record does not exit");
+            $this->setFormMessage("delete-question_record", "danger", "Record does not exit");
         }
         return back();
     }

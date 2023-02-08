@@ -1,8 +1,8 @@
 @extends("front_end/layout/main")
 @section("content")
     @php
-        $questionRecord =  $pageData["question-Record"];
-        $selectRandomQuestions =  $pageData["related-questions"];
+        $questionRecord =  $pageData["question_Record"];
+        $selectRandomQuestions =  $pageData["related_questions"];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "desc";
