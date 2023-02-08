@@ -92,10 +92,8 @@
                                     <div class="selectize-control select-container single">
                                         <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                 id="sort">
-                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest
-                                            </option>
-                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldestss
-                                            </option>
+                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
+                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldestss</option>
                                         </select>
                                     </div>
                                 </div>
