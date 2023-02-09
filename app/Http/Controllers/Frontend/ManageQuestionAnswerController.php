@@ -330,7 +330,6 @@ class ManageQuestionAnswerController extends Controller
         $this->pageData['answer_total_record'] = $totalRecord;
         $perPage = $answerRecord->perPage();
         $this->pageData['answer_per_page'] = $perPage;
-
         $articles = '';
         if ($request->ajax()) {
             $articles = view("front_end.components.answer_list")->with("finalResult", $finalResult)->render();
