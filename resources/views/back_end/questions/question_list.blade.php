@@ -10,7 +10,6 @@
        $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : "";
     $searchByCategory = isset($_GET['search_by_category']) && !empty($_GET['search_by_category']) ? $_GET['search_by_category'] : "";
     $searchByIsBlocked = isset($_GET['search_by_is_blocked']) && !empty($_GET['search_by_is_blocked']) ? $_GET['search_by_is_blocked'] : "sadadasdaada";
-   //dd($searchByIsBlocked);
     @endphp
     @if(Session::has('alert-delete-question'))
         {!!Session::get('alert-delete-question')!!}

@@ -3,7 +3,8 @@
     @php
         $record = $pageData["question_record"];
         $parentCategories = $pageData["parent_category"];
-     $childCategories = $pageData["child_category"];
+        $childCategories = $pageData["child_category"];
+    //dd($errors);
 
     @endphp
     <div class="row">
@@ -18,8 +19,8 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-12 col-sm-12">
-            <form action="{{route("question-update",["id"=>$record->id])}}" method="post" class="form-horizontal">
+        <div class="col-md-12 col-sm-12" id="error">
+            <form method="Post" action="{{route("question-update",["id"=>$record->id])}}" class="form-horizontal">
                 @if(Session::has('alert-update-question'))
                     {!!Session::get('alert-update-question')!!}
                 @endif
@@ -28,9 +29,17 @@
                     <label class="col-md-3 control-label">Question<span class="text-danger">*</span></label>
                     <div class="col-md-4 ">
                         <input type="text" name="title" class="form-control" placeholder="Example: Programing"
-                               value="{{isset($record->id) && !empty($record->id) ? $record->title : old('title')}}">
+                               value="{{$errors->has('title') || $errors->has('limit') || $errors->has('blocked_keyword_title') ? old("title") :$record->title }}">
                         @if ($errors->has('title'))
                             <span class="text-danger" role="alert">{{$errors->first('title')}}</span>
+                        @endif
+                        @if ($errors->has('limit'))
+                            <span class="text-danger"
+                                  role="alert">{{$errors->first('limit')}}</span>
+                        @endif
+                        @if ($errors->has('blocked_keyword_title'))
+                            <span class="text-danger"
+                                  role="alert">{{$errors->first('blocked_keyword_title')}}</span>
                         @endif
                     </div>
                 </div>
@@ -70,13 +79,21 @@
                         @endif()
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label class="control-label col-md-3">Tags Support List</label>
                     <div class="col-md-4">
                         <input type="hidden" name="tags" id="select2_sample5" class="form-control select2"
                                value="{{$record->tags}}">
+                        @if ($errors->has('tag_limit'))
+                            <span class="text-danger"
+                                  role="alert">{{$errors->first('tag_limit')}}</span>
+                        @endif
+                        @if ($errors->has('blocked_keyword_tag'))
+                            <span class="text-danger"
+                                  role="alert">{{$errors->first('blocked_keyword_tag')}}</span>
+                        @endif
                     </div>
+
                 </div>
 
                 <div class="form-actions fluid">

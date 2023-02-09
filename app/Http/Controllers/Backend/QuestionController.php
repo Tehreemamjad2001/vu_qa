@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Backend;
+
 use App\Http\Controllers\Controller;
 
 use App\Models\Category;
@@ -19,11 +20,8 @@ class QuestionController extends Controller
         $searchByPublishAtFrom = isset($request->publish_at_from) && !empty($request->publish_at_from) ? $request->publish_at_from : "";
         $searchByPublishAtTo = isset($request->publish_at_to) && !empty($request->publish_at_to) ? $request->publish_at_to : "";
         $category = isset($request->category) && !empty($request->category) ? $request->category : "";
-
-        $searchByIsBlocked = isset($request->is_blocked) && !empty($request->is_blocked)  ? $request->is_blocked : "";
-
+        $searchByIsBlocked = isset($request->is_blocked) && !empty($request->is_blocked) ? $request->is_blocked : "";
         $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "5";
-
         $orderDirection = isset($_REQUEST['sort_dir']) && !empty($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "desc";
         $orderLabel = isset($_REQUEST['sort']) && !empty($_REQUEST['sort']) ? $_REQUEST['sort'] : "id";
 
@@ -45,15 +43,13 @@ class QuestionController extends Controller
             $records = $records->where("questions.category_id", $category);
         }
 
-        if(isset($searchByIsBlocked) && !empty($searchByIsBlocked)){
+        if (isset($searchByIsBlocked) && !empty($searchByIsBlocked)) {
             if ($searchByIsBlocked == "no") {
-
                 $records = $records->where("questions.is_blocked", 0);
-            }elseif($searchByIsBlocked == "yes"){
+            } elseif ($searchByIsBlocked == "yes") {
                 $records = $records->where("questions.is_blocked", 1);
             }
         }
-
 
 
         $records = $records->orderBy($orderLabel, $orderDirection)->paginate($listCount);
@@ -64,7 +60,6 @@ class QuestionController extends Controller
         $this->pageData["child_category"] = $getChildCategory;
 
         $this->pageData["question_record"] = $records;
-
 
 
         $this->pageData["page_title"] = "Manage Question ";
@@ -106,19 +101,49 @@ class QuestionController extends Controller
 
     public function update(Request $request, $id)
     {
-        $updateRow = Question::where("id", $id);
-        $updateRow->update([
-            "title" => $request->title,
-            "is_blocked" => $request->is_blocked,
-            "category_id" => $request->category,
-            "tags" => $request->tags
-        ]);
-        $this->pageData["question_record"] = $updateRow;
-        if ($updateRow) {
-            $this->setFormMessage("update-question", "success", "Record has been updated");
-        } else {
-            $this->setFormMessage("update-question", "danger", "No record has been found");
+        $title = langLimit("question-title-limit", $request->title);
+        $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
+        $tags = explode(",", $request->tags);
+        $sizeOfArray = sizeof($tags);
+        $blockedTagKeyword = checkBlockedKeyWord($request->tags);
+        if (!$title) {
+            return back()
+                ->withErrors([
+                    'limit' => 'English words exceed the limit!'
+                ])->withInput();
+        }elseif ($checkBlockedWordsForTitle != null){
+            return back()
+                ->withErrors([
+                    'blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!",
+                ])->withInput();
+        }elseif ( $sizeOfArray > 5){
+            return back()
+                ->withErrors([
+                    'tag_limit' => "Tags exceeds the limit",
+                ])->withInput();
+        }elseif ($blockedTagKeyword){
+            return back()
+                ->withErrors([
+                    'blocked_keyword_tag' => "Can't use this '" . $blockedTagKeyword . "' word!",
+                ])->withInput();
         }
-        return back();
+        else {
+            $updateRow = Question::where("id", $id);
+            $updateRow->update([
+                "title" => $request->title,
+                "is_blocked" => $request->is_blocked,
+                "category_id" => $request->category,
+                "tags" => $request->tags
+            ]);
+            $this->pageData["question_record"] = $updateRow;
+            if ($updateRow) {
+                $this->setFormMessage("update-question", "success", "Record has been updated");
+            } else {
+                $this->setFormMessage("update-question", "danger", "No record has been found");
+            }
+            return back();
+       }
+
     }
+
 }

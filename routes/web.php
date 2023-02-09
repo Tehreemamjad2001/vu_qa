@@ -137,7 +137,7 @@ Route::group([
     ], function () {
         Route::get("answer-list", [AnswerController::class, "list"])->name("list");
         Route::get("answer-edit/{id}", [AnswerController::class, "edit"])->name("edit");
-        Route::post("answer-update/{id}", [AnswerController::class, "update"])->name("update");
+        Route::any("answer-update/{id}", [AnswerController::class, "update"])->name("update");
         Route::get("question-delete/{id}", [AnswerController::class, "delete"])->name("delete");
     });
 

@@ -31,8 +31,6 @@ class Question extends Model
         ]);
         $insertIp->save();
 
-
-
         $ViewsCount = QuestionViewCount:: where("question_id", $id)->count();
         $updateView = Question::where("id", $id);
         $updateView = $updateView->update([

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Models\Answer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Redirect;
 
 class AnswerController extends Controller
 {
@@ -46,17 +47,32 @@ class AnswerController extends Controller
 
     public function update(Request $request, $id)
     {
-        $updateAnswerRecord = Answer::find($id);
-        $updateAnswerRecord = $updateAnswerRecord->update([
-            "answer" => $request->answer,
-        ]);
-        if ($updateAnswerRecord) {
-            $this->setFormMessage("update-question", "success", "Answer have been updated");
+        $answer = langLimit("answer-limit", $request->answer);
+        $checkBlockedWords = checkBlockedKeyWord($request->answer);
+        if (!$answer) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'answer_limit' => 'English words exceed the limit!'
+                ]);
+        } elseif ($checkBlockedWords != null) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'blocked_keyword' => "Can't use this '" . $checkBlockedWords . "' word!",
+                ]);
         } else {
-            $this->setFormMessage("update-question", "danger", "Something went wrong");
+            $updateAnswerRecord = Answer::find($id);
+            $updateAnswerRecord = $updateAnswerRecord->update([
+                "answer" => $request->answer,
+            ]);
+            if ($updateAnswerRecord) {
+                $this->setFormMessage("update-question", "success", "Answer have been updated");
+            } else {
+                $this->setFormMessage("update-question", "danger", "Something went wrong");
+            }
+            return back();
         }
-
-        return back();
     }
 
     public function delete($id)

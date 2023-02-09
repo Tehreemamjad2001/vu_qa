@@ -148,13 +148,30 @@ class ManageQuestionAnswerController extends Controller
         $checkBlockedWordsForDescription = checkBlockedKeyWord($request->description);
         $tags = explode(",", $request->tags);
         $sizeOfArray = sizeof($tags);
-        if ($sizeOfArray > 5 || $checkBlockedWordsForTitle != null || $checkBlockedWordsForDescription != null || !$title || !$description) {
-            return redirect()->to(route("ask-question-page") . "#error")
+        if (!$title) {
+            return back()
+                ->withErrors([
+                    'limit' => 'English words exceed the limit!'
+                ])->withInput();
+        } elseif (!$description) {
+            return back()
+                ->withErrors([
+                    'limit' => 'English words exceed the limit!'
+                ])->withInput();
+        } elseif ($checkBlockedWordsForTitle != null) {
+            return back()
+                ->withErrors([
+                    'blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!",
+                ])->withInput();
+        } elseif ($checkBlockedWordsForDescription != null) {
+            return back()
+                ->withErrors([
+                    'blocked_keyword' => "Can't use this '" . $checkBlockedWordsForDescription . "' word!",
+                ])->withInput();
+        } elseif ($sizeOfArray > 5) {
+            return back()
                 ->withErrors([
                     'tag_limit' => "Tags exceeds the limit",
-                    'blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!",
-                    'blocked_keyword' => "Can't use this '" . $checkBlockedWordsForDescription . "' word!",
-                    'limit' => 'English words exceed the limit!'
                 ])->withInput();
         } else {
             $updateQuestion = $updateQuestion->update(["title" => $request->title,
@@ -221,13 +238,31 @@ class ManageQuestionAnswerController extends Controller
         $checkBlockedWordsForDescription = checkBlockedKeyWord($request->description);
         $tags = explode(",", $request->tags);
         $sizeOfArray = sizeof($tags);
-        if ($sizeOfArray > 5 || $checkBlockedWordsForTitle != null || $checkBlockedWordsForDescription != null || !$title || !$description) {
-            return redirect()->to(route("ask-question-page") . "#error")
+
+        if (!$title) {
+            return back()
+                ->withErrors([
+                    'limit' => 'English words exceed the limit!'
+                ])->withInput();
+        } elseif (!$description) {
+            return back()
+                ->withErrors([
+                    'limit' => 'English words exceed the limit!'
+                ])->withInput();
+        } elseif ($checkBlockedWordsForTitle != null) {
+            return back()
+                ->withErrors([
+                    'blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!",
+                ])->withInput();
+        } elseif ($checkBlockedWordsForDescription != null) {
+            return back()
+                ->withErrors([
+                    'blocked_keyword' => "Can't use this '" . $checkBlockedWordsForDescription . "' word!",
+                ])->withInput();
+        } elseif ($sizeOfArray > 5) {
+            return back()
                 ->withErrors([
                     'tag_limit' => "Tags exceeds the limit",
-                    'blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!",
-                    'blocked_keyword' => "Can't use this '" . $checkBlockedWordsForDescription . "' word!",
-                    'limit' => 'English words exceed the limit!'
                 ])->withInput();
         } else {
             $id = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
@@ -333,11 +368,15 @@ class ManageQuestionAnswerController extends Controller
         $answer = langLimit("answer-limit", $request->answer);
         $userId = isset(auth()->user()->id) && !empty(auth()->user()->id) ? auth()->user()->id : "";
         $checkBlockedWords = checkBlockedKeyWord($request->answer);
-        if (!$answer || $checkBlockedWords != null) {
-            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
+        if (!$answer) {
+            return back()
+                ->withErrors([
+                    'answer_limit' => 'English words exceed the limit!'
+                ])->withInput();
+        } elseif ($checkBlockedWords != null) {
+            return back()
                 ->withErrors([
                     'blocked_keyword' => "Can't use this '" . $checkBlockedWords . "' word!",
-                    'answer_limit' => 'English words exceed the limit!'
                 ])->withInput();
         } else {
             $insertAnswer = Answer::create([
@@ -364,11 +403,15 @@ class ManageQuestionAnswerController extends Controller
         $questionId = $request->question_id;
         $answer = langLimit("answer-limit", $request->update_answer);
         $checkBlockedWords = checkBlockedKeyWord($request->update_answer);
-        if (!$answer || $checkBlockedWords != null) {
-            return redirect()->to(route("answers-page", ["id" => $questionId]) . "#error")
+        if (!$answer) {
+            return back()
                 ->withErrors([
-                    'blocked_keyword_update_ans_' . $ansId => "Can't use this '" . $checkBlockedWords . "' word!",
-                    'error_answer_limit_' . $ansId => 'English words exceed the limit!'
+                    'answer_limit' => 'English words exceed the limit!'
+                ])->withInput();
+        } elseif ($checkBlockedWords != null) {
+            return back()
+                ->withErrors([
+                    'blocked_keyword' => "Can't use this '" . $checkBlockedWords . "' word!",
                 ])->withInput();
         } else {
             $updateRecord = Answer::where("question_id", $questionId)->where("id", $ansId)->update([

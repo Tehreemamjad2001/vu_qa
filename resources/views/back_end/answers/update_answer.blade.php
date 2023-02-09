@@ -16,7 +16,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-12 col-sm-12">
+        <div class="col-md-12 col-sm-12" id="error">
             <form action="{{route("answer-update",["id"=>$answerRecord->id])}}" method="post" class="form-horizontal">
                 @if(Session::has('alert-update-question'))
                     {!!Session::get('alert-update-question')!!}
@@ -25,10 +25,18 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">Answer<span class="text-danger">*</span></label>
                     <div class="col-md-4 ">
-                        <input type="text" name="answer" class="form-control" placeholder="Example: Programing"
-                               value="{{isset($answerRecord->id) && !empty($answerRecord->id) ? $answerRecord->answer : old('answer')}}">
-                        @if ($errors->has('title'))
+                        <textarea type="text" name="answer" class="form-control" placeholder="Example: Programing" cols="6" rows="6" style="resize: none"
+                                  value="">{{$errors->has('answer') || $errors->has('answer_limit') || $errors->has('blocked_keyword') ? old("answer") : $answerRecord->answer}}</textarea>
+                        @if ($errors->has('answer'))
                             <span class="text-danger" role="alert">{{$errors->first('answer')}}</span>
+                        @endif
+                        @if ($errors->has('answer_limit') )
+                            <span class="text-danger"
+                                  role="alert">{{$errors->first('answer_limit')}}</span>
+                        @endif
+                        @if ($errors->has('blocked_keyword') )
+                            <span class="text-danger"
+                                  role="alert">{{$errors->first('blocked_keyword')}}</span>
                         @endif
                     </div>
                 </div>
