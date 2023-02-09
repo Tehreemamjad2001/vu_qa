@@ -1,12 +1,11 @@
-<div class="header navbar navbar-inverse navbar-fixed-top">
+<div class="header navbar navbar-inverse navbar-fixed-top" style="height:47px">
     <!-- BEGIN TOP NAVIGATION BAR -->
     <div class="header-inner">
         <!-- BEGIN LOGO -->
         <a class="navbar-brand" href="{{route('dashboard')}}">
-            Meme Creator
+            <img style="width: 100px" src="{{assets('images/qa-forum-high-resolution-logo-white-on-transparent-background.png ',true)}}">
         </a>
-        <!-- END LOGO -->
-        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->--}}
         <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
             <img src="{{assets('assets/img/menu-toggler.png')}}" alt=""/>
         </a>

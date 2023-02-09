@@ -214,7 +214,7 @@ class ManageQuestionAnswerController extends Controller
     {
         $this->pageData["page_title"] = "Ask Question";
         $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
-        $this->pageData["category-Record"] = $getCategoryList;
+        $this->pageData["category_Record"] = $getCategoryList;
         $this->pageData["page_title"] = "Ask Question";
         return $this->showPage("front_end.ask_question");
     }

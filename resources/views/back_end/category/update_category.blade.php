@@ -92,7 +92,8 @@
                     <label class="col-md-3 control-label">Description</label>
                     <div class="col-md-4">
                     <textarea name="description"
-                              value=""
+                              rows="6"
+                              cols="6"
                               class="form-control"
                               placeholder="Example: description about Category"
                               style="resize: none ; height: 150px">{{isset($recordForCategoryEditPage->id) && !empty($recordForCategoryEditPage->id)

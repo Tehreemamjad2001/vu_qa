@@ -58,14 +58,13 @@
                                                        name="title"
                                                        value="{{$title}}" placeholder="Type your search words...">
                                         </label>
-                                        <a href="{{Route::current()->getName() === "my-question" ? route('my-question') : route('user-questions-list',["id"=>$id])}}"><input class="btn theme-btn " type="button"
-                                                                           value="Reset"></a></div>
+                                        <a href="{{Route::current()->getName() === "my-question" ? route('my-question') : route('user-questions-list',["id"=>$id])}}"><input
+                                                    class="btn theme-btn " type="button"
+                                                    value="Reset"></a></div>
                                 </form>
-
                                 <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm">Ask
                                     Question</a>
                             </div>
-
                             <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
                                 <div class="mr-3 mb-10">
                                     <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}

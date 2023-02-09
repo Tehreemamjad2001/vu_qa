@@ -102,6 +102,7 @@
     <style>
         textarea{
             direction: rtl;
+            resize: none;
         }
         .readmore .moretext {
             display: none;

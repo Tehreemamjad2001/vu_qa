@@ -1,7 +1,7 @@
 @extends("front_end/layout/main")
 @section("content")
     @php
-        $categoryRecord = $pageData["category-Record"];
+        $categoryRecord = $pageData["category_Record"];
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden">
         <span class="stroke-shape stroke-shape-1"></span>
