@@ -31,6 +31,9 @@
                    title="Approve" style="cursor: pointer">
                 </a>
             </div>
+            @if(Auth::check() && $item->user_id = $usrId)
+                <a onclick="editAnswer({{$item->id}})" class="btn">Edit</a>
+            @endif
         </div><!-- end votes -->
         <div class="answer-body-wrap flex-grow-1">
             <div class="success-message">
@@ -81,11 +84,10 @@
                         </form>
                     </div>
                     <div class="btn-group">
+                        <p>Share</p>
                         {!! $shareComponent !!}
                     </div><!-- btn-group -->
-                    @if(Auth::check() && $item->user_id = $usrId)
-                        <a onclick="editAnswer({{$item->id}})" class="btn">Edit</a>
-                    @endif
+
                 </div><!-- end post-menu -->
                 <div class="media media-card user-media align-items-center">
                     <a href="{{route("user-questions-list",["id"=>$item->user_id])}}" class="media-img d-block">

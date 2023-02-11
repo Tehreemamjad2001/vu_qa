@@ -33,7 +33,7 @@ class ManageQuestionAnswerController extends Controller
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
         $searchBySearch = isset($request->search) && !empty($request->search) ? $request->search : "";
-        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
+        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "30";
 
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "categories.category_name", "views", "total_no_of_ans",
@@ -47,7 +47,7 @@ class ManageQuestionAnswerController extends Controller
             $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
         }
         if (isset($search) && !empty($search)) {
-            $questionRecord = $questionRecord->where("tags", $search);
+            $questionRecord = $questionRecord->where("tags", "LIKE" , "%$search%");
         }
         if (isset($searchBySlug) && !empty($searchBySlug)) {
             $questionRecord = $questionRecord->where("slug", $searchBySlug);
@@ -96,7 +96,7 @@ class ManageQuestionAnswerController extends Controller
             $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
         }
         if (isset($search) && !empty($search)) {
-            $questionRecord = $questionRecord->where("tags", $search);
+            $questionRecord = $questionRecord->where("tags", "LIKE" , "%$search%");
         }
         if (isset($searchBySlug) && !empty($searchBySlug)) {
             $questionRecord = $questionRecord->where("slug", $searchBySlug);
@@ -355,7 +355,7 @@ class ManageQuestionAnswerController extends Controller
         $this->pageData["question_record"] = $questionRecord;
         $url = Route::currentRouteName();
         $shareComponent = \Share::page($url, 'share title')
-            ->facebook();
+            ->facebook()->twitter();
         $this->pageData["share_component"] = $shareComponent;
         $this->pageData["page_title"] = Str::limit($questionRecord->title, "20");
         return $this->showPage("front_end.answers");

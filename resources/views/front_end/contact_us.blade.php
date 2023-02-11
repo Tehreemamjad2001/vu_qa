@@ -38,16 +38,25 @@
                             <label class="fs-14 text-black fw-medium lh-20">Your Name</label>
                             <input type="text" id="name" name="name" class="form-control form--control"
                                    placeholder="e.g. Alex smith">
+                            @if ($errors->has('name'))
+                                <span class="text-danger" role="alert">{{$errors->first('name')}}</span>
+                            @endif
                         </div><!-- end form-group -->
                         <div class="form-group">
                             <label class="fs-14 text-black fw-medium lh-20">Email <span class="text-gray">(Address never made public)</span></label>
                             <input type="email" id="email" name="email" class="form-control form--control"
                                    placeholder="e.g. alexsmith@gmail.com">
+                            @if ($errors->has('email'))
+                                <span class="text-danger" role="alert">{{$errors->first('email')}}</span>
+                            @endif
                         </div><!-- end form-group -->
                         <div class="form-group" >
                             <label class="fs-14 text-black fw-medium lh-20">Message</label>
                             <textarea id="message" name="message" class="form-control form--control" rows="6"
-                                      placeholder="Tell us how we can help you."></textarea>
+                                      placeholder="Tell us how we can help you." style="direction: ltr"></textarea>
+                            @if ($errors->has('message'))
+                                <span class="text-danger" role="alert">{{$errors->first('message')}}</span>
+                            @endif
                         </div><!-- end form-group -->
                         <div class="form-group mb-0">
                             <input class="btn theme-btn" type="submit" >
@@ -78,7 +87,7 @@
                                             <path d="M22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6zm-2 0l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/>
                                         </svg>
                                     </div>
-                                    <a href="mailto:example@yourwebsite.com" class="d-inline-block">example@yourwebsite.com</a>
+                                    <a href="mailto:tehrem.amjad.2001@gmail.com" class="d-inline-block">tehrem.amjad.2001@gmail.com</a>
                                 </li>
                                 <li class="mb-3">
                                     <div class="icon-element icon-element-xs shadow-sm d-inline-block mr-2">

@@ -14,4 +14,9 @@ class AboutUsController extends Controller
         return $this->showPage("front_end.about_us");
 
     }
+
+    public function termAndCondition(){
+        $this->pageData["page_title"] = "Term And Condition";
+        return $this->showPage("front_end.term_and_condition");
+    }
 }

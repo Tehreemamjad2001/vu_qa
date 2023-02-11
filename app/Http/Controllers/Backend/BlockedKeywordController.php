@@ -36,7 +36,7 @@ class BlockedKeywordController extends Controller
         $orderDirection = isset($_REQUEST['sort_dir']) && !empty($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "desc";
         $orderLabel = isset($_REQUEST['sort']) && !empty($_REQUEST['sort']) ? $_REQUEST['sort'] : "id";
         $keywordRecord = BlockedKeyword::orderBy($orderLabel, $orderDirection);
-        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "5";
+        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "30";
         $searchKeyword =$request->search;
         if($searchKeyword){
             $keywordRecord = $keywordRecord->where("keyword","Like","%$searchKeyword%");

@@ -21,7 +21,7 @@ class QuestionController extends Controller
         $searchByPublishAtTo = isset($request->publish_at_to) && !empty($request->publish_at_to) ? $request->publish_at_to : "";
         $category = isset($request->category) && !empty($request->category) ? $request->category : "";
         $searchByIsBlocked = isset($request->is_blocked) && !empty($request->is_blocked) ? $request->is_blocked : "";
-        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "5";
+        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "30";
         $orderDirection = isset($_REQUEST['sort_dir']) && !empty($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "desc";
         $orderLabel = isset($_REQUEST['sort']) && !empty($_REQUEST['sort']) ? $_REQUEST['sort'] : "id";
 
@@ -55,13 +55,9 @@ class QuestionController extends Controller
         $records = $records->orderBy($orderLabel, $orderDirection)->paginate($listCount);
         $getCategoryFromCategories = Category::select("categories.id", "categories.category_name")->where("categories.parent_id", "0")->get();
         $this->pageData["parent_category"] = $getCategoryFromCategories;
-
         $getChildCategory = Category::select("categories.*")->join("categories as B", "categories.parent_id", "B.id")->get();
         $this->pageData["child_category"] = $getChildCategory;
-
         $this->pageData["question_record"] = $records;
-
-
         $this->pageData["page_title"] = "Manage Question ";
         $this->pageData["bc_title_1"] = "";
         $this->pageData["bc_title_2"] = "Question List";
@@ -102,6 +98,7 @@ class QuestionController extends Controller
     public function update(Request $request, $id)
     {
         $title = langLimit("question-title-limit", $request->title);
+        $description = langLimit("question-description-limit", $request->description);
         $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
         $tags = explode(",", $request->tags);
         $sizeOfArray = sizeof($tags);
@@ -111,23 +108,27 @@ class QuestionController extends Controller
                 ->withErrors([
                     'limit' => 'English words exceed the limit!'
                 ])->withInput();
-        }elseif ($checkBlockedWordsForTitle != null){
+        } elseif (!$description) {
+            return back()
+                ->withErrors([
+                    'limit' => 'English words exceed the limit!'
+                ])->withInput();
+        } elseif ($checkBlockedWordsForTitle != null) {
             return back()
                 ->withErrors([
                     'blocked_keyword_title' => "Can't use this '" . $checkBlockedWordsForTitle . "' word!",
                 ])->withInput();
-        }elseif ( $sizeOfArray > 5){
+        } elseif ($sizeOfArray > 5) {
             return back()
                 ->withErrors([
                     'tag_limit' => "Tags exceeds the limit",
                 ])->withInput();
-        }elseif ($blockedTagKeyword){
+        } elseif ($blockedTagKeyword) {
             return back()
                 ->withErrors([
                     'blocked_keyword_tag' => "Can't use this '" . $blockedTagKeyword . "' word!",
                 ])->withInput();
-        }
-        else {
+        } else {
             $updateRow = Question::where("id", $id);
             $updateRow->update([
                 "title" => $request->title,
@@ -142,7 +143,7 @@ class QuestionController extends Controller
                 $this->setFormMessage("update-question", "danger", "No record has been found");
             }
             return back();
-       }
+        }
 
     }
 

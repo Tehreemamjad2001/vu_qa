@@ -104,9 +104,8 @@
                                             class="la la-arrow-right icon ml-1"></i></button>
                             </div><!-- end form-group -->
                             <p class="fs-13 lh-18 pb-3">By clicking “Sign up”, you agree to our <a
-                                        href="terms-and-conditions.html" class="text-color hover-underline">terms of
-                                    conditions</a>, <a href="privacy-policy.html" class="text-color hover-underline">privacy
-                                    policy</a></p>
+                                        href="{{route("term-condition")}}" class="text-color hover-underline">terms of
+                                    conditions</a></p>
                         </div><!-- end form-action-wrapper -->
                     </div><!-- end col-lg-5 -->
                 </div><!-- end row -->

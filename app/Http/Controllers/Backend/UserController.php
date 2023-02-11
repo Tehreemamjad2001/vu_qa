@@ -19,14 +19,13 @@ class UserController extends Controller
         $this->pageData["bc_title_1"] = "User List";
         $this->pageData["bc_title_2"] = "Add User";
         $this->pageData["bc_link_1"] = route('user-list');
-
         return $this->showPage("back_end.user.add_user");
     }
 
     public function list(Request $request)
     {
         $search_user = $request->search;
-        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "5";
+        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "30";
         $orderDirection = isset($_REQUEST['sort_dir']) && !empty($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "desc";
         $orderLabel = isset($_REQUEST['sort']) && !empty($_REQUEST['sort']) ? $_REQUEST['sort'] : "id";
         $records = User::orderBy($orderLabel, $orderDirection);

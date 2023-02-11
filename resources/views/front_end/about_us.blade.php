@@ -43,21 +43,10 @@
             <div class="row">
                 <div class="col-lg-10 mx-auto">
                     <div class="award-content text-center">
-                        <p class="section-desc pb-3">Founded in 2009, {{ config('app.name') }}’s public platform is used
+                        <p class="section-desc pb-3">{{ config('app.name') }}’s public platform is used
                             by nearly everyone who codes to learn, share their knowledge, collaborate, and build their
-                            careers. Our products and tools help developers and technologists in life and at work. These
-                            products include
-                            <a href="#" class="text-color hover-underline">{{ config('app.name') }} for Teams</a>, <a
-                                    href="#" class="text-color hover-underline">{{ config('app.name') }} Advertising</a>,
-                            and {{ config('app.name') }} for
-                            <a href="#" class="text-color hover-underline">Talent</a> and <a href="#"
-                                                                                             class="text-color hover-underline">Jobs</a>.
+                            careers. Our products and tools help developers and technologists in life and at work.
                         </p>
-                        <p class="section-desc pb-3">{{ config('app.name') }} for Teams, our core SaaS collaboration
-                            product, is helping thousands of companies around the world as the transition to remote
-                            work, address business continuity challenges, and undergo digital transformation.</p>
-                        <p class="section-desc pb-3">Whether it’s on {{ config('app.name') }} or
-                            within {{ config('app.name') }} for Teams, community is at the center of all that we do.</p>
                     </div>
                 </div>
             </div><!-- end row-->

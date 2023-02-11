@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
-       // dd($routeName);
+      // dd($routeName);
         $id = isset($this->id) ? $this->id : null;
 
         switch ($routeName) {
@@ -45,7 +45,6 @@ class UserRequest extends FormRequest
                     'password' => 'required|confirmed|min:3',
                     'password' => 'required|min:3',
                     'confirmPassword' => 'required|same:password',
-                    //'profile_pic' => 'mimes:jpeg,png,jpg'
                 ];
                 break;
             case "user-update" :

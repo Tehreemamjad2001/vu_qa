@@ -17,11 +17,10 @@ class UserQuestionsListController extends Controller
 
     public function userQuestionsList($id)
     {
-        $search = isset($request->tag) && !empty($request->tag) ? $request->tag : "";
-        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
-        $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
+        $search = isset(request()->tag) && !empty(request()->tag) ? request()->tag : "";
+        $limit = isset(request()->limit) && !empty(request()->limit) ? request()->limit : "30";
+        $sort = isset(request()->sort) && !empty(request()->sort) ? request()->sort : "Newest";
         $searchByTitle = isset(request()->title) && !empty(request()->title) ? request()->title : "";
-
         $userName = User::select("name")->where("users.id", $id)->first();
         $this->pageData["user_name"] = $userName;
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags",
@@ -33,13 +32,12 @@ class UserQuestionsListController extends Controller
             $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
         }
         if (isset($search) && !empty($search)) {
-            $questionRecord = $questionRecord->where("tags", $search);
+            $questionRecord = $questionRecord->where("tags",  "LIKE" , "%$search%");
         }
         if (isset($sort) && !empty($sort)) {
             if ($sort == "Newest") {
                 $questionRecord = $questionRecord->orderBy("questions.created_at", "desc");
             } elseif ($sort == "Oldest") {
-
                 $questionRecord = $questionRecord->orderBy("questions.created_at", "asc");
             }
         } else {

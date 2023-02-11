@@ -2,10 +2,9 @@
 @section("content")
     @php
         $record = $pageData["question_record"];
+      //  dd($record);
         $parentCategories = $pageData["parent_category"];
         $childCategories = $pageData["child_category"];
-    //dd($errors);
-
     @endphp
     <div class="row">
         <div class="col-md-6 col-sm-6">
@@ -26,7 +25,7 @@
                 @endif
                 {{csrf_field()}}
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Question<span class="text-danger">*</span></label>
+                    <label class="col-md-3 control-label">Question Title<span class="text-danger">*</span></label>
                     <div class="col-md-4 ">
                         <input type="text" name="title" class="form-control" placeholder="Example: Programing"
                                value="{{$errors->has('title') || $errors->has('limit') || $errors->has('blocked_keyword_title') ? old("title") :$record->title }}">
@@ -43,6 +42,25 @@
                         @endif
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Question Description<span class="text-danger">*</span></label>
+                    <div class="col-md-4 ">
+                        <textarea name="description" class="form-control" cols="6" rows="6"
+                        >{{$errors->has('description') || $errors->has('limit') || $errors->has('blocked_keyword_title')
+                               ? old("description") :$record->title }}</textarea></div>
+                    @if ($errors->has('description'))
+                        <span class="text-danger" role="alert">{{$errors->first('description')}}</span>
+                    @endif
+                    @if ($errors->has('limit'))
+                        <span class="text-danger"
+                              role="alert">{{$errors->first('limit')}}</span>
+                    @endif
+                    @if ($errors->has('blocked_keyword_title'))
+                        <span class="text-danger"
+                              role="alert">{{$errors->first('blocked_keyword_title')}}</span>
+                    @endif
+                </div>
+
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">Category*</label>

@@ -145,6 +145,10 @@
                                            class="form-control form--control input-tags input--tags select2"
                                            value="{{old("tags")}}">
                                 </div>
+                                @if ($errors->has('tags'))
+                                    <span class="text-danger"
+                                          role="alert">{{$errors->first('tags')}}</span>
+                                @endif
                                 @if ($errors->has('tag_limit'))
                                     <span class="text-danger"
                                           role="alert">{{$errors->first('tag_limit')}}</span>
@@ -159,9 +163,9 @@
                                             name="parent_cat"
                                             id="parent_cat"
                                             data-placeholder="Select a Category">
-                                        <option selected value="">Select Parentt Category</option>
+                                        <option selected >Select Category</option>
                                         @foreach($categoryRecord as $item)
-                                            <option value="{{isset($item->id) && !empty($item->id) ? $item->id : "" }}">{{$item->category_name}}</option>
+                                            <option value="{{isset($item->id) && !empty($item->id) ? $item->id : ""}}">{{$item->category_name}}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('parent_cat'))
@@ -194,14 +198,6 @@
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('blocked_keyword')}}</span>
                                     @endif
-                                    <div class="d-flex align-items-center pt-2">
-                                        <div class="mr-3">
-                                            ``` <code class="badge bg-gray border border-gray text-gray">code</code> ```
-                                        </div>
-                                        <div class="mr-3 fw-bold">**bold**</div>
-                                        <div class="mr-3 font-italic">*italic*</div>
-                                        <div>&gt;quote</div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -236,9 +232,12 @@
                         catId: cat_id,
                     },
                     function (data) {
+
                         $('#sub_cat').append(
+
                             '<select class="form-control form--control select-container select--container" name="cat" ' +
                             'id="cat" data-placeholder="Select a Category">' +
+                            '<option selected >Select Sub Category</option>'+
                             '</select>'
                         );
                         $.each(data.sub_cat, function (index, subcategory) {

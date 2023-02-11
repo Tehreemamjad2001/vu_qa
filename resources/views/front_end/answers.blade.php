@@ -59,7 +59,7 @@
                             @if($totalNumberOfAnswers == "0")
                                 <div class="row pt-10px">
                                     <p class="col-sm-5 col-sm-5"></p>
-                                    <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center">No data is
+                                    <p class="col-md-2 col-sm-2 alert alert-info" style="text-align: center">No Answer is
                                         available</p>
                                 </div>
                             @else
@@ -81,7 +81,6 @@
                                     {!!Session::get('alert-save-answer')!!}
                                 @endif
                                 <div class="input-box">
-                                    <label class="fs-14 text-black lh-20 fw-medium">Body</label>
                                     <div class="form-group">
                                         <textarea
                                                 class="form-control form--control form-control-sm fs-13 user-text-editor"

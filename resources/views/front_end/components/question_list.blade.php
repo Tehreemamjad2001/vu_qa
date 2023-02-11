@@ -25,7 +25,7 @@
                 $tagsRecord = explode(",",$data->tags);
             @endphp
             @foreach($tagsRecord as $value)
-                <a href="{{isset($value) && !empty($value) ? route("home")."?tag=".$value : route("home")}}"
+                <a href="{{isset($value) && !empty($value) ? "?tag=".$value : route("home")}}"
                    class="{{isset($value) && !empty($value) ? "tag-link" : ""}}">{{$value}}</a>
             @endforeach
         </div>
@@ -51,16 +51,16 @@
     @if($routeName == "my-question")
         <div class="text-center" style="padding-left: 5px">
             <div>
-                <a name="delete" class="del_ete  btn theme-btn theme-btn-sm"
+                <a name="delete" class="del_ete"
                    href="{{route("question-delete-page",["id"=>$data->question_id])}}">
-                    <b>Delete</b>
+                    <i class="las la-trash-alt"></i>
                 </a>
             </div>
             <br>
             <div class="view-block">
-                <a class="btn theme-btn theme-btn-sm"
+                <a
                    href="{{route("question-edit-page",["id"=>$data->question_id])}}">
-                    <b>Update</b>
+                    <i class="las la-edit"></i>
                 </a>
             </div>
         </div>

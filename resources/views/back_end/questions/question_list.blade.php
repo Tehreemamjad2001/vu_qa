@@ -27,7 +27,7 @@
                         <div class="row">
                             <div class="dataTables_filter " id="sample_1_filter">
                                 <form action="">
-                                    <div class="col-md-6 col-sm-6 text-center">
+                                    <div class="col-md-6 col-sm-6">
                                         <label>Question:
                                             <input type="search" name="question" placeholder="Search by question"
                                                    value="{{isset($_GET['question']) ? $_GET['question'] : ""}}"
@@ -35,7 +35,7 @@
                                                    class=" form-control input-medium">
                                         </label>
                                     </div>
-                                    <div class="col-md-6 col-sm-6 text-center">
+                                    <div class="col-md-6 col-sm-6">
                                         <label>Publish At:
                                             <input type="search" name="publish_by"
                                                    placeholder="Search by publish By"
@@ -46,7 +46,7 @@
                                     </div>
 
                                     <div id="toggle" class="hide">
-                                        <div class="col-md-6 col-sm-6 text-center">
+                                        <div class="col-md-6 col-sm-6">
                                             <label>Staring Date:
                                                 <input type="date" name="publish_at_from"
                                                        placeholder="Starting Date"
@@ -55,7 +55,7 @@
                                                        class=" form-control input-medium">
                                             </label>
                                         </div>
-                                        <div class="col-md-6 col-sm-6 text-center">
+                                        <div class="col-md-6 col-sm-6">
                                             <label>Ending date:
                                                 <input type="date" name="publish_at_to"
                                                        placeholder="eEnding date"
@@ -65,7 +65,7 @@
                                             </label>
 
                                         </div>
-                                        <div class="col-md-6 col-sm-6 text-center">
+                                        <div class="col-md-6 col-sm-6">
                                             <label>Category:
                                                 <select name="category" class="form-control">
                                                     <option value="">All</option>
@@ -83,7 +83,7 @@
                                                 </select>
                                             </label>
                                         </div>
-                                        <div class="col-md-6 col-sm-6 text-center">
+                                        <div class="col-md-6 col-sm-6">
                                             <label>Is Blocked:
                                                 <select name="is_blocked" class="form-control">
                                                     <option value="">All</option>
@@ -97,9 +97,8 @@
                                             </label>
                                         </div>
                                     </div>
-
-
-                                    <div class="col-md-12 col-sm-12 text-center">
+                                    <div class="col-md-3 col-sm-3"></div>
+                                    <div class="col-md-6 col-sm-6">
                                         <input id="advance_search" name="advance_search" type="hidden" value="0">
                                         <input class="btn dark" type="submit" value="Search">
                                         <a href="{{route('question-list')}}"><input class="btn red" type="button"
@@ -142,7 +141,7 @@
                                                         ">
                                         </i></a>
                                 </th>
-                                <th class="sorting" style="width: 150px">
+                                <th class="sorting" style="width:150px">
                                     <a href="{{getSortPageURL('category_id')}}"> Category <i
                                                 class="{{($sort == "category_id") && ($sortDir == "asc")   ? "fa fa-caret-up" :"" }}
                                                 {{($sort == "category_id") &&  ($sortDir == "desc") ? "fa fa-caret-down": ""}}
@@ -166,15 +165,14 @@
                                                         ">
                                         </i></a>
                                 </th>
-                                <th class="sorting text-center" style="width: 150px">
-                                    <a href="{{getSortPageURL('is_blocked')}}"> Is Blocked ? <i
-                                                class="{{($sort == "category_id") && ($sortDir == "asc")   ? "fa fa-caret-up" :"" }}
-                                                {{($sort == "category_id") &&  ($sortDir == "desc") ? "fa fa-caret-down": ""}}
-                                                {{($sortDir) && $sort != "category_id" ? "fa fa-unsorted": ""}}
-                                                        ">
-                                        </i></a>
-                                </th>
-
+                                {{--<th class="sorting text-center" style="width: 150px">--}}
+                                    {{--<a href="{{getSortPageURL('is_blocked')}}"> Is Blocked ? <i--}}
+                                                {{--class="{{($sort == "category_id") && ($sortDir == "asc")   ? "fa fa-caret-up" :"" }}--}}
+                                                {{--{{($sort == "category_id") &&  ($sortDir == "desc") ? "fa fa-caret-down": ""}}--}}
+                                                {{--{{($sortDir) && $sort != "category_id" ? "fa fa-unsorted": ""}}--}}
+                                                        {{--">--}}
+                                        {{--</i></a>--}}
+                                {{--</th>--}}
                                 <th class=" text-center"
                                     style="width: 50px;">
                                     Action
@@ -199,35 +197,35 @@
                                     <td class="text-center " style="vertical-align: middle">
                                         {{dateFormat($list->created_at)}}
                                     </td>
-                                    <td class="text-center " style="vertical-align: middle">
-                                        {{$list->is_blocked == "0" ? "No" : "Yes"}}
-                                    </td>
+                                    {{--<td class="text-center " style="vertical-align: middle">--}}
+                                        {{--{{$list->is_blocked == "0" ? "No" : "Yes"}}--}}
+                                    {{--</td>--}}
                                     <td class=" text-center" style="vertical-align: middle">
-
                                         <a name="delete" class="del_ete  btn default"
                                            href="{{route('question-delete',["id"=>$list->id])}}"><b>Delete </b><span
                                                     class="fa fa-trash-o"></span></a>
                                         <a class="btn default"
                                            href="{{route('question-edit',["id"=>$list->id])}}"><b>Edit </b><span
                                                     class="fa fa-edit "></span></a>
+                                        <a class="btn default"
+                                           href="{{route('answer-user-list',["id"=>$list->id])}}"><b>Answer </b><span
+                                                    class="fa fa-comments "></span></a>
                                     </td>
                                 </tr>
+
                             @endforeach
                             </tbody>
                         </table>
                     </div>
-
-
                     <div class="row">
-
                         <div class="col-md-6 col-sm-6">
                             <div class="text-left">
                                 <form action="">
                                     <label>Choose a Number:</label>
                                     <select class="option" size="1" name="limit">
-                                        <option value="5"  {{$limit == "5" ? "selected" : ""}}>5</option>
-                                        <option value="10"  {{$limit == "10" ? "selected" : ""}}>10</option>
-                                        <option value="15"  {{$limit == "15" ? "selected" : ""}}>15</option>
+                                        <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
+                                        <option value="60" {{$limit == "60" ? "selected" : ""}}>60</option>
+                                        <option value="90" {{$limit == "90" ? "selected" : ""}}>90</option>
                                     </select> records
                                     <br><br>
                                     <input type="hidden" name="sort_dir" value="{{$sortDir}}">

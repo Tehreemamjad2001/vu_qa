@@ -42,7 +42,7 @@ class QuestionRequest extends FormRequest
             case "save-question" :
                 return [
                     'title' => 'required',
-                    'tags' => '',
+                    'tags' => 'required',
                     'description' => 'required',
                     'parent_cat' => 'required',
                 ];
@@ -62,6 +62,7 @@ class QuestionRequest extends FormRequest
             "title.required" => "Write your questions title",
             "description.required" => "Write your questions description",
             "parent_cat.required" => "select category ",
+            "tags" => "Enter tags",
         ];
     }
 }

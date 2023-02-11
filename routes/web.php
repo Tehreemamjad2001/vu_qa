@@ -27,10 +27,12 @@ Route::get("wlcm", function () {
 
 Route::get("contact-us", [ContactUsController::class, "contactUsView"])->name("contact-us");
 Route::post("contact", [ContactUsController::class, "contactUs"])->name("contact");
+Route::get("term-and-condition", [AboutUsController::class, "termAndCondition"])->name("term-condition");
 Route::get("about-us", [AboutUsController::class, "aboutUs"])->name("about-us");
 
 Auth::routes();
 Route::get("/", [ManageQuestionAnswerController::class, "questionAnswerList"])->name('home');
+Route::get("user-questions/{id}", [UserQuestionsListController::class, "userQuestionsList"])->name('user-questions-list');
 
 Route::get("answers/{id}", [ManageQuestionAnswerController::class, "questionDetail"])->name('answers-page');
 Route::get("categories", [CategoryListController::class, "categoryList"])->name('frontend-category-list');
@@ -40,7 +42,6 @@ Route::group([
     "middleware" => "auth"
 ], function () {
     Route::get("my-question", [ManageQuestionAnswerController::class, "myQuestionList"])->name('my-question');
-    Route::get("user-questions/{id}", [UserQuestionsListController::class, "userQuestionsList"])->name('user-questions-list');
     Route::post("save-answer", [ManageQuestionAnswerController::class, "saveAnswer"])->name('save-answer');
     Route::post("update-answer", [ManageQuestionAnswerController::class, "updateAnswer"])->name('update-answer');
     Route::Post("answer-votes", [ManageQuestionAnswerController::class, "answerVotes"]);
@@ -136,6 +137,7 @@ Route::group([
         "as" => "answer-"
     ], function () {
         Route::get("answer-list", [AnswerController::class, "list"])->name("list");
+        Route::get("answer-list/{id}", [AnswerController::class, "userAnswerList"])->name("user-list");
         Route::get("answer-edit/{id}", [AnswerController::class, "edit"])->name("edit");
         Route::any("answer-update/{id}", [AnswerController::class, "update"])->name("update");
         Route::get("question-delete/{id}", [AnswerController::class, "delete"])->name("delete");

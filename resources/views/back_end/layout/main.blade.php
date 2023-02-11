@@ -86,6 +86,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 
 </head>
+<style>
+    textarea {
+        resize: none;
+    }
+</style>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
 <body class="page-header-fixed">

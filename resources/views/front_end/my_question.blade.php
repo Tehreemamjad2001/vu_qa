@@ -10,9 +10,8 @@
         $id = isset(request()->id) && !empty(request()->id) ? request()->id : "";
         $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? $_GET['slug'] : "";
         $title = isset($_GET["title"]) && !empty($_GET["title"]) ? $_GET["title"] : "";
-
     @endphp
-    <section class="question-area pt-85px pb-40px">
+    <section class="question-area pt-70px pb-40px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -48,30 +47,27 @@
                 <div class="col-lg-9">
                     <div class="question-main-bar">
                         <div class="filters pb-4">
-                            <div class="d-flex flex-wrap align-items-center justify-content-between pb-3">
-                                <h3 class="fs-22 fw-medium">{{isset($id) && !empty($id) ?$pageData["user_name"]->name . " Questions" : "My Questions"}}</h3>
+                            <div class="d-flex flex-wrap pb-3">
+                                <h3 class="fs-22 fw-medium">{{isset($id) && !empty($id) ? ucfirst($pageData["user_name"]->name)  . "'s Questions" : "My Questions"}}   </h3>
+                                <span>  ( {{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}
+                                    )</span>
+
                             </div>
                             <div class="filters d-flex align-items-center justify-content-between">
                                 <form action="">
                                     <div class="form-group mb-10 mr-3 ">
                                         <label> <input class="form-control form--control h-auto py-2" type="search"
+                                                       style="width: 700px"
                                                        name="title"
                                                        value="{{$title}}" placeholder="Type your search words...">
                                         </label>
+                                        <button class="btn theme-btn " type="Search" value="Search">Search</button>
+
                                         <a href="{{Route::current()->getName() === "my-question" ? route('my-question') : route('user-questions-list',["id"=>$id])}}"><input
                                                     class="btn theme-btn " type="button"
                                                     value="Reset"></a></div>
                                 </form>
-                                <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm">Ask
-                                    Question</a>
                             </div>
-                            <div class="filters pb-4 pl-3 d-flex align-items-center justify-content-between">
-                                <div class="mr-3 mb-10">
-                                    <p class="pt-1 fs-15 fw-medium lh-20">{{number_format($questionRecord->total()) }}{{$questionRecord->total() <=1 ? "  question" : "  questions"}}
-                                    </p>
-                                </div>
-                            </div>
-
                             <form id="filter">
                                 <div>
                                     <input type="hidden" name="sort" id="sort_value" value="{{$sort}}">
@@ -80,30 +76,37 @@
                                     <input type="submit" value="submit" style="display: none">
                                 </div>
                             </form>
-                            <div class="d-flex flex-wrap align-items-center justify-content-end">
+                            <div class="row">
+                                <div class="d-flex flex-wrap align-items-center justify-content-lg-start col-sm-8 col-sm-8 ">
+                                    <div class="filter-option-box w-20">
+                                        <div class="selectize-control select-container single mr-2">
+                                            <select size="1" id="limit"
+                                                    class="select-container selectize-input items full has-options has-items select-container select-container selectized"
+                                                    id="sort">
+                                                <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>
+                                                <option value="20" {{$limit == "20" ? "selected" : ""}}>20</option>
+                                                <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                                <div class="filter-option-box w-20">
-                                    <div class="selectize-control select-container single mr-2">
-                                        <select size="1" id="limit"
-                                                class="select-container selectize-input items full has-options has-items select-container select-container selectized"
-                                                id="sort">
-                                            <option value="10" {{$limit == "10" ? "selected" : ""}}>10</option>
-                                            <option value="20" {{$limit == "20" ? "selected" : ""}}>20</option>
-                                            <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
-                                        </select>
+                                    <div class="filter-option-box w-20">
+                                        <div class="selectize-control select-container single">
+                                            <select class="selectize-input items full has-options has-items select-container select-container selectized"
+                                                    id="sort">
+                                                <option value="Newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
+                                                <option value="Oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-
-                                <div class="filter-option-box w-20">
-                                    <div class="selectize-control select-container single">
-                                        <select class="selectize-input items full has-options has-items select-container select-container selectized"
-                                                id="sort">
-                                            <option value="newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                            <option value="oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
-                                        </select>
-                                    </div>
+                                <div class="col-sm-3 col-sm-3 d-flex flex-wrap  justify-content-lg-end">
+                                    <a href="{{route("ask-question-page")}}" class="btn theme-btn theme-btn-sm ml-5">Ask
+                                        Question</a>
                                 </div>
                             </div>
+
+
                         </div><!-- end filters -->
 
                         <div class="questions-snippet border-top border-top-gray">
@@ -113,7 +116,7 @@
                             @if($questionRecord->total() == "0")
                                 <div class="row pt-10px">
                                     <p class="col-sm-4 col-sm-4"></p>
-                                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No data is
+                                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No Question is
                                         available</p>
                                 </div>
                             @else

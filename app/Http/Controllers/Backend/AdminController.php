@@ -61,13 +61,10 @@ class AdminController extends Controller
         $this->pageData["bc_link_1"] = "";
 
         $search_user = $request->search;
-        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "5";
-
+        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "30";
         $orderDirection = isset($_REQUEST['sort_dir']) && !empty($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "desc";
         $orderLabel = isset($_REQUEST['sort']) && !empty($_REQUEST['sort']) ? $_REQUEST['sort'] : "id";
-
         $records = User::orderBy($orderLabel, $orderDirection);
-
         if ($search_user) {
             $records = $records->where("name", "LIKE", "%$search_user%")->orwhere("email", "LIKE", "%$search_user%");
         }

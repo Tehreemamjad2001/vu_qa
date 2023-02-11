@@ -48,7 +48,7 @@ class CategoryController extends Controller
         $this->pageData["bc_title_2"] = "Category List";
         $this->pageData["bc_link_1"] = route('category-list');
         $searchCategory = $request->search;
-        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "5";
+        $listCount = isset($request->limit) && !empty($request->limit) ? $request->limit : "30";
         $orderDirection = isset($_REQUEST['sort_dir']) && !empty($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "desc";
         $orderLabel = isset($_REQUEST['sort']) && !empty($_REQUEST['sort']) ? $_REQUEST['sort'] : "id";
         $categoryRecord = Category::select(["categories.*", "B.category_name AS parent_name"])

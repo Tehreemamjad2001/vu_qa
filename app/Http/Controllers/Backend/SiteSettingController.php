@@ -16,7 +16,7 @@ class SiteSettingController extends Controller
         $this->pageData["bc_title_1"] = "";
         $this->pageData["bc_title_2"] = "Lang Limit List";
         $search = request()->search;
-        $listCount = isset(request()->limit) && !empty(request()->limit) ? request()->limit : "5";
+        $listCount = isset(request()->limit) && !empty(request()->limit) ? request()->limit : "30";
         $orderDirection = isset($_REQUEST['sort_dir']) && !empty($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "desc";
         $orderLabel = isset($_REQUEST['sort']) && !empty($_REQUEST['sort']) ? $_REQUEST['sort'] : "id";
         $row = Option::select("*")->orderBy($orderLabel, $orderDirection);

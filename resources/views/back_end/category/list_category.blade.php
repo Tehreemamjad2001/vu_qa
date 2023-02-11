@@ -134,9 +134,9 @@
                                     <form action="">
                                         <label>Choose a Number:</label>
                                         <select class="option" size="1" name="limit">
-                                            <option value="5"  {{$limit == "5" ? "selected" : ""}}>5</option>
-                                            <option value="10"  {{$limit == "10" ? "selected" : ""}}>10</option>
-                                            <option value="15"  {{$limit == "15" ? "selected" : ""}}>15</option>
+                                            <option value="30" {{$limit == "30" ? "selected" : ""}}>30</option>
+                                            <option value="60" {{$limit == "60" ? "selected" : ""}}>60</option>
+                                            <option value="90" {{$limit == "90" ? "selected" : ""}}>90</option>
                                         </select> records
                                         <br><br>
                                         <input type="hidden" name="sort_dir" value="{{$sortDir}}">

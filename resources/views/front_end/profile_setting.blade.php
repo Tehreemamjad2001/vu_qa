@@ -26,13 +26,6 @@
                         <h2 class="section-title fs-30">Acount Settings</h2>
                     </div><!-- end hero-content -->
                 </div><!-- end col-lg-8 -->
-                <div class="col-lg-4">
-                    <div class="hero-btn-box text-right py-3">
-                        <a href="{{route("profile-setting")}}" aria-controls="edit-profile" aria-selected="true"
-                           class="btn theme-btn theme-btn-outline theme-btn-outline-gray"><i
-                                    class="la la-user mr-1"></i>View Profile</a>
-                    </div>
-                </div><!-- end col-lg-4 -->
             </div><!-- end row -->
             <ul class="nav nav-tabs generic-tabs generic--tabs generic--tabs-2 mt-4" id="myTab" role="tablist">
                 <li class="nav-item">
@@ -44,11 +37,6 @@
                     <a class="nav-link" id="change-password-tab" data-toggle="tab" href="#change-password"
                        role="tab"
                        aria-controls="change-password" aria-selected="false">Change Password</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="delete-account-tab" data-toggle="tab" href="#delete-account"
-                       role="tab"
-                       aria-controls="delete-account" aria-selected="false">Delete Account</a>
                 </li>
             </ul>
         </div><!-- end container -->
@@ -180,8 +168,8 @@
                                                                              name="about_me"
                                                                              class="form-control form--control user-text-editor"
                                                                              rows="10" cols="40"
-                                                                             data-origin="textarea">{{isset(auth()->user()->comment) && !empty(auth()->user()->comment)
-                                                                              ? auth()->user()->comment : ""}}
+                                                                             data-origin="textarea"
+                                                                             style="direction: ltr">{{auth()->user()->comment}}
                                                                      </textarea>
                                                             @if ($errors->has('about_me'))
                                                                 <span class="text-danger"
@@ -287,52 +275,6 @@
                                                         class="la la-arrow-right ml-1"></i></a>
                                         </div>
                                     </form>
-                                </div><!-- end user-panel -->
-                            </div><!-- end user-panel-main-bar -->
-                        </div><!-- end tab-pane -->
-                        <div class="tab-pane fade" id="delete-account" role="tabpanel"
-                             aria-labelledby="delete-account-tab">
-                            <div class="user-panel-main-bar">
-                                <div class="user-panel">
-                                    <div class="delete-account-info card card-item border border-danger">
-                                        <div class="card-body">
-                                            <h3 class="fs-22 text-danger fw-bold">Delete Account</h3>
-                                            <p class="pb-3 pt-2 lh-22 fs-15">Before confirming that you would
-                                                like your
-                                                profile deleted, we'd like to take a moment to explain the
-                                                implications
-                                                of deletion:</p>
-                                            <ul class="generic-list-item generic-list-item-bullet fs-15">
-                                                <li>Deletion is irreversible, and you will have no way to regain
-                                                    any of
-                                                    your original content, should this deletion be carried out
-                                                    and you
-                                                    change your mind later on.
-                                                </li>
-                                                <li>Your questions and answers will remain on the site, but will
-                                                    be
-                                                    disassociated and anonymized (the author will be listed as
-                                                    "user15319675") and will not indicate your authorship even
-                                                    if you
-                                                    later return to the site.
-                                                </li>
-                                            </ul>
-                                            <p class="pb-3 pt-2 lh-22 fs-15">Once you delete your account, there
-                                                is no
-                                                going back. Please be certain.</p>
-                                            <div class="custom-control custom-checkbox fs-15 mb-4">
-                                                <input type="checkbox" class="custom-control-input"
-                                                       id="delete-terms">
-                                                <label class="custom-control-label custom--control-label lh-22"
-                                                       for="delete-terms">I have read the information stated
-                                                    above and
-                                                    understand the implications of having my profile deleted. I
-                                                    wish to
-                                                    proceed with the deletion of my profile.</label>
-                                            </div>
-                                            <a href="{{route("delete",["id"=>$id])}}"><input type="submit"></a>
-                                        </div>
-                                    </div>
                                 </div><!-- end user-panel -->
                             </div><!-- end user-panel-main-bar -->
                         </div><!-- end tab-pane -->
