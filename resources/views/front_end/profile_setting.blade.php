@@ -62,6 +62,9 @@
                                         @if(Session::has('alert-update-user-profile-pic'))
                                             {!!Session::get('alert-update-user-profile-pic')!!}
                                         @endif
+                                        @if(Session::has('alert-update-user-profile'))
+                                            {!!Session::get('alert-update-user-profile')!!}
+                                        @endif
                                         @csrf
                                         <div class="settings-item mb-10px">
                                             <h4 class="fs-14 pb-2 text-gray text-uppercase">Public
@@ -127,7 +130,6 @@
                                                             </div>
 
                                                         @endif
-
                                                     </div><!-- end edit-profile-photo -->
                                                 </div><!-- end col-lg-6 -->
                                                 <div class="col-lg-6">
@@ -169,7 +171,7 @@
                                                                              class="form-control form--control user-text-editor"
                                                                              rows="10" cols="40"
                                                                              data-origin="textarea"
-                                                                             style="direction: ltr">{{auth()->user()->comment}}
+                                                                             style="direction: ltr">
                                                                      </textarea>
                                                             @if ($errors->has('about_me'))
                                                                 <span class="text-danger"
@@ -264,16 +266,6 @@
                                                 </button>
                                             </div>
                                         </div><!-- end settings-item -->
-                                        <div class="border border-gray p-4">
-                                            <h4 class="fs-18 mb-2">Forgot your password</h4>
-                                            <p class="pb-3">Don't worry it's happen with everyone. We'll help
-                                                you to get
-                                                back your password</p>
-                                            <a href="{{route("password.request")}}"
-                                               class="btn theme-btn theme-btn-sm theme-btn-white">Recover
-                                                Password <i
-                                                        class="la la-arrow-right ml-1"></i></a>
-                                        </div>
                                     </form>
                                 </div><!-- end user-panel -->
                             </div><!-- end user-panel-main-bar -->

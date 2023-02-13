@@ -68,13 +68,13 @@ class ManageQuestionAnswerController extends Controller
         $this->pageData["question_Record"] = $questionRecord;
         $this->pageData["page_title"] = "Question";
 
-        $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
+        $selectNewestQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
             ->join("users", "questions.user_id", "users.id")
-            ->orderBy(DB::raw('RAND()'))
+            ->orderBy(DB::raw('RAND()'),"desc")
             ->paginate("3");
 
-        $this->pageData["related_questions"] = $selectRandomQuestions;
-        return $this->showPage("front_end.landing_page");
+        $this->pageData["related_questions"] = $selectNewestQuestions;
+        return $this->showPage("front_end.random_questions");
 
     }
 
@@ -118,8 +118,21 @@ class ManageQuestionAnswerController extends Controller
             ->join("users", "questions.user_id", "users.id")
             ->orderBy(DB::raw('RAND()'))
             ->paginate("3");
-
         $this->pageData["related_questions"] = $selectRandomQuestions;
+
+        $countTotalNumOfQuestions = Question::where("user_id",$id)->count();
+        $this->pageData["no_of_questions"] = $countTotalNumOfQuestions;
+
+        $countTotalNumOfAnswers = Answer::where("user_id",$id)->count();
+        $this->pageData["no_of_answer"] = $countTotalNumOfAnswers;
+
+        $countTotalNumOfAcceptedAnswers = Answer::where("user_id",$id)->where('is_accepted', "true")->count();
+        $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
+
+        $countTotalNumOfRejectedAnswers = Answer::where("user_id",$id)->where('is_accepted', "false")->count();
+        $this->pageData["no_of_rejected_answer"] = $countTotalNumOfRejectedAnswers;
+
+
         return $this->showPage("front_end.my_question");
 
     }

@@ -47,7 +47,7 @@
                                 <label class="fs-14 text-black fw-medium lh-18">{{ __('Password') }}</label>
                                 <div class="input-group mb-1">
                                     <input class="form-control form--control password-field form-control @error('password') is-invalid @enderror"
-                                           type="password" name="password" placeholder="Password" required
+                                           type="password" name="password" placeholder="Password"
                                            autocomplete="new-password">
                                     <div class="input-group-append">
                                         <button class="btn theme-btn-outline theme-btn-outline-gray toggle-password"
@@ -79,7 +79,7 @@
                                 <div class="input-group mb-1">
                                     <input class="form-control form--control password-field form-control @error('password') is-invalid @enderror"
                                            type="password" id="password-confirm" name="password_confirmation"
-                                           placeholder="Password" required autocomplete="new-password">
+                                           placeholder="Password"  autocomplete="new-password">
                                     <div class="input-group-append">
                                         <button class="btn theme-btn-outline theme-btn-outline-gray toggle-password"
                                                 type="button">

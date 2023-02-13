@@ -2,7 +2,6 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question_Record"];
-        $RandomQuestions =$pageData['related_questions'];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "";
@@ -10,6 +9,10 @@
         $id = isset(request()->id) && !empty(request()->id) ? request()->id : "";
         $slug = isset($_GET['slug']) && !empty($_GET['slug']) ? $_GET['slug'] : "";
         $title = isset($_GET["title"]) && !empty($_GET["title"]) ? $_GET["title"] : "";
+        $countTotalNumOfQuestions =  $pageData["no_of_questions"];
+        $countTotalNumOfAnswers = $pageData["no_of_answer"];
+        $countTotalNumOfAcceptedAnswers = $pageData["no_of_accepted_answer"];
+        $countTotalNumOfRejectedAnswers = $pageData["no_of_rejected_answer"];
     @endphp
     <section class="question-area pt-70px pb-40px">
         <div class="container">
@@ -18,28 +21,34 @@
                     <div class="sidebar pb-45px">
                         <div class="card card-item">
                             <div class="card-body">
-                                <h3 class="fs-17 pb-3">Related Questions</h3>
+                                <h3 class="fs-17 pb-3">Number Achievement</h3>
                                 <div class="divider"><span></span></div>
-                                <div class="sidebar-questions pt-3">
-                                    @foreach($RandomQuestions as $item)
-                                        @php
-                                            $time =getUserTimeZone($item->created_at);
-                                        @endphp
-                                        <div class="media media-card media--card media--card-2">
-                                            <div class="media-body">
-                                                <h5>
-                                                    <a href="{{route("answers-page",["id"=>$item->questions_id])}}">{{Str::limit($item->title,30)}}</a>
-                                                </h5>
-                                                <small class="meta">
-                                                    <span class="pr-1">{{$time}}</span>
-                                                    <span class="pr-1">. by</span>
-                                                    <a href="{{route("user-questions-list",["id"=>$item->id])}}"
-                                                       class="author">{{$item->name}}</a>
-                                                </small>
-                                            </div>
-                                        </div><!-- end media -->
-                                    @endforeach
-                                </div><!-- end sidebar-questions -->
+                                <div class="row no-gutters text-center">
+                                    <div class="col-lg-6 responsive-column-half">
+                                        <div class="icon-box pt-3">
+                                            <span class="fs-20 fw-bold text-color">{{$countTotalNumOfQuestions}}</span>
+                                            <p class="fs-14">{{$countTotalNumOfQuestions <=1 ? "Question" : "Questions"}}</p>
+                                        </div><!-- end icon-box -->
+                                    </div><!-- end col-lg-6 -->
+                                    <div class="col-lg-6 responsive-column-half">
+                                        <div class="icon-box pt-3">
+                                            <span class="fs-20 fw-bold text-color-2">{{$countTotalNumOfAnswers}}</span>
+                                            <p class="fs-14">{{$countTotalNumOfAnswers <=1 ? "Answer" : "Answers"}}</p>
+                                        </div><!-- end icon-box -->
+                                    </div><!-- end col-lg-6 -->
+                                    <div class="col-lg-6 responsive-column-half">
+                                        <div class="icon-box pt-3">
+                                            <span class="fs-20 fw-bold text-color-3">{{$countTotalNumOfAcceptedAnswers}}</span>
+                                            <p class="fs-14">{{$countTotalNumOfAcceptedAnswers <=1 ? "Accepted Answer" : "Accepted Answers"}}</p>
+                                        </div><!-- end icon-box -->
+                                    </div><!-- end col-lg-6 -->
+                                    <div class="col-lg-6 responsive-column-half">
+                                        <div class="icon-box pt-3">
+                                            <span class="fs-20 fw-bold text-color-4">{{$countTotalNumOfRejectedAnswers}}</span>
+                                            <p class="fs-14">{{$countTotalNumOfRejectedAnswers <=1 ? "Rejected Answer" : "Rejected Answers"}}</p>
+                                        </div><!-- end icon-box -->
+                                    </div><!-- end col-lg-6 -->
+                                </div><!-- end row -->
                             </div>
                         </div><!-- end card -->
                     </div><!-- end sidebar -->

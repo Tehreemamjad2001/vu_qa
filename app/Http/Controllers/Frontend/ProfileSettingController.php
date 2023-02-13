@@ -30,7 +30,6 @@ class ProfileSettingController extends Controller
         $row->country = $request->country;
         $row->comment = $request->about_me;
         $row->save();
-
         if ($request->hasfile('profile_pic')) {
             $file = $request->file('profile_pic');
             $extension = $file->getClientOriginalExtension();
@@ -49,6 +48,7 @@ class ProfileSettingController extends Controller
             $this->createThumbnail($sourcePath, $filename);
             $this->setFormMessage('update-user-profile-pic', "success", "Profile Pic has been updated");
         }
+        $this->setFormMessage('update-user-profile', "success", "Profiled has been updated");
         return back();
     }
 

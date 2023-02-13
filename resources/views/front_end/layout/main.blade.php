@@ -117,10 +117,13 @@
             /*width: 20px;*/
             margin: 0 auto;
             max-width: 300px;
+
+
         }
 
         div#social-links ul li {
-            display: block;
+            display: inline-block;
+            float: left;
         }
 
         div#social-links ul li a {

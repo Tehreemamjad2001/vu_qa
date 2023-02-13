@@ -2,7 +2,7 @@
 @section("content")
     @php
         $questionRecord =  $pageData["question_Record"];
-        $selectRandomQuestions =  $pageData["related_questions"];
+        $selectNewestQuestions =  $pageData["related_questions"];
         $limit = isset($_GET["limit"]) && !empty($_GET["limit"]) ? $_GET["limit"] : "10";
         $sort = isset($_GET["sort"]) && !empty($_GET["sort"]) ? $_GET["sort"] : "newest";
         $sortDirection = isset($_GET["sort_dir"]) && !empty($_GET["sort_dir"]) ? $_GET["sort_dir"] : "desc";
@@ -103,10 +103,10 @@
                     <div class="sidebar">
                         <div class="card card-item">
                             <div class="card-body">
-                                <h3 class="fs-17 pb-3">Related Questions</h3>
+                                <h3 class="fs-17 pb-3">Newest Questions</h3>
                                 <div class="divider"><span></span></div>
                                 <div class="sidebar-questions pt-3">
-                                    @foreach($selectRandomQuestions as $value)
+                                    @foreach($selectNewestQuestions as $value)
                                         @php
                                             $time = getUserTimeZone($value->created_at);
                                         @endphp

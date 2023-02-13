@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
@@ -33,7 +35,7 @@ class UserRequest extends FormRequest
     {
 
         $routeName = Route::currentRouteName();
-      // dd($routeName);
+        // dd($routeName);
         $id = isset($this->id) ? $this->id : null;
 
         switch ($routeName) {
@@ -92,12 +94,16 @@ class UserRequest extends FormRequest
                 ];
                 break;
             case "update-profile-pic" :
-                //dd("1234jfg");
-                return [
+
+                return
+                    [
                     'name' => 'required|max:10',
                     'country' => 'required',
-                    'about_me' => 'required|max:400',
+                    'about_me' => 'required|max:400'
+
                 ];
+
+
                 break;
             case "profile-pass-setting" :
                 return [
@@ -130,6 +136,7 @@ class UserRequest extends FormRequest
                 break;
         }
 
+
     }
 
     public function messages()
@@ -144,4 +151,5 @@ class UserRequest extends FormRequest
             "password.required" => "Password is required",
         ];
     }
+
 }
