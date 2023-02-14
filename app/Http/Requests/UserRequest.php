@@ -95,14 +95,12 @@ class UserRequest extends FormRequest
                 break;
             case "update-profile-pic" :
 
-                return
-                    [
+                return    [
                     'name' => 'required|max:10',
                     'country' => 'required',
                     'about_me' => 'required|max:400'
 
                 ];
-
 
                 break;
             case "profile-pass-setting" :
@@ -151,5 +149,6 @@ class UserRequest extends FormRequest
             "password.required" => "Password is required",
         ];
     }
+
 
 }

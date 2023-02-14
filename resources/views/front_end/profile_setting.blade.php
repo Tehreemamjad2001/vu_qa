@@ -171,7 +171,7 @@
                                                                              class="form-control form--control user-text-editor"
                                                                              rows="10" cols="40"
                                                                              data-origin="textarea"
-                                                                             style="direction: ltr">
+                                                                             style="direction: ltr">{{auth()->user()->comment}}
                                                                      </textarea>
                                                             @if ($errors->has('about_me'))
                                                                 <span class="text-danger"
