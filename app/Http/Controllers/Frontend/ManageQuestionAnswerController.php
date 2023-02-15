@@ -316,7 +316,7 @@ class ManageQuestionAnswerController extends Controller
             $question = new Question;
             $question->questionViewCount($id);
         }
-        $answerRecord = Answer::select("answers.*", "users.id as user_id", "users.name", "users.profile_pic")
+        $answerRecord = Answer::select("answers.*", "users.id as userID", "users.name", "users.profile_pic")
             ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
             ->orderBy("id", "desc")

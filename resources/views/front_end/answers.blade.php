@@ -8,7 +8,7 @@
         $totalNumberOfAnswers =   $pageData['answer_total_record'];
         $perPageAnswers = $pageData['answer_per_page'];
     @endphp
-    <section class="question-area pt-40px pb-40px">
+    <section class="question-area pt-60px pb-40px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

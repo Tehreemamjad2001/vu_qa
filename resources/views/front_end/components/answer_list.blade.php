@@ -91,7 +91,7 @@
                 </div><!-- end post-menu -->
                 <div class="media media-card user-media align-items-center">
                     <a href="{{route("user-questions-list",["id"=>$item->user_id])}}" class="media-img d-block">
-                        <img src="{{getProfileThumbnail($item->user_id,"small",$item->profile_pic)}}"
+                        <img src="{{getProfileThumbnail($item->userID,"small",$item->profile_pic)}}"
                              alt="avatar">
                     </a>
                     <div class="media-body d-flex align-items-center justify-content-between">
