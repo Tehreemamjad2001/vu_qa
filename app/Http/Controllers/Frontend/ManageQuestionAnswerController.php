@@ -245,14 +245,18 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveQuestion(QuestionRequest $request)
     {
-        // dd($request);
+        $request->validate([
+            'parent_cat' => 'required|max:10',
+            'cat' => 'required|',
+        ]);
         $title = langLimit("question-title-limit", $request->title);
         $description = langLimit("question-description-limit", $request->description);
         $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
         $checkBlockedWordsForDescription = checkBlockedKeyWord($request->description);
         $tags = explode(",", $request->tags);
         $sizeOfArray = sizeof($tags);
-
+        $parentCategory = $request->parent_cat;
+        $subCategory = $request->cat;
         if (!$title) {
             return back()
                 ->withErrors([

@@ -163,9 +163,9 @@
                                             name="parent_cat"
                                             id="parent_cat"
                                             data-placeholder="Select a Category">
-                                        <option  value="{{old("parent_id")}}">Select Category</option>
+                                        <option  value="{{old("parent_cat")}}">Select Category</option>
                                         @foreach($categoryRecord as $item)
-                                            <option value="{{isset($item->id) && !empty($item->id) ? $item->id : ""}}">{{$item->category_name}}</option>
+                                            <option value="{{isset($item->id) && !empty($item->id) ? $item->id : ""}}" {{$item->id == old("parent_cat") ? "selected" : ""}}>{{$item->category_name}}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('parent_cat'))
@@ -226,7 +226,6 @@
             $('#parent_cat').on('change', function () {
                 var cat_id = $(this).val();
                 $('#sub_cat').empty();
-                // alert("dsfsdfsdfdsfdsfsd");
                 $.post("http://localhost/meme-creator/api/sub-category",
                     {
                         catId: cat_id,
@@ -241,7 +240,7 @@
                             '</select>'
                         );
                         $.each(data.sub_cat, function (index, subcategory) {
-                            $('#cat').append('<option value="' + subcategory.id + '">' + subcategory.category_name + '</option>');
+                            $('#cat').append('<option value="' + subcategory.id + '" {{$item->id == old("cat") ? "selected" : ""}}>' + subcategory.category_name + '</option>');
                         });
                     });
             });
