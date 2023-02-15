@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+//use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Http\Requests\UserRequest;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use function Couchbase\defaultDecoder;
 use Illuminate\Http\Request;
 use League\CommonMark\Extension\TaskList\TaskListExtension;
-
+use Validator;
 
 class ProfileSettingController extends Controller
 {
@@ -22,8 +23,13 @@ class ProfileSettingController extends Controller
         return $this->showPage("front_end.profile_setting");
     }
 
-    public function updateProfilePic(UserRequest $request, $id)
+    public function updateProfilePic(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|max:10',
+            'country' => 'required|',
+            'about_me' => 'required|max:1000',
+        ]);
         $oldRow = User::find($id);
         $dataBaseProfilePicName = isset($oldRow->profile_pic) && !empty($oldRow->profile_pic) ? $oldRow->profile_pic : "";
         $row = User::find($id);
@@ -49,9 +55,17 @@ class ProfileSettingController extends Controller
             $this->createThumbnail($sourcePath, $filename);
             $this->setFormMessage('update-user-profile-pic', "success", "Profile Pic has been updated");
         }
-        $this->setFormMessage('update-user-profile', "success", "Profiled has been updated");
+        if ($row->save() == "true") {
+            $this->setFormMessage('update-user-profile', "success", "Profiled has been updated");
+
+        } else {
+            $this->setFormMessage('update-user-profile', "danger", "something went wrong");
+
+        }
         return back();
     }
+
+//    }
 
     public function updateProfilePass(UserRequest $request, $id)
     {

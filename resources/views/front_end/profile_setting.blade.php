@@ -139,7 +139,8 @@
                                                         <div class="form-group">
                                                             <input class="form-control form--control"
                                                                    type="text"
-                                                                   name="name" value="{{auth()->user()->name}}">
+                                                                   name="name" value="{{$errors->has('name') ?  old("name"):
+                                                                   auth()->user()->name }}">
                                                         </div>
                                                         @if ($errors->has('name'))
                                                             <span class="text-danger"
@@ -152,8 +153,8 @@
                                                             <input class="form-control form--control"
                                                                    type="text"
                                                                    name="country"
-                                                                   value="{{isset(auth()->user()->country) && !empty(auth()->user()->country)
-                                                                           ? auth()->user()->country : ""}}">
+                                                                   value="{{$errors->has('country')
+                                                                           ?  old("country") : auth()->user()->country }}">
                                                             @if ($errors->has('country'))
                                                                 <span class="text-danger"
                                                                       role="alert">{{$errors->first('country')}}</span>
@@ -171,8 +172,8 @@
                                                                              class="form-control form--control user-text-editor"
                                                                              rows="10" cols="40"
                                                                              data-origin="textarea"
-                                                                             style="direction: ltr">{{auth()->user()->comment}}
-                                                                     </textarea>
+                                                                             style="direction: ltr">{{$errors->has('about_me') ? old("about_me") :
+                                                                             auth()->user()->comment }} </textarea>
                                                             @if ($errors->has('about_me'))
                                                                 <span class="text-danger"
                                                                       role="alert">{{$errors->first('about_me')}}</span>

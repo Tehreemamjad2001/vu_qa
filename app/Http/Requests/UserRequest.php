@@ -93,16 +93,7 @@ class UserRequest extends FormRequest
                     'confirmPassword' => 'required|same:password',
                 ];
                 break;
-            case "update-profile-pic" :
 
-                return    [
-                    'name' => 'required|max:10',
-                    'country' => 'required',
-                    'about_me' => 'required|max:400'
-
-                ];
-
-                break;
             case "profile-pass-setting" :
                 return [
                     'old-password' => 'required|min:8',
