@@ -14,7 +14,7 @@
                    data-toggle="tooltip" data-placement="right"
                    title="Up Vote" style="cursor: pointer"></a>
                 @php
-                    $voteValue = $item->is_logged_user_vote_up == "Yes" ? $item->total_up_vote : $item->total_down_vote;
+                    $voteValue = isset($item->total_up_vote)  && !empty($item->total_up_vote) ? $item->total_up_vote : $item->total_down_vote;
                 @endphp
                 <span id="vote_counter_{{$item->id}}">{{isset($voteValue) && !empty($voteValue) ? $voteValue : "0"}}</span>
                 <a onclick="voteDown({{$item->id}})" id="down_answer_{{$item->id}}"
