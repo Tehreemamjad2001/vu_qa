@@ -75,9 +75,8 @@
                         </div><!-- end filters -->
                         <div class="questions-snippet border-top border-top-gray">
                             @if($questionRecord->total() == "0")
-                                <div class="row pt-10px">
-                                    <p class="col-sm-4 col-sm-4"></p>
-                                    <p class="col-md-3 col-sm-3 alert alert-info" style="text-align: center">No Question is
+                                <div class="row pt-20px mr-2 ml-2">
+                                    <p class="col-md-12 col-sm-12 alert alert-info" style="text-align: center">No Question is
                                         available</p>
                                 </div>
                             @else

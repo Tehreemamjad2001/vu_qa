@@ -116,8 +116,8 @@
                                     person</p>
                                 <div class="form-group">
                                     <input class="form-control form--control" type="text" name="title"
-                                           value="{{ old('title')}}"
-                                           placeholder="e.g. Is there an R function for finding the index of an element in a vector?">
+                                           value="{{ old('title')}}" style="direction: rtl"
+                                           placeholder="e.g.  اونٹ پانی کے بغیر  کتنے دن تک زندہ رہ سکتا ہے؟ ">
                                     @if ($errors->has('title'))
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('title')}}</span>
@@ -163,7 +163,7 @@
                                             name="parent_cat"
                                             id="parent_cat"
                                             data-placeholder="Select a Category">
-                                        <option selected >Select Category</option>
+                                        <option  value="{{old("parent_id")}}">Select Category</option>
                                         @foreach($categoryRecord as $item)
                                             <option value="{{isset($item->id) && !empty($item->id) ? $item->id : ""}}">{{$item->category_name}}</option>
                                         @endforeach

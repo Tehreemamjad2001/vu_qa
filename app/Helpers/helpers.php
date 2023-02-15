@@ -63,7 +63,6 @@ function deleteProfilePicFromFolder($path, $name)
     if (isset($name) && !empty($name)) {
         $dimension = profilePicDimension();
         $mainProfilePicSourceInFolder = $path . $name;
-        //dd($mainProfilePicSourceInFolder);
         @unlink($mainProfilePicSourceInFolder);
 
         foreach ($dimension as $key => $item) {
@@ -104,11 +103,10 @@ function langLimit($key, $text)
 {
     $detector = new \LanguageDetector\LanguageDetector(null, ['en', 'ur']);
     $description = explode(" ", $text);
-    $urduWordCount = 1;
-    $engWordCount = 1;
+    $urduWordCount = 0;
+    $engWordCount = 0;
     foreach ($description as $item) {
         $language = $detector->evaluate($item)->getLanguage();
-
         if ($language == "ur") {
             $urduWordCount++;
         }
@@ -119,7 +117,7 @@ function langLimit($key, $text)
     $totalWords = $urduWordCount + $engWordCount;
     $option = new \App\Models\Option();
     $value = $option->getValue($key);
-    if ($engWordCount <= ($totalWords * ($value / 100))) {
+    if ($engWordCount < ($totalWords * ($value / 100))) {
         return true;
     } else {
         return false;

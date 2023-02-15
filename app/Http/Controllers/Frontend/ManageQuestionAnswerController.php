@@ -47,7 +47,7 @@ class ManageQuestionAnswerController extends Controller
             $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
         }
         if (isset($search) && !empty($search)) {
-            $questionRecord = $questionRecord->where("tags", "LIKE" , "%$search%");
+            $questionRecord = $questionRecord->where("tags", "LIKE", "%$search%");
         }
         if (isset($searchBySlug) && !empty($searchBySlug)) {
             $questionRecord = $questionRecord->where("slug", $searchBySlug);
@@ -70,7 +70,7 @@ class ManageQuestionAnswerController extends Controller
 
         $selectNewestQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
             ->join("users", "questions.user_id", "users.id")
-            ->orderBy(DB::raw('RAND()'),"desc")
+            ->orderBy(DB::raw('RAND()'), "desc")
             ->paginate("3");
 
         $this->pageData["related_questions"] = $selectNewestQuestions;
@@ -96,7 +96,7 @@ class ManageQuestionAnswerController extends Controller
             $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
         }
         if (isset($search) && !empty($search)) {
-            $questionRecord = $questionRecord->where("tags", "LIKE" , "%$search%");
+            $questionRecord = $questionRecord->where("tags", "LIKE", "%$search%");
         }
         if (isset($searchBySlug) && !empty($searchBySlug)) {
             $questionRecord = $questionRecord->where("slug", $searchBySlug);
@@ -120,16 +120,16 @@ class ManageQuestionAnswerController extends Controller
             ->paginate("3");
         $this->pageData["related_questions"] = $selectRandomQuestions;
 
-        $countTotalNumOfQuestions = Question::where("user_id",$id)->count();
+        $countTotalNumOfQuestions = Question::where("user_id", $id)->count();
         $this->pageData["no_of_questions"] = $countTotalNumOfQuestions;
 
-        $countTotalNumOfAnswers = Answer::where("user_id",$id)->count();
+        $countTotalNumOfAnswers = Answer::where("user_id", $id)->count();
         $this->pageData["no_of_answer"] = $countTotalNumOfAnswers;
 
-        $countTotalNumOfAcceptedAnswers = Answer::where("user_id",$id)->where('is_accepted', "true")->count();
+        $countTotalNumOfAcceptedAnswers = Answer::where("user_id", $id)->where('is_accepted', "true")->count();
         $this->pageData["no_of_accepted_answer"] = $countTotalNumOfAcceptedAnswers;
 
-        $countTotalNumOfRejectedAnswers = Answer::where("user_id",$id)->where('is_accepted', "false")->count();
+        $countTotalNumOfRejectedAnswers = Answer::where("user_id", $id)->where('is_accepted', "false")->count();
         $this->pageData["no_of_rejected_answer"] = $countTotalNumOfRejectedAnswers;
 
 
@@ -245,6 +245,7 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveQuestion(QuestionRequest $request)
     {
+        // dd($request);
         $title = langLimit("question-title-limit", $request->title);
         $description = langLimit("question-description-limit", $request->description);
         $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
