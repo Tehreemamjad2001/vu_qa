@@ -242,7 +242,7 @@
                                                 @endif
                                                 <p class="fs-14 lh-18 py-2">Passwords must contain at least
                                                     eight
-                                                    characters, including at least 1 letter and 1 number.</p>
+                                                    characters.</p>
                                                 <button class="btn theme-btn-outline theme-btn-outline-gray toggle-password"
                                                         type="button" data-toggle="tooltip"
                                                         data-placement="right"

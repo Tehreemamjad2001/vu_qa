@@ -53,14 +53,14 @@
             <div>
                 <a name="delete" class="del_ete"
                    href="{{route("question-delete-page",["id"=>$data->question_id])}}">
-                    <i class="las la-trash-alt"></i>
+                    <i class="las la-trash-alt la-3x "></i>
                 </a>
             </div>
             <br>
             <div class="view-block">
                 <a
                    href="{{route("question-edit-page",["id"=>$data->question_id])}}">
-                    <i class="las la-edit"></i>
+                    <i class="las la-edit la-3x "></i>
                 </a>
             </div>
         </div>
