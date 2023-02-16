@@ -15,12 +15,9 @@
                         <h3 class="fs-16 fw-medium pb-3">Who we are</h3>
                         <h2 class="section-title fs-40 pb-3 lh-55">Helping developers and technologists write the script
                             of the future.</h2>
-                        <p class="lh-26 pb-3">Our public platform <strong class="fw-medium text-black">serves 100
-                                million people every month</strong>, making it one of the 50 most popular websites in
+                        <p class="lh-26 pb-3">Our public platform <strong class="fw-medium text-black">will be serves 100
+                                million people every month</strong>, making it one of the most popular websites in
                             the world.</p>
-                        <p class="lh-26">Our asynchronous knowledge management and collaboration offering <strong
-                                    class="fw-medium text-black">{{ config('app.name') }} for Teams</strong>, is
-                            transforming how people work.</p>
                     </div><!-- end hero-content -->
                 </div><!-- end col-lg-6 -->
                 <div class="col-lg-6">

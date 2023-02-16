@@ -33,7 +33,7 @@ class ManageQuestionAnswerController extends Controller
         $searchBySlug = isset($request->slug) && !empty($request->slug) ? $request->slug : "";
         $searchByTitle = isset($request->title) && !empty($request->title) ? $request->title : "";
         $searchBySearch = isset($request->search) && !empty($request->search) ? $request->search : "";
-        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "30";
+        $limit = isset($request->limit) && !empty($request->limit) ? $request->limit : "10";
 
         $sort = isset($request->sort) && !empty($request->sort) ? $request->sort : "Newest";
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "categories.category_name", "views", "total_no_of_ans",

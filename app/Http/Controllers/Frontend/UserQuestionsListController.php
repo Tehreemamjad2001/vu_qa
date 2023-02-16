@@ -18,7 +18,7 @@ class UserQuestionsListController extends Controller
     public function userQuestionsList($id)
     {
         $search = isset(request()->tag) && !empty(request()->tag) ? request()->tag : "";
-        $limit = isset(request()->limit) && !empty(request()->limit) ? request()->limit : "30";
+        $limit = isset(request()->limit) && !empty(request()->limit) ? request()->limit : "10";
         $sort = isset(request()->sort) && !empty(request()->sort) ? request()->sort : "Newest";
         $searchByTitle = isset(request()->title) && !empty(request()->title) ? request()->title : "";
         $userName = User::select("name")->where("users.id", $id)->first();

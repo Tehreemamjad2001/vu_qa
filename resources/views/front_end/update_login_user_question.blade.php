@@ -123,8 +123,8 @@
                                     person</p>
                                 <div class="form-group">
                                     <input class="form-control form--control" type="text" name="title"
-                                           value="{{$questionRecord->title}}"
-                                           placeholder="e.g. Is there an R function for finding the index of an element in a vector?">
+                                           value="{{$questionRecord->title}}" style="direction:rtl "
+                                           placeholder="e.g.  اونٹ پانی کے بغیر  کتنے دن تک زندہ رہ سکتا ہے؟ ">
                                     @if ($errors->has('title'))
                                         <span class="text-danger"
                                               role="alert">{{$errors->first('title')}}</span>
