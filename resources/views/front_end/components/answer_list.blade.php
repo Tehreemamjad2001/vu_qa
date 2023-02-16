@@ -6,7 +6,7 @@
 @endphp
 @foreach($answerRecord as $item)
     <div class="answer-wrap d-flex">
-        <div class="votes votes-styled w-auto">
+        <div class="votes votes-styled w-10">
             <div id="vote2" class="upvotejs">
                 <a onclick="voteUp({{$item->id}})" id="up_answer_{{$item->id}}"
                    class="upvote {{$item->is_logged_user_vote_up == "No" ? "" : "upvote-on" }}
@@ -31,7 +31,7 @@
                    title="Approve" style="cursor: pointer">
                 </a>
             </div>
-            @if(Auth::check() && $item->user_id = $usrId)
+            @if(Auth::check() && $item->user_id == $usrId)
                 <a onclick="editAnswer({{$item->id}})" class="btn">Edit</a>
             @endif
         </div><!-- end votes -->
@@ -84,8 +84,11 @@
                         </form>
                     </div>
                     <div class="btn-group">
-                        <p>Share</p>
-                        {!! $shareComponent !!}
+                        @if(Auth::check() && $item->user_id == $usrId)
+
+                            <p>Share</p>
+                            {!! $shareComponent !!}
+                        @endif
                     </div><!-- btn-group -->
 
                 </div><!-- end post-menu -->

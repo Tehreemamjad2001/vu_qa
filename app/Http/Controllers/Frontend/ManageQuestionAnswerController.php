@@ -286,8 +286,8 @@ class ManageQuestionAnswerController extends Controller
                 "title" => $request->title,
                 "description" => $request->description,
                 "user_id" => $id,
-                "category_id" => $categoryId,
-                "parent_id" => $parentId,
+                "category_id" =>  $request->parent_cat,
+                "parent_id" =>  $request->cat,
                 "tags" => Str::words($request->tags, "5"),
             ]);
             if ($addQuestion) {
