@@ -53,7 +53,6 @@ class ProfileSettingController extends Controller
                 }
             }
             $this->createThumbnail($sourcePath, $filename);
-            $this->setFormMessage('update-user-profile-pic', "success", "Profile Pic has been updated");
         }
         if ($row->save() == "true") {
             $this->setFormMessage('update-user-profile', "success", "Profiled has been updated");
