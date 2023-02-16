@@ -3,7 +3,6 @@
     @php
         $categoryRecord = $pageData["category_Record"];
         $subCat  = $pageData["sub_category_Record"];
-    //dd(old());
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden">
         <span class="stroke-shape stroke-shape-1"></span>
