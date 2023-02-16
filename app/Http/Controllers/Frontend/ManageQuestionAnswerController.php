@@ -228,6 +228,8 @@ class ManageQuestionAnswerController extends Controller
         $this->pageData["page_title"] = "Ask Question";
         $getCategoryList = Category::select("categories.*")->where("parent_id", "0")->get();
         $this->pageData["category_Record"] = $getCategoryList;
+        $getSubCategoryList = Category::select("categories.*")->where("parent_id", "!=","0")->get();
+        $this->pageData["sub_category_Record"] = $getSubCategoryList;
         $this->pageData["page_title"] = "Ask Question";
         return $this->showPage("front_end.ask_question");
     }
@@ -245,18 +247,12 @@ class ManageQuestionAnswerController extends Controller
 
     public function saveQuestion(QuestionRequest $request)
     {
-        $request->validate([
-            'parent_cat' => 'required|max:10',
-            'cat' => 'required|',
-        ]);
         $title = langLimit("question-title-limit", $request->title);
         $description = langLimit("question-description-limit", $request->description);
         $checkBlockedWordsForTitle = checkBlockedKeyWord($request->title);
         $checkBlockedWordsForDescription = checkBlockedKeyWord($request->description);
         $tags = explode(",", $request->tags);
         $sizeOfArray = sizeof($tags);
-        $parentCategory = $request->parent_cat;
-        $subCategory = $request->cat;
         if (!$title) {
             return back()
                 ->withErrors([
@@ -295,6 +291,7 @@ class ManageQuestionAnswerController extends Controller
                 "tags" => Str::words($request->tags, "5"),
             ]);
             if ($addQuestion) {
+
                 $totalQuestionAccordingParentCategory = Question::where("parent_id", $parentId)->count();
                 $updateQuestionRecord = Category::where("id", $parentId);
                 $updateQuestionRecord = $updateQuestionRecord->update([

@@ -2,6 +2,8 @@
 @section("content")
     @php
         $categoryRecord = $pageData["category_Record"];
+        $subCat  = $pageData["sub_category_Record"];
+    //dd(old());
     @endphp
     <section class="hero-area bg-white shadow-sm overflow-hidden">
         <span class="stroke-shape stroke-shape-1"></span>
@@ -163,7 +165,7 @@
                                             name="parent_cat"
                                             id="parent_cat"
                                             data-placeholder="Select a Category">
-                                        <option  value="{{old("parent_cat")}}">Select Category</option>
+                                        <option value="{{old("parent_cat")}}">Select Category</option>
                                         @foreach($categoryRecord as $item)
                                             <option value="{{isset($item->id) && !empty($item->id) ? $item->id : ""}}" {{$item->id == old("parent_cat") ? "selected" : ""}}>{{$item->category_name}}</option>
                                         @endforeach
@@ -173,10 +175,20 @@
                                               role="alert">{{$errors->first('parent_cat')}}</span>
                                     @endif
                                 </div>
+                                @if($errors->has('parent_cat') || $errors->has('tags') || $errors->has('title') || $errors->has('limit') ||$errors->has('blocked_keyword_title') ||$errors->has('tag_limit') || $errors->has('description') || $errors->has('blocked_keyword'))
+                                    <div class="input-box">
+                                        <select class="form-control form--control select-container select--container"
+                                                name="old_cat"
+                                                id="old_cat" data-placeholder="Select a Category">
+                                            @foreach($subCat as $item)
+                                                <option value="{{old("cat")}}" {{$item->id == old("cat") ? "selected" : ""}}>{{$item->category_name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                @endif
                                 <div class="form-group" id="sub_cat">
                                 </div>
                             </div><!-- end input-box -->
-
                             <div class="input-box">
                                 <label class="fs-14 text-black fw-medium mb-0">Details</label>
                                 <p class="fs-13 pb-3 lh-20">Include all the information someone would need to answer
@@ -200,13 +212,10 @@
                                     @endif
                                 </div>
                             </div>
-
                             <div class="btn-box">
                                 <button type="submit" class="btn theme-btn">Publish your question</button>
                             </div>
                         </form>
-
-
                     </div><!-- end card -->
                 </div><!-- end col-lg-12 -->
 
@@ -220,7 +229,6 @@
     <!-- ================================
              START CTA AREA
     ================================= -->
-
     <script>
         $(document).ready(function () {
             $('#parent_cat').on('change', function () {
@@ -231,16 +239,14 @@
                         catId: cat_id,
                     },
                     function (data) {
-
                         $('#sub_cat').append(
-
                             '<select class="form-control form--control select-container select--container" name="cat" ' +
                             'id="cat" data-placeholder="Select a Category">' +
-                            '<option selected >Select Sub Category</option>'+
+                            '<option selected >Select Sub Category</option>' +
                             '</select>'
                         );
                         $.each(data.sub_cat, function (index, subcategory) {
-                            $('#cat').append('<option value="' + subcategory.id + '" {{$item->id == old("cat") ? "selected" : ""}}>' + subcategory.category_name + '</option>');
+                            $('#cat').append('<option value="' + subcategory.id + '">' + subcategory.category_name + '</option>');
                         });
                     });
             });
