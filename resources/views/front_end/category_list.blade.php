@@ -49,10 +49,7 @@
                 </div><!-- end row -->
             @else
                 <div class="row pt-10px">
-                    <div class="row pt-20px mr-2 ml-2">
-                        <p class="col-md-12 col-sm-12 alert alert-info" style="text-align: center">No Sub Category is
-                            available</p>
-                    </div>
+                    <p class="col-md-12 col-sm-12 alert alert-info" style="text-align: center">No Sub category is available</p>
                 </div>
             @endif
             <div class="pager pt-20px">
