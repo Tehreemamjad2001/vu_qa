@@ -36,7 +36,7 @@
                                         </label>
                                     </div>
                                     <div class="col-md-6 col-sm-6">
-                                        <label>Publish At:
+                                        <label>Publish By:
                                             <input type="search" name="publish_by"
                                                    placeholder="Search by publish By"
                                                    value="{{isset($_GET['publish_by']) ? $_GET['publish_by'] : ""}}"
@@ -44,7 +44,6 @@
                                                    class=" form-control input-medium">
                                         </label>
                                     </div>
-
                                     <div id="toggle" class="hide">
                                         <div class="col-md-6 col-sm-6">
                                             <label>Staring Date:
@@ -165,14 +164,14 @@
                                                         ">
                                         </i></a>
                                 </th>
-                                {{--<th class="sorting text-center" style="width: 150px">--}}
-                                    {{--<a href="{{getSortPageURL('is_blocked')}}"> Is Blocked ? <i--}}
-                                                {{--class="{{($sort == "category_id") && ($sortDir == "asc")   ? "fa fa-caret-up" :"" }}--}}
-                                                {{--{{($sort == "category_id") &&  ($sortDir == "desc") ? "fa fa-caret-down": ""}}--}}
-                                                {{--{{($sortDir) && $sort != "category_id" ? "fa fa-unsorted": ""}}--}}
-                                                        {{--">--}}
-                                        {{--</i></a>--}}
-                                {{--</th>--}}
+                                <th class="sorting text-center" style="width: 150px">
+                                    <a href="{{getSortPageURL('is_blocked')}}"> Is Blocked <i
+                                                class="{{($sort == "category_id") && ($sortDir == "asc")   ? "fa fa-caret-up" :"" }}
+                                                {{($sort == "category_id") &&  ($sortDir == "desc") ? "fa fa-caret-down": ""}}
+                                                {{($sortDir) && $sort != "category_id" ? "fa fa-unsorted": ""}}
+                                                        ">
+                                        </i></a>
+                                </th>
                                 <th class=" text-center"
                                     style="width: 50px;">
                                     Action
@@ -197,9 +196,9 @@
                                     <td class="text-center " style="vertical-align: middle">
                                         {{dateFormat($list->created_at)}}
                                     </td>
-                                    {{--<td class="text-center " style="vertical-align: middle">--}}
-                                        {{--{{$list->is_blocked == "0" ? "No" : "Yes"}}--}}
-                                    {{--</td>--}}
+                                    <td class="text-center " style="vertical-align: middle">
+                                        {{$list->is_blocked == "0" ? "No" : "Yes"}}
+                                    </td>
                                     <td class=" text-center" style="vertical-align: middle">
                                         <a name="delete" class="del_ete  btn default"
                                            href="{{route('question-delete',["id"=>$list->id])}}"><b>Delete </b><span
