@@ -8,6 +8,7 @@
         $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : "";
         $searchByIsAccepted = isset($_GET['is_accepted']) && !empty($_GET['is_accepted']) ? $_GET['is_accepted'] : "sadadasdaada";
         $searchByAnswer = isset($_REQUEST['answer']) ? $_REQUEST['answer'] : "";
+    $advancedSearch = isset($_REQUEST['advance_search']) && !empty($_REQUEST['advance_search']) ? $_REQUEST['advance_search'] :"";
     @endphp
     @if(Session::has('alert-delete-answer'))
         {!!Session::get('alert-delete-answer')!!}
@@ -42,7 +43,7 @@
                                                    class=" form-control input-medium">
                                         </label>
                                     </div>
-                                    <div id="toggle" class="hide">
+                                    <div id="toggle" class="{{$advancedSearch == "1" ? "show":"hide"}}">
                                         <div class="col-md-6 col-sm-6 text-center">
                                             <label>Staring Date:
                                                 <input type="date" name="publish_at_from"
@@ -77,7 +78,8 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 col-sm-12 text-center">
-                                        <input id="advance_search" name="advance_search" type="hidden" value="0">
+                                        <input id="advance_search" name="advance_search" type="text"
+                                               value="0">
                                         <input class="btn dark" type="submit" value="Search">
                                         <a href="{{route('answer-list')}}"><input class="btn red" type="button"
                                                                                   value="Reset"></a>
@@ -234,9 +236,6 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
-
     <script>
         jQuery(document).ready(function () {
             jQuery(".del_ete").on('click', function (e) {

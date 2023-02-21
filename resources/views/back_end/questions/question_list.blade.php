@@ -8,8 +8,10 @@
        $sortDir = isset($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "";
        $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : "";
        $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : "";
-    $searchByCategory = isset($_GET['search_by_category']) && !empty($_GET['search_by_category']) ? $_GET['search_by_category'] : "";
-    $searchByIsBlocked = isset($_GET['search_by_is_blocked']) && !empty($_GET['search_by_is_blocked']) ? $_GET['search_by_is_blocked'] : "sadadasdaada";
+       $searchByCategory = isset($_GET['search_by_category']) && !empty($_GET['search_by_category']) ? $_GET['search_by_category'] : "";
+       $searchByIsBlocked = isset($_GET['search_by_is_blocked']) && !empty($_GET['search_by_is_blocked']) ? $_GET['search_by_is_blocked'] : "sadadasdaada";
+       $advancedSearch = isset($_REQUEST['advance_search']) && !empty($_REQUEST['advance_search']) ? $_REQUEST['advance_search'] :"";
+
     @endphp
     @if(Session::has('alert-delete-question'))
         {!!Session::get('alert-delete-question')!!}
@@ -44,7 +46,7 @@
                                                    class=" form-control input-medium">
                                         </label>
                                     </div>
-                                    <div id="toggle" class="hide">
+                                    <div id="toggle" class="{{$advancedSearch == "1" ? "show":"hide"}}">
                                         <div class="col-md-6 col-sm-6">
                                             <label>Staring Date:
                                                 <input type="date" name="publish_at_from"
@@ -179,7 +181,7 @@
                             </tr>
                             </thead>
                             <tbody role="alert" aria-live="polite" aria-relevant="all">
-{{--                            {{dd($record)}}--}}
+                            {{--                            {{dd($record)}}--}}
                             @foreach ($record as $list)
                                 <tr class="gradeX odd">
                                     <td class="" style="vertical-align: middle">
