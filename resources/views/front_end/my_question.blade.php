@@ -13,6 +13,8 @@
         $countTotalNumOfAnswers = $pageData["no_of_answer"];
         $countTotalNumOfAcceptedAnswers = $pageData["no_of_accepted_answer"];
         $countTotalNumOfRejectedAnswers = $pageData["no_of_rejected_answer"];
+        $countTotalNumOfAcceptedQuestions = $pageData["no_of_accepted_questions"] ;
+        $countTotalNumOfRejectedQuestions =  $pageData["no_of_rejected_questions"] ;
     @endphp
     <section class="question-area pt-70px pb-40px">
         <div class="container">
@@ -36,6 +38,20 @@
                                             <p class="fs-14">{{$countTotalNumOfAnswers <=1 ? "Answer" : "Answers"}}</p>
                                         </div><!-- end icon-box -->
                                     </div><!-- end col-lg-6 -->
+
+                                    <div class="col-lg-6 responsive-column-half">
+                                        <div class="icon-box pt-3">
+                                            <span class="fs-20 fw-bold text-color-3">{{$countTotalNumOfAcceptedQuestions}}</span>
+                                            <p class="fs-14">{{$countTotalNumOfAcceptedQuestions <=1 ? "Accepted Question" : "Accepted Questions"}}</p>
+                                        </div><!-- end icon-box -->
+                                    </div><!-- end col-lg-6 -->
+                                    <div class="col-lg-6 responsive-column-half">
+                                        <div class="icon-box pt-3">
+                                            <span class="fs-20 fw-bold text-color-4">{{$countTotalNumOfRejectedQuestions}}</span>
+                                            <p class="fs-14">{{$countTotalNumOfRejectedQuestions <=1 ? "Rejected Question" : "Rejected Questions"}}</p>
+                                        </div><!-- end icon-box -->
+                                    </div><!-- end col-lg-6 -->
+
                                     <div class="col-lg-6 responsive-column-half">
                                         <div class="icon-box pt-3">
                                             <span class="fs-20 fw-bold text-color-3">{{$countTotalNumOfAcceptedAnswers}}</span>
@@ -103,8 +119,10 @@
                                         <div class="selectize-control select-container single">
                                             <select class="selectize-input items full has-options has-items select-container select-container selectized"
                                                     id="sort">
-                                                <option value="Newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest</option>
-                                                <option value="Oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest</option>
+                                                <option value="Newest"{{$sort == "Newest"  ?  "selected" : ""}}>Newest
+                                                </option>
+                                                <option value="Oldest"{{$sort == "Oldest"  ?  "selected" : ""}}>Oldest
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -124,7 +142,8 @@
                             @endif
                             @if($questionRecord->total() == "0")
                                 <div class="row pt-20px mr-2 ml-2">
-                                    <p class="col-md-12 col-sm-12 alert alert-info" style="text-align: center">No Question is
+                                    <p class="col-md-12 col-sm-12 alert alert-info" style="text-align: center">No
+                                        Question is
                                         available</p>
                                 </div>
                             @else

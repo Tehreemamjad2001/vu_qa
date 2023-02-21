@@ -125,6 +125,12 @@ class ManageQuestionAnswerController extends Controller
         $countTotalNumOfQuestions = Question::where("user_id", $id)->count();
         $this->pageData["no_of_questions"] = $countTotalNumOfQuestions;
 
+        $countTotalNumOfAcceptedQuestions = Question::where("user_id", $id)->where('is_blocked', "true")->count();
+        $this->pageData["no_of_accepted_questions"] = $countTotalNumOfAcceptedQuestions;
+
+        $countTotalNumOfRejectedQuestions = Question::where("user_id", $id)->where('is_blocked', "false")->count();
+        $this->pageData["no_of_rejected_questions"] = $countTotalNumOfRejectedQuestions;
+
         $countTotalNumOfAnswers = Answer::where("user_id", $id)->count();
         $this->pageData["no_of_answer"] = $countTotalNumOfAnswers;
 
