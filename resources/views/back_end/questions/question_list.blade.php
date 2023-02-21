@@ -8,10 +8,9 @@
        $sortDir = isset($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "";
        $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : "";
        $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : "";
-       $searchByCategory = isset($_GET['search_by_category']) && !empty($_GET['search_by_category']) ? $_GET['search_by_category'] : "";
-       $searchByIsBlocked = isset($_GET['search_by_is_blocked']) && !empty($_GET['search_by_is_blocked']) ? $_GET['search_by_is_blocked'] : "sadadasdaada";
+       $searchByCategory = isset($_GET['category']) && !empty($_GET['category']) ? $_GET['category'] : "";
+       $searchByIsBlocked = isset($_GET['is_blocked']) && !empty($_GET['is_blocked']) ? $_GET['is_blocked'] : "sadadasdaada";
        $advancedSearch = isset($_REQUEST['advance_search']) && !empty($_REQUEST['advance_search']) ? $_REQUEST['advance_search'] :"";
-
     @endphp
     @if(Session::has('alert-delete-question'))
         {!!Session::get('alert-delete-question')!!}
@@ -74,7 +73,7 @@
                                                         <optgroup label="{{$value->category_name}}">
                                                             @foreach($childCategories as $item)
                                                                 @if ($item->parent_id ==  $value->id)
-                                                                    <option value="{{$item->id}}" {{ $searchByCategory == $item->id ? "selected" : ""}}>
+                                                                    <option value="{{$item->id}}" {{$searchByCategory == $item->id ? "selected" : ""}}>
                                                                         {{$item->category_name}}
                                                                     </option>
                                                                 @endif
@@ -88,10 +87,10 @@
                                             <label>Is Blocked:
                                                 <select name="is_blocked" class="form-control">
                                                     <option value="">All</option>
-                                                    <option value="true" {{$searchByIsBlocked == "yes" ? "selected" : ""}}>
+                                                    <option value="true" {{$searchByIsBlocked == "true" ? "selected" : ""}}>
                                                         Yes
                                                     </option>
-                                                    <option value="false" {{$searchByIsBlocked == "no" ? "selected" : ""}}>
+                                                    <option value="false" {{$searchByIsBlocked == "false" ? "selected" : ""}}>
                                                         No
                                                     </option>
                                                 </select>
@@ -100,7 +99,8 @@
                                     </div>
                                     <div class="col-md-3 col-sm-3"></div>
                                     <div class="col-md-6 col-sm-6">
-                                        <input id="advance_search" name="advance_search" type="hidden" value="0">
+                                        <input id="advance_search" name="advance_search" type="text"
+                                               value="{{$advancedSearch == "1" ? "1":"0"}}">
                                         <input class="btn dark" type="submit" value="Search">
                                         <a href="{{route('question-list')}}"><input class="btn red" type="button"
                                                                                     value="Reset"></a>

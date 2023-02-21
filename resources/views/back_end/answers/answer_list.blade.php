@@ -79,7 +79,7 @@
                                     </div>
                                     <div class="col-md-12 col-sm-12 text-center">
                                         <input id="advance_search" name="advance_search" type="text"
-                                               value="0">
+                                               value="{{$advancedSearch == "1" ? "1":"0"}}">
                                         <input class="btn dark" type="submit" value="Search">
                                         <a href="{{route('answer-list')}}"><input class="btn red" type="button"
                                                                                   value="Reset"></a>
