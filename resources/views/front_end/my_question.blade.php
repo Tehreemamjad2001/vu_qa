@@ -45,17 +45,17 @@
                                             <p class="fs-14">{{$countTotalNumOfAcceptedQuestions <=1 ? "Accepted Question" : "Accepted Questions"}}</p>
                                         </div><!-- end icon-box -->
                                     </div><!-- end col-lg-6 -->
-                                    <div class="col-lg-6 responsive-column-half">
-                                        <div class="icon-box pt-3">
-                                            <span class="fs-20 fw-bold text-color-4">{{$countTotalNumOfRejectedQuestions}}</span>
-                                            <p class="fs-14">{{$countTotalNumOfRejectedQuestions <=1 ? "Rejected Question" : "Rejected Questions"}}</p>
-                                        </div><!-- end icon-box -->
-                                    </div><!-- end col-lg-6 -->
 
                                     <div class="col-lg-6 responsive-column-half">
                                         <div class="icon-box pt-3">
                                             <span class="fs-20 fw-bold text-color-3">{{$countTotalNumOfAcceptedAnswers}}</span>
                                             <p class="fs-14">{{$countTotalNumOfAcceptedAnswers <=1 ? "Accepted Answer" : "Accepted Answers"}}</p>
+                                        </div><!-- end icon-box -->
+                                    </div><!-- end col-lg-6 -->
+                                    <div class="col-lg-6 responsive-column-half">
+                                        <div class="icon-box pt-3">
+                                            <span class="fs-20 fw-bold text-color-4">{{$countTotalNumOfRejectedQuestions}}</span>
+                                            <p class="fs-14">{{$countTotalNumOfRejectedQuestions <=1 ? "Rejected Question" : "Rejected Questions"}}</p>
                                         </div><!-- end icon-box -->
                                     </div><!-- end col-lg-6 -->
                                     <div class="col-lg-6 responsive-column-half">
