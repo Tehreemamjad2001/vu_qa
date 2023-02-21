@@ -88,8 +88,8 @@
                     <label class="col-md-3 control-label">Is Blocked<span class="text-danger">*</span></label>
                     <div class="col-md-4">
                         <select name="is_blocked" class="form-control">
-                            <option value="1" {{$record->is_blocked == "1" ? "selected" : ""}}>True</option>
-                            <option value="0" {{$record->is_blocked == "0" ? "selected" : ""}}>False
+                            <option value="1" {{$record->is_blocked == "true" ? "selected" : ""}}>Yes</option>
+                            <option value="0" {{$record->is_blocked == "false" ? "selected" : ""}}>No
                             </option>
                         </select>
                         @if($errors->has("is_blocked"))

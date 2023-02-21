@@ -2,11 +2,12 @@
 @section("content")
     @php
         $answerRecord = $pageData["answer-record"];
-          $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : "";
-          $sortDir = isset($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "";
-          $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : "";
-          $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : "";
-          $searchByIsAccepted = isset($_GET['is_accepted']) && !empty($_GET['is_accepted']) ? $_GET['is_accepted'] : "sadadasdaada";
+        $sort = isset($_REQUEST['sort']) ? $_REQUEST['sort'] : "";
+        $sortDir = isset($_REQUEST['sort_dir']) ? $_REQUEST['sort_dir'] : "";
+        $limit = isset($_REQUEST['limit']) ? $_REQUEST['limit'] : "";
+        $search = isset($_REQUEST['search']) ? $_REQUEST['search'] : "";
+        $searchByIsAccepted = isset($_GET['is_accepted']) && !empty($_GET['is_accepted']) ? $_GET['is_accepted'] : "sadadasdaada";
+        $searchByAnswer = isset($_REQUEST['answer']) ? $_REQUEST['answer'] : "";
     @endphp
     @if(Session::has('alert-delete-answer'))
         {!!Session::get('alert-delete-answer')!!}
@@ -79,10 +80,10 @@
                                         <input id="advance_search" name="advance_search" type="hidden" value="0">
                                         <input class="btn dark" type="submit" value="Search">
                                         <a href="{{route('answer-list')}}"><input class="btn red" type="button"
-                                                                                    value="Reset"></a>
+                                                                                  value="Reset"></a>
                                         <a href="{{route('answer-list')}}"> <input id="advance" class="btn red"
-                                                                                     type="button"
-                                                                                     value="Advance"></a>
+                                                                                   type="button"
+                                                                                   value="Advance"></a>
                                     </div>
                                 </form>
                             </div>
@@ -187,7 +188,7 @@
                                         {{dateFormat($list->created_at)}}
                                     </td>
                                     <td class="text-center " style="vertical-align: middle">
-                                        {{$list->is_accepted}}
+                                        {{$list->is_accepted == "false" ? "No" :"Yes"}}
                                     </td>
                                     <td class=" text-center" style="vertical-align: middle">
 
@@ -265,12 +266,12 @@
                 jQuery('#form-option').submit();
             });
             jQuery('#advance').on('click', function (e) {
-                    e.preventDefault();
-                    var advanceSearch = $("#advance_search").val();
-                    advanceSearch = 1 - advanceSearch;
-                    $("#advance_search").val(advanceSearch);
-                    $("#toggle").toggleClass('hide show');
-                });
+                e.preventDefault();
+                var advanceSearch = $("#advance_search").val();
+                advanceSearch = 1 - advanceSearch;
+                $("#advance_search").val(advanceSearch);
+                $("#toggle").toggleClass('hide show');
+            });
         });
     </script>
 @endsection

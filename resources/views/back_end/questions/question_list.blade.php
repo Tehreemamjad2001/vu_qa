@@ -86,10 +86,10 @@
                                             <label>Is Blocked:
                                                 <select name="is_blocked" class="form-control">
                                                     <option value="">All</option>
-                                                    <option value="yes" {{$searchByIsBlocked == "yes" ? "selected" : ""}}>
+                                                    <option value="true" {{$searchByIsBlocked == "yes" ? "selected" : ""}}>
                                                         Yes
                                                     </option>
-                                                    <option value="no" {{$searchByIsBlocked == "no" ? "selected" : ""}}>
+                                                    <option value="false" {{$searchByIsBlocked == "no" ? "selected" : ""}}>
                                                         No
                                                     </option>
                                                 </select>
@@ -179,6 +179,7 @@
                             </tr>
                             </thead>
                             <tbody role="alert" aria-live="polite" aria-relevant="all">
+{{--                            {{dd($record)}}--}}
                             @foreach ($record as $list)
                                 <tr class="gradeX odd">
                                     <td class="" style="vertical-align: middle">
@@ -197,7 +198,7 @@
                                         {{dateFormat($list->created_at)}}
                                     </td>
                                     <td class="text-center " style="vertical-align: middle">
-                                        {{$list->is_blocked == "0" ? "No" : "Yes"}}
+                                        {{$list->is_blocked == "false" ? "No" : "Yes"}}
                                     </td>
                                     <td class=" text-center" style="vertical-align: middle">
                                         <a name="delete" class="del_ete  btn default"

@@ -22,7 +22,7 @@ class AnswerController extends Controller
 
         $selectAnswer = Answer::select("answers.*");
         if ($searchByAnswer) {
-            $selectAnswer = $selectAnswer->where("answer", "LIKE", "%$searchByAnswer% ");
+            $selectAnswer = $selectAnswer->where("answer", "LIKE", "%$searchByAnswer%");
         }
         if ($searchByQuestionId) {
             $selectAnswer = $selectAnswer->where("question_id", "=", "$searchByQuestionId");
@@ -92,9 +92,19 @@ class AnswerController extends Controller
                 ]);
         } else {
             $updateAnswerRecord = Answer::find($id);
-            $updateAnswerRecord = $updateAnswerRecord->update([
+            $updateAnswerRecord->update([
                 "answer" => $request->answer,
             ]);
+            if ($request->is_accepted == "0") {
+                $updateAnswerRecord->update([
+                    "is_accepted" => "false",
+                ]);
+            }
+            if ($request->is_accepted == "1") {
+                $updateAnswerRecord->update([
+                    "is_accepted" => "true",
+                ]);
+            }
             if ($updateAnswerRecord) {
                 $this->setFormMessage("update-question", "success", "Answer have been updated");
             } else {

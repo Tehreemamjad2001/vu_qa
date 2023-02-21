@@ -2,7 +2,6 @@
 @section("content")
     @php
         $answerRecord = $pageData["answer-data"];
-    //dd($answerRecord);
     @endphp
     <div class="row">
         <div class="col-md-6 col-sm-6">
@@ -40,6 +39,19 @@
                         @endif
                     </div>
                 </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Is Accepted<span class="text-danger">*</span></label>
+                        <div class="col-md-4">
+                            <select name="is_accepted" class="form-control">
+                                <option value="1" {{$answerRecord->is_accepted == "true" ? "selected" : ""}}>Yes</option>
+                                <option value="0" {{$answerRecord->is_accepted == "false" ? "selected" : ""}}>No
+                                </option>
+                            </select>
+                            @if($errors->has("is_blocked"))
+                                <span class="text-danger" role="alert">{{ $errors->first('is_blocked') }}</span>
+                            @endif()
+                        </div>
+                    </div>
                 <div class="form-actions fluid">
                     <div class="col-md-offset-3 col-md-9">
                         <button type="submit" class="btn blue">Save</button>
