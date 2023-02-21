@@ -39,7 +39,7 @@ class ManageQuestionAnswerController extends Controller
         $questionRecord = Question::select("questions.id as question_id", "questions.title", "questions.description", "questions.tags", "categories.category_name", "views", "total_no_of_ans",
             "questions.created_at", "users.name", "users.id", "users.profile_pic")
             ->join("users", "users.id", "questions.user_id")
-            ->join("categories", "categories.id", "questions.category_id");
+            ->join("categories", "categories.id", "questions.category_id")->where("is_blocked","true");
         if (isset($searchBySearch) && !empty($searchBySearch)) {
             $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchBySearch);
         }
@@ -71,6 +71,7 @@ class ManageQuestionAnswerController extends Controller
         $selectNewestQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
             ->join("users", "questions.user_id", "users.id")
             ->orderBy(DB::raw('RAND()'), "desc")
+            ->where("is_blocked","true")
             ->paginate("3");
 
         $this->pageData["related_questions"] = $selectNewestQuestions;
@@ -91,7 +92,7 @@ class ManageQuestionAnswerController extends Controller
             "views", "total_no_of_ans", "questions.created_at", "users.name", "users.id", "users.profile_pic", "categories.category_name")
             ->join("users", "users.id", "questions.user_id")
             ->join("categories", "categories.id", "questions.category_id")
-            ->where("questions.user_id", $id);
+            ->where("questions.user_id", $id)->where("is_blocked","true");
         if (isset($searchByTitle) && !empty($searchByTitle)) {
             $questionRecord = $this->fullTextSearch($questionRecord, ["questions.title", "questions.description"], $searchByTitle);
         }
@@ -116,7 +117,8 @@ class ManageQuestionAnswerController extends Controller
         $this->pageData["page_title"] = "My Question";
         $selectRandomQuestions = Question::select("questions.id as questions_id", "questions.title", "questions.created_at", "users.name", "users.id")
             ->join("users", "questions.user_id", "users.id")
-            ->orderBy(DB::raw('RAND()'))
+            ->orderBy(DB::raw('RAND()'), "desc")
+            ->where("is_blocked","true")
             ->paginate("3");
         $this->pageData["related_questions"] = $selectRandomQuestions;
 
@@ -321,6 +323,7 @@ class ManageQuestionAnswerController extends Controller
         $answerRecord = Answer::select("answers.*", "users.id as userID", "users.name", "users.profile_pic")
             ->join("users", "answers.user_id", "users.id")
             ->where("answers.question_id", $id)
+            ->where("is_accepted","true")
             ->orderBy("id", "desc")
             ->paginate(4);
 
