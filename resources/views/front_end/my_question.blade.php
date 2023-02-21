@@ -204,7 +204,7 @@
                         window.location.href = path;
                         Swal.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Your Question has been deleted.',
                             'success'
                         )
                     }

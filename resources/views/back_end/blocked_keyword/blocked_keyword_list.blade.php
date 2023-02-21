@@ -158,7 +158,7 @@
                         window.location.href = path;
                         Swal.fire(
                             'Deleted!',
-                            'Your file has been deleted.',
+                            'Word has been deleted.',
                             'success'
                         )
                     }
