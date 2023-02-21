@@ -67,7 +67,14 @@ class UserQuestionsListController extends Controller
 
         $countTotalNumOfRejectedAnswers = Answer::where("user_id",$id)->where('is_accepted', "false")->count();
         $this->pageData["no_of_rejected_answer"] = $countTotalNumOfRejectedAnswers;
+        $countTotalNumOfAcceptedQuestions = Question::where("user_id", $id)->where('is_blocked', "true")->count();
+        $this->pageData["no_of_accepted_questions"] = $countTotalNumOfAcceptedQuestions;
 
+        $countTotalNumOfRejectedQuestions = Question::where("user_id", $id)->where('is_blocked', "false")->count();
+        $this->pageData["no_of_rejected_questions"] = $countTotalNumOfRejectedQuestions;
+
+        $nameOfUser = User::select("name")->where("id",$id)->first();
+        $this->pageData["page_title"] = $nameOfUser->name ."Question";
         return $this->showPage("front_end.my_question");
     }
 
