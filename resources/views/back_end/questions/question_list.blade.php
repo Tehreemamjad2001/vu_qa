@@ -99,7 +99,7 @@
                                     </div>
                                     <div class="col-md-3 col-sm-3"></div>
                                     <div class="col-md-6 col-sm-6">
-                                        <input id="advance_search" name="advance_search" type="text"
+                                        <input id="advance_search" name="advance_search" type="hidden"
                                                value="{{$advancedSearch == "1" ? "1":"0"}}">
                                         <input class="btn dark" type="submit" value="Search">
                                         <a href="{{route('question-list')}}"><input class="btn red" type="button"
